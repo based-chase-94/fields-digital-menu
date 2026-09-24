@@ -1,0 +1,16 @@
+{
+  "name": "fields-menu-tools",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "render": "node render.mjs"
+  },
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "playwright": "^1.63.0",
+    "pngjs": "^7.0.0"
+  },
+  "private": true
+}

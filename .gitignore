@@ -1,0 +1,9 @@
+# Brand source files (fonts, EPS logos, guidelines): kept local, not published
+Fields Style Guide/
+# Original photo; the web copy is assets/photo.jpg
+digital-boards-photo
+
+tools/node_modules/
+design/.render-*
+.claude/
+.DS_Store

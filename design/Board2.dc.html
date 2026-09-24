@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Option A Board 2: Build Your Own Bowl</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+@font-face{font-family:'Midstar';src:url(/_blob/45b3ad1ffe7fc92b2385368fc0bf6bdf) format('opentype');font-weight:400;font-display:block}
+@font-face{font-family:'Heart of the Land';src:url(/_blob/f3c7382ec2b65213c904f17e0ad0b36d) format('opentype');font-weight:400;font-display:block}
+@font-face{font-family:'Fredoka';src:url(/_blob/0473c4cbc0bb156a0b79e1694b8317a7) format('truetype');font-weight:300 700;font-display:block}
+body{margin:0;font-family:'Fredoka', sans-serif;background:#f4e9e1;color:#283628}
+</style>
+</helmet>
+<div style="width: 3840px; height: 2160px; box-sizing: border-box; padding: 140px 180px; background: #f4e9e1; color: #283628; font-family: 'Fredoka', sans-serif; display: flex; flex-direction: column; gap: 90px; overflow: hidden">
+<div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 100px; padding-bottom: 40px; border-bottom: 4px solid #283628">
+<h2 style="margin: 0; font-family: 'Midstar', 'Fredoka', cursive; font-size: 124px; font-weight: 400; line-height: 1.05; color: #e84a28">Build Your Own Bowl</h2>
+<div style="display: flex; gap: 110px">
+<div style="display: flex; flex-direction: column; gap: 12px; width: 860px">
+<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 32px; font-size: 60px; font-weight: 600; line-height: 1.1"><span>Greens Only</span><span style="color: #e84a28">$9.75</span></div>
+<p style="margin: 0; font-size: 40px; line-height: 1.35">Choose 2 greens + 6 build ingredients + dressing</p>
+</div>
+<div style="display: flex; flex-direction: column; gap: 12px; width: 860px">
+<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 32px; font-size: 60px; font-weight: 600; line-height: 1.1"><span>Grains &amp; Greens</span><span style="color: #e84a28">$10.75</span></div>
+<p style="margin: 0; font-size: 40px; line-height: 1.35">Choose 2 greens + 1 grain + 6 build ingredients + dressing</p>
+</div>
+</div>
+</div>
+<div style="flex-grow: 1; min-height: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: 120px; align-items: start">
+<div style="display: flex; flex-direction: column; gap: 64px; min-width: 0">
+<div style="display: flex; flex-direction: column; gap: 22px">
+<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 24px; padding-bottom: 18px; border-bottom: 3px solid #283628">
+<h3 style="margin: 0; font-family: 'Heart of the Land', 'Fredoka', sans-serif; font-size: 52px; font-weight: 400; letter-spacing: 0.06em; text-transform: uppercase; line-height: 1.15">Greens</h3>
+<span style="font-family: 'Heart of the Land', 'Fredoka', sans-serif; font-size: 34px; letter-spacing: 0.12em; text-transform: uppercase; white-space: nowrap; color: #e84a28">Pick 2</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px; font-size: 42px; font-weight: 400; line-height: 1.3">
+<div>Romaine</div>
+<div>Baby Spinach</div>
+<div>Arugula</div>
+<div>Shredded Kale</div>
+<div>Spring Mix</div>
+<div>Red Cabbage</div>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 22px">
+<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 24px; padding-bottom: 18px; border-bottom: 3px solid #283628">
+<h3 style="margin: 0; font-family: 'Heart of the Land', 'Fredoka', sans-serif; font-size: 52px; font-weight: 400; letter-spacing: 0.06em; text-transform: uppercase; line-height: 1.15">Grains</h3>
+<span style="font-family: 'Heart of the Land', 'Fredoka', sans-serif; font-size: 34px; letter-spacing: 0.12em; text-transform: uppercase; white-space: nowrap; color: #e84a28">Pick 1</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px; font-size: 42px; font-weight: 400; line-height: 1.3">
+<div>Brown Rice</div>
+<div>Quinoa</div>
+<div>Farro</div>
+<div>Wild Rice</div>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 22px">
+<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 24px; padding-bottom: 18px; border-bottom: 3px solid #283628">
+<h3 style="margin: 0; font-family: 'Heart of the Land', 'Fredoka', sans-serif; font-size: 52px; font-weight: 400; letter-spacing: 0.06em; text-transform: uppercase; line-height: 1.15">Protein</h3>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px; font-size: 42px; font-weight: 400; line-height: 1.3">
+<div style="display: flex; justify-content: space-between; gap: 24px"><span>Grilled Chicken</span><span style="white-space: nowrap; font-weight: 500">+$4.00</span></div>
+<div style="display: flex; justify-content: space-between; gap: 24px"><span>Blackened Chicken</span><span style="white-space: nowrap; font-weight: 500">+$4.00</span></div>
+<div style="display: flex; justify-content: space-between; gap: 24px"><span>Roasted Tofu</span><span style="white-space: nowrap; font-weight: 500">+$3.50</span></div>
+<div style="display: flex; justify-content: space-between; gap: 24px"><span>Hardboiled Egg</span><span style="white-space: nowrap; font-weight: 500">+$2.50</span></div>
+<div style="display: flex; justify-content: space-between; gap: 24px"><span>Grilled Steak</span><span style="white-space: nowrap; font-weight: 500">+$5.00</span></div>
+<div style="display: flex; justify-content: space-between; gap: 24px"><span>Honey Glazed Salmon</span><span style="white-space: nowrap; font-weight: 500">+$5.00</span></div>
+<div style="display: flex; justify-content: space-between; gap: 24px"><span>Smoked Bacon</span><span style="white-space: nowrap; font-weight: 500">+$2.75</span></div>
+</div>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 64px; min-width: 0">
+<div style="display: flex; flex-direction: column; gap: 22px">
+<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 24px; padding-bottom: 18px; border-bottom: 3px solid #283628">
+<h3 style="margin: 0; font-family: 'Heart of the Land', 'Fredoka', sans-serif; font-size: 52px; font-weight: 400; letter-spacing: 0.06em; text-transform: uppercase; line-height: 1.15">Build Ingredients</h3>
+<span style="font-family: 'Heart of the Land', 'Fredoka', sans-serif; font-size: 34px; letter-spacing: 0.12em; text-transform: uppercase; white-space: nowrap; color: #e84a28">Pick 6</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px; font-size: 42px; font-weight: 400; line-height: 1.3">
+<div>Cucumber</div>
+<div>Cherry Tomato</div>
+<div>Carrot</div>
+<div>Charred Corn</div>
+<div>Jalapeño</div>
+<div>Pink Lady Apple</div>
+<div>Chickpeas</div>
+<div>Black Beans</div>
+<div>Mint</div>
+<div>Cilantro</div>
+<div>Radish</div>
+<div>Fresh Lime</div>
+<div>Steamed Broccoli</div>
+<div>Sun-Dried Tomato</div>
+<div>Pumpkin Seeds</div>
+<div>Tortilla Chips</div>
+<div>Roasted Seaweed</div>
+<div>Sourdough Croutons</div>
+<div>Pico de Gallo</div>
+</div>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 64px; min-width: 0">
+<div style="display: flex; flex-direction: column; gap: 22px">
+<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 24px; padding-bottom: 18px; border-bottom: 3px solid #283628">
+<h3 style="margin: 0; font-family: 'Heart of the Land', 'Fredoka', sans-serif; font-size: 52px; font-weight: 400; letter-spacing: 0.06em; text-transform: uppercase; line-height: 1.15">Premium Veg + Warm Add-ins</h3>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px; font-size: 42px; font-weight: 400; line-height: 1.3">
+<div style="display: flex; justify-content: space-between; gap: 24px"><span>Roasted Sweet Potato</span><span style="white-space: nowrap; font-weight: 500">+$1.50</span></div>
+<div style="display: flex; justify-content: space-between; gap: 24px"><span>Sliced Strawberry</span><span style="white-space: nowrap; font-weight: 500">+$1.00</span></div>
+<div style="display: flex; justify-content: space-between; gap: 24px"><span>Roasted Brussels</span><span style="white-space: nowrap; font-weight: 500">+$1.75</span></div>
+<div style="display: flex; justify-content: space-between; gap: 24px"><span>Charred Broccoli</span><span style="white-space: nowrap; font-weight: 500">+$1.50</span></div>
+<div style="display: flex; justify-content: space-between; gap: 24px"><span>Roasted Seasonal Squash</span><span style="white-space: nowrap; font-weight: 500">+$1.75</span></div>
+<div style="display: flex; justify-content: space-between; gap: 24px"><span>Avocado</span><span style="white-space: nowrap; font-weight: 500">+$1.50</span></div>
+<div style="display: flex; justify-content: space-between; gap: 24px"><span>Edamame</span><span style="white-space: nowrap; font-weight: 500">+$0.95</span></div>
+<div style="display: flex; justify-content: space-between; gap: 24px"><span>Roasted Beetroot</span><span style="white-space: nowrap; font-weight: 500">+$1.50</span></div>
+<div style="display: flex; justify-content: space-between; gap: 24px"><span>Marinated Mushrooms</span><span style="white-space: nowrap; font-weight: 500">+$1.75</span></div>
+<div style="display: flex; justify-content: space-between; gap: 24px"><span>Goat Cheese</span><span style="white-space: nowrap; font-weight: 500">+$1.50</span></div>
+<div style="display: flex; justify-content: space-between; gap: 24px"><span>Feta</span><span style="white-space: nowrap; font-weight: 500">+$1.50</span></div>
+<div style="display: flex; justify-content: space-between; gap: 24px"><span>Brie</span><span style="white-space: nowrap; font-weight: 500">+$2.25</span></div>
+<div style="display: flex; justify-content: space-between; gap: 24px"><span>Walnuts</span><span style="white-space: nowrap; font-weight: 500">+$0.95</span></div>
+<div style="display: flex; justify-content: space-between; gap: 24px"><span>Pistachio Crunch</span><span style="white-space: nowrap; font-weight: 500">+$0.95</span></div>
+</div>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 64px; min-width: 0">
+<div style="display: flex; flex-direction: column; gap: 22px">
+<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 24px; padding-bottom: 18px; border-bottom: 3px solid #283628">
+<h3 style="margin: 0; font-family: 'Heart of the Land', 'Fredoka', sans-serif; font-size: 52px; font-weight: 400; letter-spacing: 0.06em; text-transform: uppercase; line-height: 1.15">House-made Dressings</h3>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px; font-size: 42px; font-weight: 400; line-height: 1.3">
+<div>Citrus Poppy</div>
+<div>Hibachi Ginger</div>
+<div>Cranberry Maple</div>
+<div>Buttermilk Ranch</div>
+<div>Green Goddess</div>
+<div>Balsamic Shallot</div>
+<div>Spicy Cashew</div>
+<div>Caesar</div>
+<div>Tahini Peppercorn</div>
+<div>Lemon Herb Vinaigrette</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":3840,"height":2160}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

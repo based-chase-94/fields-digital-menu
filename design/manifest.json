@@ -1,0 +1,26 @@
+{
+  "_comment": "Maps each design-canvas artboard to an option + board. Run `npm run render` in tools/ after editing.",
+  "size": { "width": 3840, "height": 2160 },
+  "screenSize": { "width": 1600, "height": 900 },
+  "fonts": {
+    "45b3ad1ffe7fc92b2385368fc0bf6bdf": "../Fields Style Guide/fonts/Midstar.otf",
+    "f3c7382ec2b65213c904f17e0ad0b36d": "../Fields Style Guide/fonts/Heart-of-the-Land-Regular.otf",
+    "0473c4cbc0bb156a0b79e1694b8317a7": "../Fields Style Guide/fonts/Fredoka-VariableFont_wdth,wght.ttf"
+  },
+  "images": {
+    "9108d47094551b321acbce7d0fa81fab": "assets/9108d47094551b321acbce7d0fa81fab.png",
+    "7691bf975cdcd8ee077e02717bda1264": "assets/7691bf975cdcd8ee077e02717bda1264.png",
+    "695c1e086e53ee9324fe717057fcd4bf": "assets/695c1e086e53ee9324fe717057fcd4bf.png"
+  },
+  "artboards": [
+    { "file": "Main.dc.html",           "option": "almond",   "board": "salads" },
+    { "file": "Board2.dc.html",         "option": "almond",   "board": "build" },
+    { "file": "Board3.dc.html",         "option": "almond",   "board": "beverages" },
+    { "file": "OptionB-Board1.dc.html", "option": "forest",   "board": "salads" },
+    { "file": "OptionB-Board2.dc.html", "option": "forest",   "board": "build" },
+    { "file": "OptionB-Board3.dc.html", "option": "forest",   "board": "beverages" },
+    { "file": "OptionC-Board1.dc.html", "option": "sunshine", "board": "salads" },
+    { "file": "OptionC-Board2.dc.html", "option": "sunshine", "board": "build" },
+    { "file": "OptionC-Board3.dc.html", "option": "sunshine", "board": "beverages" }
+  ]
+}
