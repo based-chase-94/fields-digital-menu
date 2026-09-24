@@ -6,8 +6,8 @@ done so far, and what to watch out for. The site side only needs the files descr
 ## Status (2026-09-24)
 - **Almond · salads:** done. Three dandelions, a 20s loop. The 4K master is in `renders/master/almond-salads.mp4`,
   and the site versions are in `assets/boards/almond/`.
-- **Forest and Sunshine · salads:** waiting on the user's recolored illustrations. They'll use the same shapes and
-  positions, so the rig and motion carry over unchanged.
+- **Forest and Sunshine · salads:** done. Same art, rig and motion as Almond, recolored to each colorway's
+  accent (Forest `#f9e14d`, Sunshine `#5f2637`) by swapping the RGB and keeping the alpha. Masters are in `renders/master/`.
 - **Build and beverages boards:** no illustrations yet.
 
 ## What the user provides

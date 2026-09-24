@@ -45,9 +45,11 @@ window.MENU_CONFIG = {
       description: 'Almond ground, Forest text, Poppy headlines and prices',
       animated: ['salads'] },
     { id: 'forest', name: 'Forest', ground: '#283628', accent: '#f9e14d',
-      description: 'Forest ground, Almond text, Sunshine headlines and prices' },
+      description: 'Forest ground, Almond text, Sunshine headlines and prices',
+      animated: ['salads'] },
     { id: 'sunshine', name: 'Sunshine', ground: '#f9e14d', accent: '#5f2637',
-      description: 'Sunshine ground, Forest text, Burgundy headlines and prices' },
+      description: 'Sunshine ground, Forest text, Burgundy headlines and prices',
+      animated: ['salads'] },
   ],
 
   // Where artwork lives; an option may override with its own `images: { <board>: {full, screen} }`.

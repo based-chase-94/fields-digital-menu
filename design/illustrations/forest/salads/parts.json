@@ -1,0 +1,138 @@
+{
+  "parts": {
+    "dandelion1-head": {
+      "x": 2762,
+      "y": 1424,
+      "w": 293,
+      "h": 272
+    },
+    "dandelion1-stem1": {
+      "x": 2940,
+      "y": 1582,
+      "w": 265,
+      "h": 243
+    },
+    "dandelion1-stem2": {
+      "x": 3186,
+      "y": 1800,
+      "w": 118,
+      "h": 360
+    },
+    "dandelion2-head": {
+      "x": 3191,
+      "y": 1445,
+      "w": 244,
+      "h": 239
+    },
+    "dandelion2-stem1": {
+      "x": 3316,
+      "y": 1576,
+      "w": 92,
+      "h": 288
+    },
+    "dandelion2-stem2": {
+      "x": 3336,
+      "y": 1835,
+      "w": 73,
+      "h": 316
+    },
+    "dandelion3-head": {
+      "x": 3252,
+      "y": 1076,
+      "w": 360,
+      "h": 329
+    },
+    "dandelion3-stem1": {
+      "x": 3444,
+      "y": 1281,
+      "w": 74,
+      "h": 429
+    },
+    "dandelion3-stem2": {
+      "x": 3332,
+      "y": 1689,
+      "w": 181,
+      "h": 471
+    }
+  },
+  "rig": [
+    {
+      "plant": "dandelion1",
+      "chain": [
+        {
+          "name": "dandelion1-stem2",
+          "pivot": [
+            109.5,
+            360
+          ]
+        },
+        {
+          "name": "dandelion1-stem1",
+          "pivot": [
+            255.2,
+            230.3
+          ]
+        },
+        {
+          "name": "dandelion1-head",
+          "pivot": [
+            208.6,
+            166
+          ]
+        }
+      ]
+    },
+    {
+      "plant": "dandelion2",
+      "chain": [
+        {
+          "name": "dandelion2-stem2",
+          "pivot": [
+            15.7,
+            315
+          ]
+        },
+        {
+          "name": "dandelion2-stem1",
+          "pivot": [
+            82.7,
+            271.8
+          ]
+        },
+        {
+          "name": "dandelion2-head",
+          "pivot": [
+            139.1,
+            165.4
+          ]
+        }
+      ]
+    },
+    {
+      "plant": "dandelion3",
+      "chain": [
+        {
+          "name": "dandelion3-stem2",
+          "pivot": [
+            13.2,
+            471
+          ]
+        },
+        {
+          "name": "dandelion3-stem1",
+          "pivot": [
+            61,
+            417.6
+          ]
+        },
+        {
+          "name": "dandelion3-head",
+          "pivot": [
+            197.1,
+            213.8
+          ]
+        }
+      ]
+    }
+  ]
+}
