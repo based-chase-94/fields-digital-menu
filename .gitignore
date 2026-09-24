@@ -7,3 +7,7 @@ tools/node_modules/
 design/.render-*
 .claude/
 .DS_Store
+
+# Signage video masters (large; kept local)
+*.mp4
+!assets/**/*.mp4
