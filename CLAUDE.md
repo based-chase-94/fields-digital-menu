@@ -2,8 +2,9 @@
 
 A client presentation site for the Fields restaurant's three digital menu boards, plus the
 tools that render the boards and animate their illustrations. It's a static site with no build step.
-Private repo: github.com/based-chase-94/fields-digital-menu. It will be hosted on Cloudflare Pages
-from the repo root.
+Public repo: github.com/based-chase-94/fields-digital-menu. Live on GitHub Pages at
+https://based-chase-94.github.io/fields-digital-menu/ (built from `main`, repo root, no Jekyll). It will
+move to Cloudflare Pages later.
 
 ## Two workstreams: keep them in separate chats
 - **Site:** `index.html`, `gallery.html`, `js/`, `css/`, rendering boards to PNG, and deploys.
