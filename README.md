@@ -29,6 +29,7 @@ Any static host works: GitHub Pages, Netlify or Vercel. Serve the repo root. The
    ```js
    { id: 'lavender', name: 'Lavender', ground: '#…', accent: '#…', description: '…' },
    ```
+   If any of its boards are animated, add `animated: ['salads', …]` (see below).
 
 The toggle, gallery sidebar and photo pick it up automatically.
 
@@ -45,6 +46,27 @@ npm run render -- forest    # just one
 ```
 
 Rendering needs the brand fonts in `Fields Style Guide/fonts/`. That folder is git-ignored, so keep a local copy.
+
+## Animated boards
+
+Some boards have hand-drawn illustrations that sway in a looping breeze.
+
+1. **Drawings:** save each piece to `illustrations/<colorway>/<board>/<plant>-<part>.png`.
+   - Use a full 3840×2160 transparent canvas with the piece in its final position.
+   - Split plants into segments, e.g. `dandelion1-stem2`, `dandelion1-stem1` and `dandelion1-head`.
+   - Let neighboring segments overlap slightly at the joints.
+2. **Rig:** run `npm run illustrations`. It trims the pieces and works out the joints automatically. Place the trimmed pieces from `design/illustrations/` in the canvas artboard; if you move them there, the animation follows.
+3. **Motion:** edit [`design/motion.json`](design/motion.json). It sets how strong the sway is, the wind direction, head flutter and loop length. All sway cycles divide evenly into the loop length, so the video loops seamlessly.
+4. **Record:**
+   ```bash
+   npm run record -- almond salads --preview   # quick 720p check
+   npm run record -- almond salads             # 4K TV master + site videos
+   ```
+   - The 4K master goes to `renders/master/`. It uses the store's proven settings: H.264 High at 3840×2160, 30fps, with a silent audio track. It isn't committed to git, so send it to the client directly.
+   - The site copies and first-frame posters go to `assets/boards/`.
+5. **Show it on the site:** list the board in that colorway's `animated` array in `js/config.js`.
+
+The text of an animated board is part of its video. After changing it in the canvas, re-record the board; `npm run render` skips animated boards.
 
 ## How the photo works
 

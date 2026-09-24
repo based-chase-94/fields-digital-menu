@@ -1,7 +1,7 @@
 /* In-store view: the photo, cropped to fill the window, with each board
  * projected onto its TV through a perspective (matrix3d) transform. */
 (function () {
-  const { config: C, state, el, viewer, colorwayDock, viewDock, optionById } = window.MenuApp;
+  const { config: C, state, el, media, viewer, colorwayDock, viewDock, optionById } = window.MenuApp;
   const P = C.photo;
   const SW = 1600, SH = 900; // local size of a screen element (matches the -screen.png)
 
@@ -84,7 +84,7 @@
   // ---- Colorway switching with a crossfade ----
   function layerFor(sc, option) {
     if (!sc.imgs[option.id]) {
-      const img = el('img', { src: C.image(option, sc.board.id, 'screen'), alt: '', decoding: 'async', draggable: 'false' });
+      const img = media(option, sc.board.id, 'screen', { alt: '', draggable: 'false' });
       sc.imgs[option.id] = img;
       sc.layers.append(img);
     }
@@ -97,7 +97,7 @@
     const option = optionById(id);
     const imgs = screens.map((sc) => layerFor(sc, option));
     // Swap all three screens together once every image is ready.
-    await Promise.all(imgs.map((img) => img.decode().catch(() => {})));
+    await Promise.all(imgs.map((img) => img.ready()));
     if (my !== token) return;
     const z = my + 1; // incoming layer sits on top and fades in; the old one fades out after it
     screens.forEach((sc, i) => {
@@ -105,6 +105,10 @@
         const on = img === imgs[i];
         if (on && !img.classList.contains('active')) img.style.zIndex = z;
         img.classList.toggle('active', on);
+        if (img.play) {
+          if (on) img.play().catch(() => {});
+          else setTimeout(() => { if (!img.classList.contains('active')) img.pause(); }, 1200); // after the fade
+        }
       }
     });
     document.title = `${option.name} · ${C.title}`;
@@ -112,7 +116,9 @@
 
   // Warm the cache for the other options so the first switch is instant.
   function preload() {
-    C.options.forEach((o) => C.boards.forEach((b) => { new Image().src = C.image(o, b.id, 'screen'); }));
+    C.options.forEach((o) => C.boards.forEach((b) => {
+      if (!C.video(o, b.id, 'screen')) new Image().src = C.image(o, b.id, 'screen');
+    }));
   }
 
   document.body.append(colorwayDock(), viewDock('photo'));

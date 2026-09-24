@@ -1,6 +1,6 @@
 /* Artwork view: one column of boards, grouped by colorway, with a jump-link sidebar. */
 (function () {
-  const { config: C, state, el, swatch, viewer, viewDock } = window.MenuApp;
+  const { config: C, state, el, media, swatch, viewer, viewDock } = window.MenuApp;
   const nav = document.getElementById('toc');
   const doc = document.getElementById('doc');
 
@@ -26,13 +26,22 @@
     C.boards.forEach((b, i) => {
       section.append(el('figure', { class: 'page', id: anchor(o, b), 'data-option': o.id }, [
         el('button', { type: 'button', class: 'page-art', 'aria-label': `View ${o.name} ${b.title} full size`, onclick: () => viewer.open(o.id, b.id) }, [
-          el('img', { src: C.image(o, b.id, 'full'), alt: `${o.name}: ${b.title} menu board`, loading: i === 0 && o === C.options[0] ? 'eager' : 'lazy', decoding: 'async', width: '3840', height: '2160' }),
+          media(o, b.id, 'full', { alt: `${o.name}: ${b.title} menu board`, loading: i === 0 && o === C.options[0] ? 'eager' : 'lazy', width: '3840', height: '2160', preload: 'none' }),
         ]),
         el('figcaption', {}, [el('span', { text: b.title }), el('span', { class: 'page-num', text: `Board ${i + 1} of ${C.boards.length}` })]),
       ]));
     });
     doc.append(section);
   }
+
+  // Animated boards only download and play while on screen.
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) e.target.play().catch(() => {});
+      else e.target.pause();
+    }
+  }, { rootMargin: '200px 0px' });
+  doc.querySelectorAll('video').forEach((v) => io.observe(v));
 
   // Highlight the board nearest the top of the viewport and keep the colorway in sync,
   // so "In store" opens on whatever option the client was just looking at.

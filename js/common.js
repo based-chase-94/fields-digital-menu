@@ -45,6 +45,26 @@
     return node;
   }
 
+  // A board's artwork: a muted looping video if the board is animated, else the PNG.
+  // `ready()` resolves once the first frame can be shown.
+  function media(option, board, kind, attrs = {}) {
+    const poster = C.image(option, board, kind);
+    const src = C.video(option, board, kind);
+    if (!src) {
+      const img = el('img', { src: poster, decoding: 'async', ...attrs });
+      img.ready = () => img.decode().catch(() => {});
+      return img;
+    }
+    const { alt, ...rest } = attrs;
+    const v = el('video', { src, poster, muted: '', loop: '', playsinline: '', preload: 'auto', 'aria-label': alt || null, ...rest });
+    v.muted = true; // the attribute alone doesn't allow autoplay everywhere
+    v.ready = () => (v.readyState >= 2 ? Promise.resolve() : new Promise((r) => {
+      v.addEventListener('loadeddata', r, { once: true });
+      v.addEventListener('error', r, { once: true });
+    }));
+    return v;
+  }
+
   function swatch(option) {
     const s = el('span', { class: 'swatch', 'aria-hidden': 'true' });
     s.style.setProperty('--ground', option.ground);
@@ -112,18 +132,19 @@
     render() {
       const option = optionById(this.optionId);
       const board = C.boards[this.index];
-      this.img.src = C.image(option, board.id, 'full');
-      this.img.alt = `${option.name}: ${board.title} menu board`;
+      const art = media(option, board.id, 'full', { class: 'viewer-img', alt: `${option.name}: ${board.title} menu board` });
+      this.stage.replaceChildren(art);
+      if (art.play) art.play().catch(() => {});
       this.caption.replaceChildren(swatch(option), el('strong', { text: option.name }), el('span', { text: ` · ${board.title}` }));
       this.count.textContent = `${this.index + 1} / ${C.boards.length}`;
     },
     build() {
-      this.img = el('img', { class: 'viewer-img', decoding: 'async' });
+      this.stage = el('div', { class: 'viewer-stage' });
       this.caption = el('div', { class: 'viewer-caption' });
       this.count = el('span', { class: 'viewer-count' });
       const btn = (label, cls, fn, glyph) => el('button', { type: 'button', class: `viewer-btn ${cls}`, 'aria-label': label, onclick: fn }, [icon(glyph)]);
       this.dialog = el('dialog', { class: 'viewer', 'aria-label': 'Full-size artwork' }, [
-        el('div', { class: 'viewer-stage' }, [this.img]),
+        this.stage,
         el('div', { class: 'viewer-bar' }, [
           this.caption,
           el('div', { class: 'viewer-nav' }, [
@@ -141,6 +162,7 @@
         if (e.key === 'ArrowLeft') this.step(-1);
         if (e.key === 'ArrowRight') this.step(1);
       });
+      this.dialog.addEventListener('close', () => this.stage.replaceChildren()); // stop any video
       document.body.append(this.dialog);
     },
   };
@@ -161,5 +183,5 @@
     return svg;
   }
 
-  window.MenuApp = { config: C, state, el, swatch, optionById, colorwayDock, viewDock, viewer };
+  window.MenuApp = { config: C, state, el, media, swatch, optionById, colorwayDock, viewDock, viewer };
 })();

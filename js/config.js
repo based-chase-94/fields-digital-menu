@@ -42,7 +42,8 @@ window.MENU_CONFIG = {
 
   options: [
     { id: 'almond', name: 'Almond', ground: '#f4e9e1', accent: '#e84a28',
-      description: 'Almond ground, Forest text, Poppy headlines and prices' },
+      description: 'Almond ground, Forest text, Poppy headlines and prices',
+      animated: ['salads'] },
     { id: 'forest', name: 'Forest', ground: '#283628', accent: '#f9e14d',
       description: 'Forest ground, Almond text, Sunshine headlines and prices' },
     { id: 'sunshine', name: 'Sunshine', ground: '#f9e14d', accent: '#5f2637',
@@ -54,5 +55,12 @@ window.MENU_CONFIG = {
     const own = option.images && option.images[board];
     if (own && own[kind]) return own[kind];
     return `assets/boards/${option.id}/${board}${kind === 'screen' ? '-screen' : ''}.png`;
+  },
+
+  // Boards listed in an option's `animated` also have a looping video next to the PNG
+  // (<board>.mp4 at 1920x1080, <board>-screen.mp4 at 1600x900); the PNG is its poster.
+  video(option, board, kind) {
+    if (!(option.animated || []).includes(board)) return null;
+    return `assets/boards/${option.id}/${board}${kind === 'screen' ? '-screen' : ''}.mp4`;
   },
 };
