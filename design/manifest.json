@@ -1,7 +1,13 @@
 {
   "_comment": "Maps each design-canvas artboard to an option + board. Run `npm run render` in tools/ after editing.",
-  "size": { "width": 3840, "height": 2160 },
-  "screenSize": { "width": 1600, "height": 900 },
+  "size": {
+    "width": 3840,
+    "height": 2160
+  },
+  "screenSize": {
+    "width": 1600,
+    "height": 900
+  },
   "fonts": {
     "45b3ad1ffe7fc92b2385368fc0bf6bdf": "../Fields Style Guide/fonts/Midstar.otf",
     "f3c7382ec2b65213c904f17e0ad0b36d": "../Fields Style Guide/fonts/Heart-of-the-Land-Regular.otf",
@@ -10,17 +16,62 @@
   "images": {
     "9108d47094551b321acbce7d0fa81fab": "assets/9108d47094551b321acbce7d0fa81fab.png",
     "7691bf975cdcd8ee077e02717bda1264": "assets/7691bf975cdcd8ee077e02717bda1264.png",
-    "695c1e086e53ee9324fe717057fcd4bf": "assets/695c1e086e53ee9324fe717057fcd4bf.png"
+    "695c1e086e53ee9324fe717057fcd4bf": "assets/695c1e086e53ee9324fe717057fcd4bf.png",
+    "4597bd46c105a6f88973000cd196d1f1": "illustrations/almond/salads/dandelion1-stem2.png",
+    "dd8f75e84cdf564caa6db08d6b4a833a": "illustrations/almond/salads/dandelion1-stem1.png",
+    "cb6a2886242716d0ff4f3ee6b2546557": "illustrations/almond/salads/dandelion1-head.png",
+    "f93730662940c0c260b7c41accdd6772": "illustrations/almond/salads/dandelion2-stem2.png",
+    "3f5d804a83b8a210adcb8c76a142e01e": "illustrations/almond/salads/dandelion2-stem1.png",
+    "7f6586a1bc02dcf2283f13a375302c8e": "illustrations/almond/salads/dandelion2-head.png",
+    "d21629aadf5bfe241c3e15cfe64ac76f": "illustrations/almond/salads/dandelion3-stem2.png",
+    "8aa4498bbe445c80a4e6e7473846d534": "illustrations/almond/salads/dandelion3-stem1.png",
+    "619f6b533ee475b2505f3b87c4d6d901": "illustrations/almond/salads/dandelion3-head.png"
   },
   "artboards": [
-    { "file": "Main.dc.html",           "option": "almond",   "board": "salads" },
-    { "file": "Board2.dc.html",         "option": "almond",   "board": "build" },
-    { "file": "Board3.dc.html",         "option": "almond",   "board": "beverages" },
-    { "file": "OptionB-Board1.dc.html", "option": "forest",   "board": "salads" },
-    { "file": "OptionB-Board2.dc.html", "option": "forest",   "board": "build" },
-    { "file": "OptionB-Board3.dc.html", "option": "forest",   "board": "beverages" },
-    { "file": "OptionC-Board1.dc.html", "option": "sunshine", "board": "salads" },
-    { "file": "OptionC-Board2.dc.html", "option": "sunshine", "board": "build" },
-    { "file": "OptionC-Board3.dc.html", "option": "sunshine", "board": "beverages" }
+    {
+      "file": "Main.dc.html",
+      "option": "almond",
+      "board": "salads"
+    },
+    {
+      "file": "Board2.dc.html",
+      "option": "almond",
+      "board": "build"
+    },
+    {
+      "file": "Board3.dc.html",
+      "option": "almond",
+      "board": "beverages"
+    },
+    {
+      "file": "OptionB-Board1.dc.html",
+      "option": "forest",
+      "board": "salads"
+    },
+    {
+      "file": "OptionB-Board2.dc.html",
+      "option": "forest",
+      "board": "build"
+    },
+    {
+      "file": "OptionB-Board3.dc.html",
+      "option": "forest",
+      "board": "beverages"
+    },
+    {
+      "file": "OptionC-Board1.dc.html",
+      "option": "sunshine",
+      "board": "salads"
+    },
+    {
+      "file": "OptionC-Board2.dc.html",
+      "option": "sunshine",
+      "board": "build"
+    },
+    {
+      "file": "OptionC-Board3.dc.html",
+      "option": "sunshine",
+      "board": "beverages"
+    }
   ]
 }

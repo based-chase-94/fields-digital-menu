@@ -11,3 +11,6 @@ design/.render-*
 # Signage video masters (large; kept local)
 *.mp4
 !assets/**/*.mp4
+
+# Video renders (previews and 4K TV masters)
+renders/

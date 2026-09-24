@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "render": "node render.mjs"
+    "render": "node render.mjs",
+    "illustrations": "node illustrations.mjs",
+    "record": "node record.mjs"
   },
   "author": "",
   "license": "ISC",
