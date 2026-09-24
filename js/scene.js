@@ -49,7 +49,7 @@
       type: 'button',
       class: `screen${s.shade ? ` shade-${s.shade}` : ''}`,
       'aria-label': `View ${board.title} full size`,
-      onclick: () => viewer.open(state.option, board.id),
+      onclick: () => viewer.open(state.mix ? state.optionFor : state.option, board.id),
     }, [layers, el('span', { class: 'fx fx-vignette' }), el('span', { class: 'fx fx-glare' }),
         el('span', { class: 'fx fx-grain' }), el('span', { class: 'fx fx-hover' })]);
     scene.append(node);
@@ -91,12 +91,12 @@
     return sc.imgs[option.id];
   }
 
+  // Each screen shows its board in `state.optionFor(board)`: one colorway, or a mix.
   let token = 0;
-  async function show(id) {
+  async function show() {
     const my = ++token;
-    const option = optionById(id);
-    const imgs = screens.map((sc) => layerFor(sc, option));
-    // Swap all three screens together once every image is ready.
+    const imgs = screens.map((sc) => layerFor(sc, optionById(state.optionFor(sc.board.id))));
+    // Swap the changed screens together once every image is ready.
     await Promise.all(imgs.map((img) => img.ready()));
     if (my !== token) return;
     const z = my + 1; // incoming layer sits on top and fades in; the old one fades out after it
@@ -111,7 +111,7 @@
         }
       }
     });
-    document.title = `${option.name} · ${C.title}`;
+    document.title = `${state.mix ? 'Mix & Match' : optionById(state.option).name} · ${C.title}`;
   }
 
   // Warm the cache for the other options so the first switch is instant.
@@ -125,7 +125,7 @@
   state.onChange(show);
   addEventListener('resize', layout);
   layout();
-  show(state.option).then(() => {
+  show().then(() => {
     scene.classList.add('ready');
     (window.requestIdleCallback || setTimeout)(preload);
   });

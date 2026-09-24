@@ -17,17 +17,39 @@
     return C.options[0].id;
   }
 
+  // What's on screen: one colorway for every board (`option`), or a per-board `mix`.
+  // A mix lives only for this page view; `option` is remembered and shared in the URL.
   const listeners = [];
+  const notify = () => listeners.forEach((fn) => fn());
+  let lastMix = null;
   const state = {
     option: initialOption(),
+    mix: null,
     set(id, opts = {}) {
-      if (!optionById(id) || (id === state.option && !opts.force)) return;
+      if (!optionById(id) || (id === state.option && !state.mix && !opts.force)) return;
       state.option = id;
+      state.mix = null;
       try { localStorage.setItem(STORE_KEY, id); } catch (e) {}
       const url = new URL(location.href);
       url.searchParams.set('option', id);
       history.replaceState(null, '', url);
-      listeners.forEach((fn) => fn(id, opts));
+      notify();
+    },
+    // Start (or resume) mixing: the last mix this visit, else the defaults.
+    startMix() {
+      if (state.mix) return;
+      state.mix = lastMix = { ...(lastMix || C.mixDefaults) };
+      notify();
+    },
+    setMix(board, id) {
+      if (!state.mix || !optionById(id) || state.mix[board] === id) return;
+      state.mix = { ...state.mix, [board]: id };
+      lastMix = state.mix;
+      notify();
+    },
+    // The colorway a given board is showing.
+    optionFor(board) {
+      return (state.mix && state.mix[board]) || state.option;
     },
     onChange(fn) { listeners.push(fn); },
   };
@@ -72,33 +94,131 @@
     return s;
   }
 
-  // Bottom-left: colorway picker (a radio group of swatches).
+  // Bottom-left: colorway tabs, plus Mix & Match. Mix & Match swaps the tabs for a Back
+  // button and one colorway picker per board; Back returns to the tabs and leaves the
+  // screens as they are, until a colorway tab is chosen.
   function colorwayDock() {
-    const group = el('div', { class: 'seg', role: 'radiogroup', 'aria-label': 'Colorway' });
-    const buttons = C.options.map((o) =>
+    const slot = el('div', { class: 'dock dock-left' });
+
+    // ---- Tabs ----
+    const radios = C.options.map((o) =>
       el('button', {
         type: 'button', role: 'radio', 'data-option': o.id, title: o.description,
         onclick: () => state.set(o.id),
       }, [swatch(o), el('span', { text: o.name })])
     );
-    group.append(...buttons);
+    const group = el('div', { class: 'seg-group', role: 'radiogroup', 'aria-label': 'Colorway' }, radios);
     group.addEventListener('keydown', (e) => {
       const dir = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key];
       if (!dir) return;
       e.preventDefault();
-      const i = C.options.findIndex((o) => o.id === state.option);
-      const next = C.options[(i + dir + C.options.length) % C.options.length];
-      state.set(next.id);
-      buttons.find((b) => b.dataset.option === next.id).focus();
+      const i = Math.max(0, radios.indexOf(document.activeElement));
+      const next = radios[(i + dir + radios.length) % radios.length];
+      state.set(next.dataset.option);
+      next.focus();
     });
-    const sync = () => buttons.forEach((b) => {
-      const on = b.dataset.option === state.option;
-      b.setAttribute('aria-checked', on);
-      b.tabIndex = on ? 0 : -1;
-    });
+    const mixTab = el('button', { type: 'button', class: 'mix-tab', onclick: () => setOpen(true) },
+      [mixDots(), el('span', { text: 'Mix & Match' })]);
+    const tabs = el('div', { class: 'panel' }, [
+      el('span', { class: 'dock-label', text: 'Colorway' }),
+      el('div', { class: 'seg' }, [group, mixTab]),
+    ]);
+
+    // ---- Mix & Match ----
+    const back = el('button', { type: 'button', class: 'panel back-btn', onclick: () => setOpen(false) },
+      [icon('left'), el('span', { text: 'Back' })]);
+    const pickers = C.boards.map(boardPicker);
+    const mixGroup = el('div', { class: 'panel mix-group', role: 'group', 'aria-label': 'Mix & Match' }, pickers.map((p) => p.node));
+
+    function setOpen(on, focus = true) {
+      if (on) state.startMix();
+      if (openMenu) openMenu.close();
+      slot.replaceChildren(...(on ? [back, mixGroup] : [tabs]));
+      slot.classList.toggle('mixing', on);
+      if (focus) (on ? pickers[0].button : mixTab).focus({ preventScroll: true });
+    }
+
+    const sync = () => {
+      radios.forEach((b) => b.setAttribute('aria-checked', !state.mix && b.dataset.option === state.option));
+      const current = radios.find((b) => b.getAttribute('aria-checked') === 'true') || radios[0];
+      radios.forEach((b) => { b.tabIndex = b === current ? 0 : -1; });
+      mixTab.setAttribute('aria-pressed', !!state.mix);
+      pickers.forEach((p) => p.sync());
+    };
     sync();
     state.onChange(sync);
-    return el('div', { class: 'dock dock-left' }, [el('span', { class: 'dock-label', text: 'Colorway' }), group]);
+    setOpen(false, false);
+    return slot;
+  }
+
+  // Three overlapping dots in the colorways' grounds: the Mix & Match tab icon.
+  function mixDots() {
+    return el('span', { class: 'mix-dots', 'aria-hidden': 'true' }, C.options.slice(0, 3).map((o) => {
+      const d = el('span');
+      d.style.background = o.ground;
+      return d;
+    }));
+  }
+
+  // One board's colorway picker: a button that opens an upward list of swatches.
+  let openMenu = null;
+  document.addEventListener('pointerdown', (e) => {
+    if (openMenu && !openMenu.node.contains(e.target)) openMenu.close();
+  });
+  function boardPicker(board) {
+    const button = el('button', { type: 'button', class: 'pick-btn', 'aria-haspopup': 'listbox', 'aria-expanded': 'false' });
+    const items = C.options.map((o) =>
+      el('li', { role: 'option', tabindex: '-1', 'data-option': o.id, onclick: () => choose(o.id) },
+        [swatch(o), el('span', { text: o.name }), icon('check')]));
+    const list = el('ul', { class: 'pick-menu', role: 'listbox', 'aria-label': `${board.title} colorway`, hidden: '' }, items);
+    const node = el('div', { class: 'pick' }, [el('span', { class: 'pick-label', text: board.short || board.title }), button, list]);
+
+    const picker = {
+      node, button,
+      sync() {
+        const o = optionById(state.optionFor(board.id));
+        button.replaceChildren(swatch(o), el('span', { class: 'pick-name', text: o.name }), icon('down'));
+        button.setAttribute('aria-label', `${board.title}: ${o.name}`);
+        items.forEach((li) => li.setAttribute('aria-selected', li.dataset.option === o.id));
+      },
+      open() {
+        if (openMenu) openMenu.close();
+        openMenu = picker;
+        list.hidden = false;
+        button.setAttribute('aria-expanded', 'true');
+        (items.find((li) => li.getAttribute('aria-selected') === 'true') || items[0]).focus();
+      },
+      close(refocus) {
+        list.hidden = true;
+        button.setAttribute('aria-expanded', 'false');
+        if (openMenu === picker) openMenu = null;
+        if (refocus) button.focus();
+      },
+    };
+    function choose(id) {
+      state.setMix(board.id, id);
+      picker.close(true);
+    }
+    button.addEventListener('click', () => (list.hidden ? picker.open() : picker.close()));
+    button.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowUp' || e.key === 'ArrowDown') { e.preventDefault(); picker.open(); }
+    });
+    list.addEventListener('keydown', (e) => {
+      const i = items.indexOf(document.activeElement);
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        items[(i + (e.key === 'ArrowDown' ? 1 : -1) + items.length) % items.length].focus();
+      } else if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        if (i >= 0) choose(items[i].dataset.option);
+      } else if (e.key === 'Escape') {
+        e.preventDefault();
+        picker.close(true);
+      } else if (e.key === 'Tab') {
+        picker.close();
+      }
+    });
+    return picker;
   }
 
   // Bottom-right: switch between the in-store photo and the artwork gallery.
@@ -112,15 +232,16 @@
       a.addEventListener('click', () => { a.href = `${v.href}?option=${state.option}`; });
       return a;
     });
-    return el('nav', { class: 'dock dock-right', 'aria-label': 'View' }, [el('div', { class: 'seg' }, links)]);
+    return el('nav', { class: 'dock dock-right', 'aria-label': 'View' }, [el('div', { class: 'panel' }, [el('div', { class: 'seg' }, links)])]);
   }
 
   // Full-size viewer: shows one board at a time, arrows step through boards.
+  // `colorway` is an option id, or a function (board id → option id) for a mix.
   const viewer = {
     dialog: null,
-    open(optionId, boardId) {
+    open(colorway, boardId) {
       if (!this.dialog) this.build();
-      this.optionId = optionId;
+      this.colorway = colorway;
       this.index = Math.max(0, C.boards.findIndex((b) => b.id === boardId));
       this.render();
       if (!this.dialog.open) this.dialog.showModal();
@@ -130,8 +251,8 @@
       this.render();
     },
     render() {
-      const option = optionById(this.optionId);
       const board = C.boards[this.index];
+      const option = optionById(typeof this.colorway === 'function' ? this.colorway(board.id) : this.colorway);
       const art = media(option, board.id, 'full', { class: 'viewer-img', alt: `${option.name}: ${board.title} menu board` });
       this.stage.replaceChildren(art);
       if (art.play) art.play().catch(() => {});
@@ -172,6 +293,8 @@
       left: 'M15 5l-7 7 7 7',
       right: 'M9 5l7 7-7 7',
       close: 'M6 6l12 12M18 6L6 18',
+      down: 'M7 10l5 5 5-5',
+      check: 'M5 12.5l4.5 4.5L19 7.5',
     };
     const ns = 'http://www.w3.org/2000/svg';
     const svg = document.createElementNS(ns, 'svg');

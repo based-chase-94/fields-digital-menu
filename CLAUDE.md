@@ -25,7 +25,12 @@ from the repo root.
   - `options`: the colorways. Each has an `animated: [boards]` list for boards with video.
   - `boards`
   - `screens`: TV corner points in the photo, measured to under 1.2px error.
-- `js/common.js`: selected colorway (URL `?option=` plus localStorage), the two bottom docks, the full-size viewer, and `media()`, which returns a video if a board is animated and an image otherwise.
+- `js/common.js`:
+  - the selected colorway `state.option`, kept in the URL `?option=` and localStorage
+  - the Mix & Match per-board `state.mix`, kept in memory only; use `state.optionFor(board)` to ask what a board shows
+  - the two bottom docks, with the Mix & Match pickers
+  - the full-size viewer
+  - `media()`, which returns a video if a board is animated and an image otherwise
 - `js/scene.js`: the photo view. Boards are warped onto the TVs with CSS `matrix3d`.
 - `js/gallery.js`: the doc-style artwork page.
 - `assets/boards/<option>/<board>.png`: 3840×2160. `<board>-screen.png` is the 1600×900 version used in the photo. Animated boards also have `.mp4` versions.

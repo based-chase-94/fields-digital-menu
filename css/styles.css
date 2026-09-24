@@ -38,6 +38,16 @@ button { font: inherit; color: inherit; }
 .dock {
   position: fixed; z-index: 20;
   bottom: max(20px, env(safe-area-inset-bottom));
+  display: flex; align-items: stretch; gap: 8px;
+  color: var(--glass-text);
+  font-size: 14px;
+}
+.dock-left { left: max(20px, env(safe-area-inset-left)); }
+.dock-right { right: max(20px, env(safe-area-inset-right)); }
+.dock > * { animation: dock-in 180ms var(--ease); }
+@keyframes dock-in { from { opacity: 0; transform: translateY(4px); } }
+/* A frosted pill; a dock holds one, or two side by side in Mix & Match. */
+.panel {
   display: flex; align-items: center; gap: 12px;
   padding: 6px;
   background: var(--glass);
@@ -45,19 +55,17 @@ button { font: inherit; color: inherit; }
   backdrop-filter: blur(18px) saturate(1.3);
   border: 1px solid var(--glass-line);
   border-radius: 14px;
-  color: var(--glass-text);
-  font-size: 14px;
+  color: inherit;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.22);
 }
-.dock-left { left: max(20px, env(safe-area-inset-left)); }
-.dock-right { right: max(20px, env(safe-area-inset-right)); }
-.dock-label {
+.dock-label, .pick-label {
   padding-left: 10px;
   font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
   color: var(--glass-muted);
+  white-space: nowrap;
 }
-.seg { display: flex; gap: 2px; }
-.seg > button, .seg > a {
+.seg, .seg-group { display: flex; gap: 2px; }
+.seg button, .seg a, .back-btn, .pick-btn {
   display: inline-flex; align-items: center; gap: 8px;
   min-height: 40px; padding: 0 14px;
   border: 0; border-radius: 10px;
@@ -65,12 +73,50 @@ button { font: inherit; color: inherit; }
   font-weight: 500; white-space: nowrap; cursor: pointer;
   transition: background 160ms var(--ease), color 160ms var(--ease);
 }
-.seg > button:hover, .seg > a:hover { background: rgba(255, 255, 255, 0.1); }
-.seg > [aria-checked="true"], .seg > [aria-current="page"],
-.seg > [aria-checked="true"]:hover, .seg > [aria-current="page"]:hover {
+.seg button:hover, .seg a:hover, .pick-btn:hover, .pick-btn[aria-expanded="true"] { background: rgba(255, 255, 255, 0.1); }
+.seg [aria-checked="true"], .seg [aria-pressed="true"], .seg [aria-current="page"],
+.seg [aria-checked="true"]:hover, .seg [aria-pressed="true"]:hover, .seg [aria-current="page"]:hover {
   background: var(--glass-active); color: var(--glass-active-text);
 }
-.seg > [aria-current="page"] { cursor: default; }
+.seg [aria-current="page"] { cursor: default; }
+
+/* Mix & Match tab icon: three overlapping colorway dots */
+.mix-dots { display: inline-flex; }
+.mix-dots span {
+  width: 12px; height: 12px; border-radius: 50%;
+  box-shadow: 0 0 0 1.5px rgba(22, 24, 22, 0.55);
+}
+.mix-dots span + span { margin-left: -5px; }
+
+/* Mix & Match: Back, then one picker per board */
+.back-btn { padding: 0 16px 0 12px; min-height: 0; background: var(--glass); } /* a panel of its own */
+.back-btn:hover { background: rgba(38, 41, 38, 0.72); }
+.back-btn svg, .pick-btn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.mix-group { gap: 4px; }
+.pick { position: relative; display: flex; align-items: center; gap: 2px; }
+.pick + .pick { border-left: 1px solid var(--glass-line); padding-left: 4px; }
+.pick-btn { padding: 0 10px 0 12px; gap: 8px; }
+.pick-btn svg { width: 16px; height: 16px; opacity: 0.7; margin-left: -2px; }
+.pick-menu {
+  position: absolute; left: 0; bottom: calc(100% + 14px); z-index: 1;
+  min-width: 100%; margin: 0; padding: 6px; list-style: none;
+  background: rgba(22, 24, 22, 0.86);
+  -webkit-backdrop-filter: blur(18px) saturate(1.3);
+  backdrop-filter: blur(18px) saturate(1.3);
+  border: 1px solid var(--glass-line);
+  border-radius: 12px;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.35);
+  animation: dock-in 140ms var(--ease);
+}
+.pick-menu[hidden] { display: none; }
+.pick-menu li {
+  display: flex; align-items: center; gap: 10px;
+  min-height: 40px; padding: 0 12px;
+  border-radius: 8px; cursor: pointer; white-space: nowrap;
+}
+.pick-menu li:hover, .pick-menu li:focus-visible { background: rgba(255, 255, 255, 0.12); outline: none; }
+.pick-menu li svg { width: 16px; height: 16px; margin-left: auto; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; visibility: hidden; }
+.pick-menu li[aria-selected="true"] svg { visibility: visible; }
 :focus-visible { outline: 2px solid #9ec5ff; outline-offset: 2px; }
 
 /* ================= In-store view ================= */
@@ -255,6 +301,12 @@ button { font: inherit; color: inherit; }
 }
 .page-num { color: var(--doc-muted); font-variant-numeric: tabular-nums; }
 
+/* Mix & Match needs room beside the view toggle: below 1100px the pickers show swatches only */
+@media (max-width: 1100px) {
+  .pick-name { display: none; }
+  .pick-btn { padding: 0 8px 0 10px; }
+}
+
 /* ---------- Small screens ---------- */
 @media (max-width: 860px) {
   .sidebar {
@@ -278,7 +330,16 @@ button { font: inherit; color: inherit; }
   .dock-left { left: 12px; right: 12px; justify-content: center; bottom: calc(max(12px, env(safe-area-inset-bottom)) + 62px); }
   .dock-right { right: 12px; left: 12px; justify-content: center; }
   .dock-label { display: none; }
-  .seg > button, .seg > a { padding: 0 12px; }
+  .seg button, .seg a { padding: 0 10px; gap: 6px; }
+  /* four tabs on a phone: names only, so they fit */
+  .seg-group .swatch, .mix-tab .mix-dots { display: none; }
+  /* Mix & Match on a phone: labels above the pickers, colorway names shortened to swatches */
+  .pick { flex-direction: column; align-items: stretch; gap: 0; }
+  .pick-label { padding: 2px 0 0; text-align: center; font-size: 10px; }
+  .pick-btn { min-height: 32px; justify-content: center; padding: 0 8px; }
+  .pick-name { display: none; }
+  .back-btn span { display: none; }
+  .back-btn { padding: 0 10px; }
 }
 @media (prefers-reduced-motion: reduce) {
   :root { --fade: 1ms; }

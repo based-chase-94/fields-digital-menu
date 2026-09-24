@@ -3,6 +3,9 @@
 A client presentation of the Fields digital menu boards. It's a static site with no build step.
 
 - **In store** (`index.html`): the counter photo with each colorway on the three TVs. Pick a colorway at bottom left. Click a screen to see that board full size.
+  - **Mix & Match**, the fourth colorway tab, gives each TV its own colorway through a dropdown per board. It starts as Almond / Forest / Sunshine; set the starting combination with `mixDefaults` in `js/config.js`.
+  - **Back** returns to the tabs and leaves the screens as they are. Picking a colorway tab replaces the mix.
+  - A mix isn't saved: reloading or sharing the link opens a single colorway.
 - **Artwork** (`gallery.html`): every board as a full-size PNG in one scrolling column, with a sidebar that jumps to each colorway and board.
 
 The toggle at bottom right switches between the two views and keeps the selected colorway.

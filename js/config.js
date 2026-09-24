@@ -22,11 +22,15 @@ window.MENU_CONFIG = {
     focus: { x0: 380, y0: 500, x1: 2150, y1: 880, cx: 1266, cy: 900 },
   },
 
+  // `short` labels the board's picker in Mix & Match.
   boards: [
-    { id: 'salads', title: 'Salads & Grain Bowls' },
-    { id: 'build', title: 'Build Your Own Bowl' },
-    { id: 'beverages', title: 'Beverages' },
+    { id: 'salads', title: 'Salads & Grain Bowls', short: 'Salads' },
+    { id: 'build', title: 'Build Your Own Bowl', short: 'BYO' },
+    { id: 'beverages', title: 'Beverages', short: 'Beverages' },
   ],
+
+  // Mix & Match starts from this combination (board → colorway) the first time it's opened.
+  mixDefaults: { salads: 'almond', build: 'forest', beverages: 'sunshine' },
 
   // Corners of each black TV area in photo pixels, clockwise from top-left.
   // Measured by fitting lines to the edges of the black fill (under 1.2px error).
