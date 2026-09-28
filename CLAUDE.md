@@ -18,7 +18,11 @@ move to Cloudflare Pages later.
   - [`design/manifest.json`](design/manifest.json) maps each artboard file to a colorway and board. It also maps each canvas `/_blob/<id>` asset to a local file.
 - **The user edits the canvas live.** Always re-read the files you need from the canvas before
   relying on the local copies. Publishing to the canvas needs a fresh read first: a stale publish is refused as a conflict.
-- Colorway ids: `almond`, `forest`, `sunshine`. Board ids: `salads` (left TV), `build` (center), `beverages` (right).
+- Colorway ids: `almond`, `forest`, `sunshine`, `grass`. Board ids: `salads` (left TV), `build` (center), `beverages` (right).
+- Grass (canvas row D, `Grass-Board*.dc.html`):
+  - The backgrounds are stills from `assets/grass.mp4`, the coming-soon footage without the logo. That file is git-ignored at 185 MB.
+  - One moment per board (0.5s, 10.5s, 18.5s), softened slightly and darkened to the same brightness, saved as `design/assets/grass-<board>.jpg`.
+  - Each artboard sets its photo through a `.grass-bg` class in its helmet style.
 - Brand colors are in the canvas at `project/ds/fields/tokens.json`, e.g. Poppy is `#e84a28`.
 
 ## Layout

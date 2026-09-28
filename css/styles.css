@@ -307,6 +307,10 @@ button { font: inherit; color: inherit; }
   .pick-btn { padding: 0 8px 0 10px; }
 }
 
+/* Five colorway tabs beside the view toggle: shed the label, then the dots, as width runs out */
+@media (max-width: 900px) { .dock-left .dock-label { display: none; } }
+@media (max-width: 780px) { .seg-group .swatch, .mix-tab .mix-dots { display: none; } }
+
 /* ---------- Small screens ---------- */
 @media (max-width: 860px) {
   .sidebar {
@@ -325,7 +329,7 @@ button { font: inherit; color: inherit; }
   .doc-option, .doc-option-head, .page { scroll-margin-top: 76px; }
   .doc-option-head p { margin-left: 0; }
 }
-@media (max-width: 640px) {
+@media (max-width: 720px) {
   .dock { bottom: max(12px, env(safe-area-inset-bottom)); font-size: 13px; }
   .dock-left { left: 12px; right: 12px; justify-content: center; bottom: calc(max(12px, env(safe-area-inset-bottom)) + 62px); }
   .dock-right { right: 12px; left: 12px; justify-content: center; }
@@ -340,6 +344,10 @@ button { font: inherit; color: inherit; }
   .pick-name { display: none; }
   .back-btn span { display: none; }
   .back-btn { padding: 0 10px; }
+}
+@media (max-width: 400px) {
+  .dock { font-size: 12.5px; }
+  .seg-group button, .mix-tab { padding: 0 7px; }
 }
 @media (prefers-reduced-motion: reduce) {
   :root { --fade: 1ms; }

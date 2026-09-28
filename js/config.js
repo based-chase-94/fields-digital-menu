@@ -54,6 +54,10 @@ window.MENU_CONFIG = {
     { id: 'sunshine', name: 'Sunshine', ground: '#f9e14d', accent: '#5f2637',
       description: 'Sunshine ground, Forest text, Burgundy headlines and prices',
       animated: ['salads'] },
+    // Stills from the coming-soon grass footage (assets/grass.mp4, a different moment per
+    // board), softened and darkened for legibility: see design/assets/grass-*.jpg.
+    { id: 'grass', name: 'Grass', ground: '#3f5a22', accent: '#f9e14d',
+      description: 'Grass photo ground, Almond text, Sunshine headlines and prices' },
   ],
 
   // Where artwork lives; an option may override with its own `images: { <board>: {full, screen} }`.

@@ -44,7 +44,10 @@
     "974a962f0651fa366282c7c65198f05e": "illustrations/sunshine/salads/dandelion2-head.png",
     "1bea747175466673025bd3f43e6486bb": "illustrations/sunshine/salads/dandelion3-stem2.png",
     "45acadb725f04d9c2f3897c808f5c8b9": "illustrations/sunshine/salads/dandelion3-stem1.png",
-    "6333b19bda9b43ae84b18e356dadc06a": "illustrations/sunshine/salads/dandelion3-head.png"
+    "6333b19bda9b43ae84b18e356dadc06a": "illustrations/sunshine/salads/dandelion3-head.png",
+    "0695e19f2e566c2e77d4f26eb2678687": "assets/grass-salads.jpg",
+    "2a611a6d12b65f1438500960e75abc6a": "assets/grass-build.jpg",
+    "1fdc0cef2f78fa30b9235178c842f0ea": "assets/grass-beverages.jpg"
   },
   "artboards": [
     {
@@ -90,6 +93,21 @@
     {
       "file": "OptionC-Board3.dc.html",
       "option": "sunshine",
+      "board": "beverages"
+    },
+    {
+      "file": "Grass-Board1.dc.html",
+      "option": "grass",
+      "board": "salads"
+    },
+    {
+      "file": "Grass-Board2.dc.html",
+      "option": "grass",
+      "board": "build"
+    },
+    {
+      "file": "Grass-Board3.dc.html",
+      "option": "grass",
       "board": "beverages"
     }
   ]
