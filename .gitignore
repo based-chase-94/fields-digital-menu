@@ -17,3 +17,6 @@ renders/
 
 # Source footage (too large for git)
 assets/grass.mp4
+# Photoshop working files
+*.psb
+*.psd
