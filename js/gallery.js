@@ -1,11 +1,15 @@
 /* Artwork view: one column of boards, grouped by colorway, with a jump-link sidebar. */
 (function () {
-  const { config: C, state, el, media, swatch, viewer, viewDock } = window.MenuApp;
+  const { config: C, state, el, media, swatch, viewer, viewDock, motionSwitch } = window.MenuApp;
   const nav = document.getElementById('toc');
   const doc = document.getElementById('doc');
 
   const anchor = (o, b) => (b ? `${o.id}-${b.id}` : o.id);
   const tocLinks = new Map();
+  const motionArt = []; // boards of options with a Motion version, rebuilt when it's toggled
+  const switches = [];
+
+  const art = (o, b, i) => media(o, b.id, 'full', { alt: `${o.name}: ${b.title} menu board`, loading: i === 0 && o === C.options[0] ? 'eager' : 'lazy', width: '3840', height: '2160', preload: 'none' });
 
   for (const o of C.options) {
     const sub = el('ol', { class: 'toc-boards' }, C.boards.map((b, i) => {
@@ -23,11 +27,16 @@
         el('p', { text: o.description }),
       ]),
     ]);
+    if (o.motion) {
+      const sw = motionSwitch('doc-motion', true);
+      switches.push(sw);
+      section.firstChild.append(sw.node);
+    }
     C.boards.forEach((b, i) => {
+      const frame = el('button', { type: 'button', class: 'page-art', 'aria-label': `View ${o.name} ${b.title} full size`, onclick: () => viewer.open(o.id, b.id) }, [art(o, b, i)]);
+      if (o.motion) motionArt.push({ o, b, i, frame });
       section.append(el('figure', { class: 'page', id: anchor(o, b), 'data-option': o.id }, [
-        el('button', { type: 'button', class: 'page-art', 'aria-label': `View ${o.name} ${b.title} full size`, onclick: () => viewer.open(o.id, b.id) }, [
-          media(o, b.id, 'full', { alt: `${o.name}: ${b.title} menu board`, loading: i === 0 && o === C.options[0] ? 'eager' : 'lazy', width: '3840', height: '2160', preload: 'none' }),
-        ]),
+        frame,
         el('figcaption', {}, [el('span', { text: b.title }), el('span', { class: 'page-num', text: `Board ${i + 1} of ${C.boards.length}` })]),
       ]));
     });
@@ -42,6 +51,23 @@
     }
   }, { rootMargin: '200px 0px' });
   doc.querySelectorAll('video').forEach((v) => io.observe(v));
+
+  // Motion toggled: swap those boards between still and moving footage.
+  let motion = state.motion;
+  const syncMotion = () => {
+    switches.forEach((sw) => sw.sync());
+    if (motion === state.motion) return;
+    motion = state.motion;
+    for (const { o, b, i, frame } of motionArt) {
+      const old = frame.firstChild;
+      if (old.video || old.tagName === 'VIDEO') io.unobserve(old.video || old);
+      const next = art(o, b, i);
+      frame.replaceChildren(next);
+      if (next.video) io.observe(next.video);
+    }
+  };
+  syncMotion();
+  state.onChange(syncMotion);
 
   // Highlight the board nearest the top of the viewport and keep the colorway in sync,
   // so "In store" opens on whatever option the client was just looking at.

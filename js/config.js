@@ -56,8 +56,12 @@ window.MENU_CONFIG = {
       animated: ['salads'] },
     // Stills from the coming-soon grass footage (assets/grass.mp4, a different moment per
     // board), softened and darkened for legibility: see design/assets/grass-*.jpg.
+    // `motion`: the Motion toggle swaps the stills for the moving footage (one shared loop,
+    // tools/grass-motion.mjs) under each board's text; `start` is each board's moment in the
+    // loop, matching its still.
     { id: 'grass', name: 'Grass', ground: '#3f5a22', accent: '#f9e14d',
-      description: 'Grass photo ground, Almond text, Sunshine headlines and prices' },
+      description: 'Grass photo ground, Almond text, Sunshine headlines and prices',
+      motion: { start: { salads: 0, build: 9.5, beverages: 17.5 } } },
   ],
 
   // Where artwork lives; an option may override with its own `images: { <board>: {full, screen} }`.
@@ -72,6 +76,18 @@ window.MENU_CONFIG = {
   video(option, board, kind) {
     if (!(option.animated || []).includes(board)) return null;
     return this.versioned(`${option.id}/${board}${kind === 'screen' ? '-screen' : ''}.mp4`);
+  },
+
+  // With Motion on, an option with `motion` shows a moving background under the board's
+  // text: { video, text, start }, or null. The still PNG stays as the poster.
+  motion(option, board, kind) {
+    if (!option.motion) return null;
+    const screen = kind === 'screen' ? '-screen' : '';
+    return {
+      video: this.versioned(`${option.id}/motion${screen}.mp4`),
+      text: this.versioned(`${option.id}/${board}-text${screen}.png`),
+      start: option.motion.start[board] || 0,
+    };
   },
 
   // Board file URL with a content hash from assets/boards/versions.js (written by the render

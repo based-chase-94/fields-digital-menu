@@ -6,7 +6,7 @@ A client presentation of the Fields digital menu boards. It's a static site with
   - **Mix & Match**, the fourth colorway tab, gives each TV its own colorway through a dropdown per board. It starts as Almond / Forest / Sunshine; set the starting combination with `mixDefaults` in `js/config.js`.
   - **Back** returns to the tabs and leaves the screens as they are. Picking a colorway tab replaces the mix.
   - A mix isn't saved: reloading or sharing the link opens a single colorway.
-- **Grass** puts the menus over darkened stills from the coming-soon grass footage, with Almond text and Sunshine accents.
+- **Grass** puts the menus over darkened stills from the coming-soon grass footage, with Almond text and Sunshine accents. Its **Motion** switch plays the footage itself behind the menus.
 - **Artwork** (`gallery.html`): every board as a full-size PNG in one scrolling column, with a sidebar that jumps to each colorway and board.
 
 The toggle at bottom right switches between the two views and keeps the selected colorway.

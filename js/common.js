@@ -2,6 +2,7 @@
 (function () {
   const C = window.MENU_CONFIG;
   const STORE_KEY = 'fields-menu-option';
+  const MOTION_KEY = 'fields-menu-motion';
 
   function optionById(id) {
     return C.options.find((o) => o.id === id);
@@ -17,6 +18,12 @@
     return C.options[0].id;
   }
 
+  function initialMotion() {
+    const fromUrl = new URLSearchParams(location.search).get('motion');
+    if (fromUrl != null) return fromUrl === '1';
+    try { return localStorage.getItem(MOTION_KEY) === '1'; } catch (e) { return false; }
+  }
+
   // What's on screen: one colorway for every board (`option`), or a per-board `mix`.
   // A mix lives only for this page view; `option` is remembered and shared in the URL.
   const listeners = [];
@@ -25,6 +32,8 @@
   const state = {
     option: initialOption(),
     mix: null,
+    // Motion toggle: options with `motion` (Grass) show moving footage instead of a still.
+    motion: initialMotion(),
     set(id, opts = {}) {
       if (!optionById(id) || (id === state.option && !state.mix && !opts.force)) return;
       state.option = id;
@@ -47,6 +56,20 @@
       lastMix = state.mix;
       notify();
     },
+    setMotion(on) {
+      if (on === state.motion) return;
+      state.motion = on;
+      try { localStorage.setItem(MOTION_KEY, on ? '1' : '0'); } catch (e) {}
+      const url = new URL(location.href);
+      if (on) url.searchParams.set('motion', '1');
+      else url.searchParams.delete('motion');
+      history.replaceState(null, '', url);
+      notify();
+    },
+    // Whether any board on screen shows an option that has a Motion version.
+    hasMotion() {
+      return C.boards.some((b) => optionById(state.optionFor(b.id)).motion);
+    },
     // The colorway a given board is showing.
     optionFor(board) {
       return (state.mix && state.mix[board]) || state.option;
@@ -68,9 +91,12 @@
   }
 
   // A board's artwork: a muted looping video if the board is animated, else the PNG.
+  // With Motion on, a moving background under the board's text (see motionMedia).
   // `ready()` resolves once the first frame can be shown.
   function media(option, board, kind, attrs = {}) {
     const poster = C.image(option, board, kind);
+    const motion = state.motion && C.motion(option, board, kind);
+    if (motion) return motionMedia(motion, poster, attrs);
     const src = C.video(option, board, kind);
     if (!src) {
       const img = el('img', { src: poster, decoding: 'async', ...attrs });
@@ -85,6 +111,41 @@
       v.addEventListener('error', r, { once: true });
     }));
     return v;
+  }
+
+  // The shared background loop, started at this board's moment, with the text PNG on top.
+  // The still (text included) is the video's poster, so nothing shifts while it loads.
+  // Acts like a <video> for callers: ready(), play() and pause().
+  function motionMedia({ video: src, text, start }, poster, attrs) {
+    const { alt, class: cls, preload, loading, width, height, ...rest } = attrs;
+    const v = el('video', { src, poster, muted: '', loop: '', playsinline: '', preload: preload || 'auto' });
+    v.muted = true;
+    // Jump to this board's moment once the browser can seek there. GitHub Pages serves byte
+    // ranges, so that's straight away; a server without them (python http.server) has to
+    // download the whole file first.
+    let seeked = !start;
+    const seek = () => {
+      const t = start % v.duration;
+      if (seeked || !v.seekable.length || v.seekable.end(0) < t) return;
+      seeked = true;
+      v.currentTime = t;
+      v.removeEventListener('progress', seek);
+    };
+    v.addEventListener('loadedmetadata', () => { seek(); v.addEventListener('progress', seek); }, { once: true });
+    v.addEventListener('canplaythrough', seek, { once: true });
+    const img = el('img', { src: text, alt: '', decoding: 'async', loading });
+    const node = el('div', { class: `motion-art${cls ? ` ${cls}` : ''}`, role: 'img', 'aria-label': alt || null, ...rest }, [v, img]);
+    node.video = v;
+    node.play = () => v.play();
+    node.pause = () => v.pause();
+    node.ready = () => Promise.all([
+      img.decode().catch(() => {}),
+      v.readyState >= 2 ? null : new Promise((r) => {
+        v.addEventListener('loadeddata', r, { once: true });
+        v.addEventListener('error', r, { once: true });
+      }),
+    ]);
+    return node;
   }
 
   function swatch(option) {
@@ -130,10 +191,12 @@
     const pickers = C.boards.map(boardPicker);
     const mixGroup = el('div', { class: 'panel mix-group', role: 'group', 'aria-label': 'Mix & Match' }, pickers.map((p) => p.node));
 
+    const motion = motionSwitch();
+
     function setOpen(on, focus = true) {
       if (on) state.startMix();
       if (openMenu) openMenu.close();
-      slot.replaceChildren(...(on ? [back, mixGroup] : [tabs]));
+      slot.replaceChildren(...(on ? [back, mixGroup] : [tabs]), motion.node);
       slot.classList.toggle('mixing', on);
       if (focus) (on ? pickers[0].button : mixTab).focus({ preventScroll: true });
     }
@@ -144,11 +207,27 @@
       radios.forEach((b) => { b.tabIndex = b === current ? 0 : -1; });
       mixTab.setAttribute('aria-pressed', !!state.mix);
       pickers.forEach((p) => p.sync());
+      motion.sync();
     };
     sync();
     state.onChange(sync);
     setOpen(false, false);
     return slot;
+  }
+
+  // Motion on/off for options that have moving footage (Grass). In the dock it hides unless
+  // a board on screen has a Motion version; `always` keeps it shown (the gallery's Grass heading).
+  function motionSwitch(cls = 'panel motion-panel', always = false) {
+    const button = el('button', { type: 'button', role: 'switch', class: 'motion-btn', onclick: () => state.setMotion(!state.motion) },
+      [el('span', { class: 'motion-track', 'aria-hidden': 'true' }), el('span', { text: 'Motion' })]);
+    const node = el('div', { class: cls }, [button]);
+    return {
+      node, button,
+      sync() {
+        node.hidden = !always && !state.hasMotion();
+        button.setAttribute('aria-checked', state.motion);
+      },
+    };
   }
 
   // Three overlapping dots in the colorways' grounds: the Mix & Match tab icon.
@@ -306,5 +385,5 @@
     return svg;
   }
 
-  window.MenuApp = { config: C, state, el, media, swatch, optionById, colorwayDock, viewDock, viewer };
+  window.MenuApp = { config: C, state, el, media, swatch, optionById, colorwayDock, motionSwitch, viewDock, viewer };
 })();

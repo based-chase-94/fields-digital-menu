@@ -23,6 +23,12 @@ move to Cloudflare Pages later.
   - The backgrounds are stills from `assets/grass.mp4`, the coming-soon footage without the logo. That file is git-ignored at 185 MB.
   - One moment per board (0.5s, 10.5s, 18.5s), softened slightly and darkened to the same brightness, saved as `design/assets/grass-<board>.jpg`.
   - Each artboard sets its photo through a `.grass-bg` class in its helmet style.
+  - **Motion toggle** (trial, site only): swaps the stills for the moving footage. One shared loop,
+    `assets/boards/grass/motion.mp4` (+ `-screen`), built by `npm run grass-motion`. Each board starts at
+    its own moment (`motion.start` in `js/config.js`), with its text on top from `<board>-text.png`
+    (written by `npm run render` for any option that has a `motion.mp4`). No 4K TV masters yet: make them
+    only when the user asks. Seeking to a board's moment needs byte-range support: GitHub Pages has it,
+    python `http.server` doesn't, so locally every board starts at 0.
 - Brand colors are in the canvas at `project/ds/fields/tokens.json`, e.g. Poppy is `#e84a28`.
 
 ## Layout
@@ -46,6 +52,7 @@ move to Cloudflare Pages later.
 npm run render [-- forest ...]        # re-render static boards from design/*.dc.html
 npm run illustrations                 # trim and rig illustration layers (animation chat)
 npm run record -- <option> <board> [--preview]   # animated boards (animation chat)
+npm run grass-motion                  # Grass Motion background loop, from assets/grass.mp4
 ```
 - `render` skips animated boards: their text is part of the video, so they must be re-recorded.
 - `render` and `record` also rewrite `assets/boards/versions.js`: a content hash per board file. `config.image()` and `config.video()` add it as `?v=`, so updated artwork is never served from a stale cache. If you replace a board file by hand, run `npm run stamp`.
