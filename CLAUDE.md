@@ -48,6 +48,7 @@ npm run illustrations                 # trim and rig illustration layers (animat
 npm run record -- <option> <board> [--preview]   # animated boards (animation chat)
 ```
 - `render` skips animated boards: their text is part of the video, so they must be re-recorded.
+- `render` and `record` also rewrite `assets/boards/versions.js`: a content hash per board file. `config.image()` and `config.video()` add it as `?v=`, so updated artwork is never served from a stale cache. If you replace a board file by hand, run `npm run stamp`.
 - Fonts come from `Fields Style Guide/fonts/`. That folder is git-ignored and local only.
 
 ## Rules

@@ -14,6 +14,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { ROOT, DESIGN, manifest, loadPage } from './lib.mjs';
 import { siteVideo } from './site-video.mjs';
+import { stamp } from './stamp.mjs';
 
 const args = process.argv.slice(2);
 const preview = args.includes('--preview');
@@ -127,4 +128,4 @@ ff.stdin.end();
 await done;
 await browser.close();
 console.log(`\r✓ ${path.relative(ROOT, out)} (${((Date.now() - t0) / 1000).toFixed(0)}s)`);
-if (!preview) siteVideo(option, board);
+if (!preview) { siteVideo(option, board); await stamp(); }

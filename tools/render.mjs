@@ -6,6 +6,7 @@ import { chromium } from 'playwright';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { ROOT, OUT, manifest, loadPage, artboardsFor } from './lib.mjs';
+import { stamp } from './stamp.mjs';
 
 const { width, height } = manifest.size;
 const screen = manifest.screenSize;
@@ -27,3 +28,4 @@ for (const art of artboardsFor(process.argv.slice(2))) {
   }
 }
 await browser.close();
+await stamp();

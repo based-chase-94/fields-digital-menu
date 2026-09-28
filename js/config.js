@@ -64,13 +64,20 @@ window.MENU_CONFIG = {
   image(option, board, kind) {
     const own = option.images && option.images[board];
     if (own && own[kind]) return own[kind];
-    return `assets/boards/${option.id}/${board}${kind === 'screen' ? '-screen' : ''}.png`;
+    return this.versioned(`${option.id}/${board}${kind === 'screen' ? '-screen' : ''}.png`);
   },
 
   // Boards listed in an option's `animated` also have a looping video next to the PNG
   // (<board>.mp4 at 1920x1080, <board>-screen.mp4 at 1600x900); the PNG is its poster.
   video(option, board, kind) {
     if (!(option.animated || []).includes(board)) return null;
-    return `assets/boards/${option.id}/${board}${kind === 'screen' ? '-screen' : ''}.mp4`;
+    return this.versioned(`${option.id}/${board}${kind === 'screen' ? '-screen' : ''}.mp4`);
+  },
+
+  // Board file URL with a content hash from assets/boards/versions.js (written by the render
+  // tools), so updated artwork is never served from a stale browser or CDN cache.
+  versioned(file) {
+    const v = (window.BOARD_VERSIONS || {})[file];
+    return `assets/boards/${file}${v ? `?v=${v}` : ''}`;
   },
 };

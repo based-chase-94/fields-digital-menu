@@ -5,7 +5,8 @@
   "scripts": {
     "render": "node render.mjs",
     "illustrations": "node illustrations.mjs",
-    "record": "node record.mjs"
+    "record": "node record.mjs",
+    "stamp": "node stamp.mjs"
   },
   "author": "",
   "license": "ISC",
