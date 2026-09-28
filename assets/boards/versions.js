@@ -12,10 +12,10 @@ window.BOARD_VERSIONS = {
   "forest/beverages.png": "fb86c77b74",
   "forest/build-screen.png": "53edba73c6",
   "forest/build.png": "29a1a5c18c",
-  "forest/salads-screen.mp4": "b1f34b61ee",
-  "forest/salads-screen.png": "ca83ff73a0",
-  "forest/salads.mp4": "99a69827d1",
-  "forest/salads.png": "142ec7984e",
+  "forest/salads-screen.mp4": "d3ad967415",
+  "forest/salads-screen.png": "aa6ef7180a",
+  "forest/salads.mp4": "8639fc3c96",
+  "forest/salads.png": "0ee02eaa35",
   "grass/beverages-screen.png": "cffac6b4e0",
   "grass/beverages-text-screen.png": "91878bd936",
   "grass/beverages-text.png": "972d9ef016",
@@ -34,8 +34,8 @@ window.BOARD_VERSIONS = {
   "sunshine/beverages.png": "c06579e3cb",
   "sunshine/build-screen.png": "078550c0b1",
   "sunshine/build.png": "860024f184",
-  "sunshine/salads-screen.mp4": "c2bc239e7d",
-  "sunshine/salads-screen.png": "6375abcce9",
-  "sunshine/salads.mp4": "72f69f7c7c",
-  "sunshine/salads.png": "8a0e03e6f3"
+  "sunshine/salads-screen.mp4": "33d5decca2",
+  "sunshine/salads-screen.png": "c31162bc9d",
+  "sunshine/salads.mp4": "cf886b9dc0",
+  "sunshine/salads.png": "bd192250df"
 };
