@@ -56,6 +56,7 @@ npm run grass-motion                  # Grass Motion background loop, from asset
 ```
 - `render` skips animated boards: their text is part of the video, so they must be re-recorded.
 - `render` and `record` also rewrite `assets/boards/versions.js`: a content hash per board file. `config.image()` and `config.video()` add it as `?v=`, so updated artwork is never served from a stale cache. If you replace a board file by hand, run `npm run stamp`.
+- `index.html` and `gallery.html` load every local script and stylesheet with `?v=<hash>`, so a browser never mixes new JS with old cached CSS after a push. A pre-commit hook in `.githooks/` runs `tools/stamp.mjs` to keep these current: after cloning, run `git config core.hooksPath .githooks`. Otherwise run `npm run stamp` before committing site code changes.
 - Fonts come from `Fields Style Guide/fonts/`. That folder is git-ignored and local only.
 
 ## Rules

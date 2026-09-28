@@ -1,0 +1,6 @@
+#!/bin/sh
+# Keep cache-busting versions in index.html / gallery.html / versions.js current, so a push
+# never serves new JS with old CSS from a browser's cache. See tools/stamp.mjs.
+command -v node >/dev/null 2>&1 || exit 0
+node tools/stamp.mjs >/dev/null || exit 1
+git add index.html gallery.html assets/boards/versions.js

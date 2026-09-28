@@ -1,13 +1,40 @@
-// Writes assets/boards/versions.js: a short content hash for every board image and video.
-// The site appends it to each URL (?v=…), so browsers and GitHub Pages' cache fetch new
-// artwork as soon as it changes instead of showing the old file for up to 10 minutes.
-// Runs automatically after `npm run render` and `npm run record`; `npm run stamp` by hand.
+// Cache-busting for GitHub Pages, which lets browsers reuse any file for up to 10 minutes:
+// 1. assets/boards/versions.js: a short content hash for every board image and video; the
+//    site appends it to each URL (?v=…).
+// 2. index.html / gallery.html: ?v=<hash> on every local stylesheet and script they load, so
+//    a page never runs new JS against old CSS (or the reverse) straight after a push.
+// Runs after `npm run render` / `npm run record` and on every commit (.githooks/pre-commit);
+// `npm run stamp` by hand.
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import { ROOT, OUT } from './lib.mjs';
 
+const hashOf = async (file) => crypto.createHash('sha1').update(await fs.readFile(file)).digest('hex').slice(0, 10);
+const PAGES = ['index.html', 'gallery.html'];
+// Local files the pages reference that should carry a version.
+const VERSIONED = /(src|href)="((?:css|js)\/[^"?]+|assets\/boards\/versions\.js)(?:\?v=[0-9a-f]*)?"/g;
+
 export async function stamp() {
+  await stampBoards();
+  await stampPages();
+}
+
+async function stampPages() {
+  for (const page of PAGES) {
+    const file = path.join(ROOT, page);
+    const html = await fs.readFile(file, 'utf8');
+    let out = html;
+    for (const m of [...html.matchAll(VERSIONED)]) {
+      const [whole, attr, ref] = m;
+      out = out.replace(whole, `${attr}="${ref}?v=${await hashOf(path.join(ROOT, ref))}"`);
+    }
+    if (out !== html) await fs.writeFile(file, out);
+    console.log('✓', page, out === html ? '(unchanged)' : '(versions updated)');
+  }
+}
+
+async function stampBoards() {
   const versions = {};
   for (const option of (await fs.readdir(OUT)).sort()) {
     const dir = path.join(OUT, option);
