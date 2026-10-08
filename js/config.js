@@ -60,7 +60,7 @@ window.MENU_CONFIG = {
     // tools/grass-motion.mjs) under each board's text; `start` is each board's moment in the
     // loop, matching its still.
     { id: 'grass', name: 'Grass', ground: '#3f5a22', accent: '#f9e14d',
-      description: 'Grass photo ground, Almond text, Sunshine headlines and prices',
+      description: 'Grass photo ground, white text, Sunshine headlines and prices',
       motion: { start: { salads: 0, build: 9.5, beverages: 17.5 } } },
   ],
 
