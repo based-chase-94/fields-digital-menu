@@ -7,6 +7,10 @@
  *      in tools/ writes both from design/manifest.json.
  *   2. Add an entry to `options` below. Order here = order in the toggle and gallery.
  *
+ * Archiving a colorway: give it `archived: true`. The site leaves it out (its artwork stays
+ * in assets/boards/); delete the flag to bring it back. With one colorway left, the colorway
+ * tabs and Mix & Match hide themselves.
+ *
  * Adding a board: add it to `boards`; to show it in the photo, give it a `screens` entry.
  */
 window.MENU_CONFIG = {
@@ -47,13 +51,13 @@ window.MENU_CONFIG = {
   options: [
     { id: 'almond', name: 'Almond', ground: '#f4e9e1', accent: '#e84a28',
       description: 'Almond ground, Forest text, Poppy headlines and prices',
-      animated: ['salads'] },
+      animated: ['salads'], archived: true },
     { id: 'forest', name: 'Forest', ground: '#283628', accent: '#f9e14d',
       description: 'Forest ground, Almond text, Sunshine headlines and prices',
-      animated: ['salads'] },
+      animated: ['salads'], archived: true },
     { id: 'sunshine', name: 'Sunshine', ground: '#f9e14d', accent: '#5f2637',
       description: 'Sunshine ground, Forest text, Burgundy headlines and prices',
-      animated: ['salads'] },
+      animated: ['salads'], archived: true },
     // Stills from the coming-soon grass footage (assets/grass.mp4, a different moment per
     // board), softened and darkened for legibility: see design/assets/grass-*.jpg.
     // `motion`: Still / Motion / Panorama. Motion swaps the stills for the moving footage (one
@@ -110,3 +114,6 @@ window.MENU_CONFIG = {
     return `assets/boards/${file}${v ? `?v=${v}` : ''}`;
   },
 };
+
+// Archived colorways are kept above for reference but not shown.
+window.MENU_CONFIG.options = window.MENU_CONFIG.options.filter((o) => !o.archived);

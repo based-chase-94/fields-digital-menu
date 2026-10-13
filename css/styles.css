@@ -336,6 +336,9 @@ button { font: inherit; color: inherit; }
 @media (max-width: 1180px) {
   .motion-panel { position: absolute; left: 0; bottom: calc(100% + 8px); padding: 4px; }
   .motion-seg button { min-height: 34px; padding: 0 12px; }
+  /* Grass only: nothing to float above, so it stays a full-size pill beside the view toggle */
+  .dock-left.solo .motion-panel { position: static; padding: 6px; }
+  .dock-left.solo .motion-seg button { min-height: 40px; padding: 0 14px; }
 }
 
 /* ---------- Small screens ---------- */
@@ -372,6 +375,10 @@ button { font: inherit; color: inherit; }
   .back-btn span { display: none; }
   .back-btn { padding: 0 10px; }
   .motion-panel { right: 0; width: max-content; margin-inline: auto; }
+  /* Grass only: both pills fit on one row */
+  .dock-left.solo { right: auto; bottom: max(12px, env(safe-area-inset-bottom)); justify-content: flex-start; }
+  .dock-left.solo ~ .dock-right { left: auto; justify-content: flex-end; }
+  .dock-left.solo .motion-seg button { padding: 0 10px; }
 }
 @media (max-width: 400px) {
   .dock { font-size: 12.5px; }

@@ -261,6 +261,15 @@
 
     const motion = motionSwitch();
 
+    // A single colorway (the rest archived): nothing to choose, so no tabs or Mix & Match.
+    if (C.options.length < 2) {
+      slot.classList.add('solo');
+      slot.replaceChildren(motion.node);
+      motion.sync();
+      state.onChange(motion.sync);
+      return slot;
+    }
+
     function setOpen(on, focus = true) {
       if (on) state.startMix();
       if (openMenu) openMenu.close();
