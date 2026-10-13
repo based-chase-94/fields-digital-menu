@@ -56,12 +56,12 @@ window.MENU_CONFIG = {
       animated: ['salads'] },
     // Stills from the coming-soon grass footage (assets/grass.mp4, a different moment per
     // board), softened and darkened for legibility: see design/assets/grass-*.jpg.
-    // `motion`: the Motion toggle swaps the stills for the moving footage (one shared loop,
-    // tools/grass-motion.mjs) under each board's text; `start` is each board's moment in the
-    // loop, matching its still.
+    // `motion`: Still / Motion / Panorama. Motion swaps the stills for the moving footage (one
+    // shared loop, tools/grass-motion.mjs) under each board's text; `start` is each board's
+    // moment in the loop, matching its still. `span`: Panorama, one field across all three TVs.
     { id: 'grass', name: 'Grass', ground: '#3f5a22', accent: '#f9e14d',
       description: 'Grass photo ground, white text, Sunshine headlines and prices',
-      motion: { start: { salads: 0, build: 9.5, beverages: 17.5 } } },
+      motion: { start: { salads: 0, build: 9.5, beverages: 17.5 }, span: true } },
   ],
 
   // Where artwork lives; an option may override with its own `images: { <board>: {full, screen} }`.
@@ -87,6 +87,19 @@ window.MENU_CONFIG = {
       video: this.versioned(`${option.id}/motion${screen}.mp4`),
       text: this.versioned(`${option.id}/${board}-text${screen}.png`),
       start: option.motion.start[board] || 0,
+    };
+  },
+
+  // Panorama: one field across all three TVs. `span.mp4` holds the boards side by side, in
+  // `boards` order (left TV to right); each board shows its third: { video, text, index, across }.
+  span(option, board, kind) {
+    if (!option.motion || !option.motion.span) return null;
+    const screen = kind === 'screen' ? '-screen' : '';
+    return {
+      video: this.versioned(`${option.id}/span${screen}.mp4`),
+      text: this.versioned(`${option.id}/${board}-text${screen}.png`),
+      index: this.boards.findIndex((b) => b.id === board),
+      across: this.boards.length,
     };
   },
 

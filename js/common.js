@@ -18,10 +18,14 @@
     return C.options[0].id;
   }
 
+  // Grass background: 'still', 'loop' (the same moving field on each TV) or 'span' (one
+  // field across all three). '1' is the older on/off link for 'loop'.
+  const MOTION_MODES = ['still', 'loop', 'span'];
+  const motionMode = (v) => (v === '1' ? 'loop' : MOTION_MODES.includes(v) ? v : null);
   function initialMotion() {
     const fromUrl = new URLSearchParams(location.search).get('motion');
-    if (fromUrl != null) return fromUrl === '1';
-    try { return localStorage.getItem(MOTION_KEY) === '1'; } catch (e) { return false; }
+    if (fromUrl != null) return motionMode(fromUrl) || 'still';
+    try { return motionMode(localStorage.getItem(MOTION_KEY)) || 'still'; } catch (e) { return 'still'; }
   }
 
   // What's on screen: one colorway for every board (`option`), or a per-board `mix`.
@@ -32,7 +36,7 @@
   const state = {
     option: initialOption(),
     mix: null,
-    // Motion toggle: options with `motion` (Grass) show moving footage instead of a still.
+    // Options with `motion` (Grass) can show moving footage instead of a still: see initialMotion.
     motion: initialMotion(),
     set(id, opts = {}) {
       if (!optionById(id) || (id === state.option && !state.mix && !opts.force)) return;
@@ -56,12 +60,12 @@
       lastMix = state.mix;
       notify();
     },
-    setMotion(on) {
-      if (on === state.motion) return;
-      state.motion = on;
-      try { localStorage.setItem(MOTION_KEY, on ? '1' : '0'); } catch (e) {}
+    setMotion(mode) {
+      if (!MOTION_MODES.includes(mode) || mode === state.motion) return;
+      state.motion = mode;
+      try { localStorage.setItem(MOTION_KEY, mode); } catch (e) {}
       const url = new URL(location.href);
-      if (on) url.searchParams.set('motion', '1');
+      if (mode !== 'still') url.searchParams.set('motion', mode);
       else url.searchParams.delete('motion');
       history.replaceState(null, '', url);
       notify();
@@ -91,11 +95,13 @@
   }
 
   // A board's artwork: a muted looping video if the board is animated, else the PNG.
-  // With Motion on, a moving background under the board's text (see motionMedia).
-  // `ready()` resolves once the first frame can be shown.
+  // With Motion or Panorama on, a moving background under the board's text (see motionMedia,
+  // spanMedia). `ready()` resolves once the first frame can be shown.
   function media(option, board, kind, attrs = {}) {
     const poster = C.image(option, board, kind);
-    const motion = state.motion && C.motion(option, board, kind);
+    const span = state.motion === 'span' && C.span(option, board, kind);
+    if (span) return spanMedia(span, poster, attrs);
+    const motion = state.motion === 'loop' && C.motion(option, board, kind);
     if (motion) return motionMedia(motion, poster, attrs);
     const src = C.video(option, board, kind);
     if (!src) {
@@ -143,6 +149,68 @@
       v.readyState >= 2 ? null : new Promise((r) => {
         v.addEventListener('loadeddata', r, { once: true });
         v.addEventListener('error', r, { once: true });
+      }),
+    ]);
+    return node;
+  }
+
+  // Panorama: one wide video holds all three boards side by side. Every board drawing from
+  // the same file shares one playing <video> and copies its third onto a canvas each frame,
+  // so the field stays continuous from TV to TV however the boards are shown.
+  const spanSources = new Map();
+  function spanSource(src) {
+    if (spanSources.has(src)) return spanSources.get(src);
+    const v = el('video', { src, muted: '', loop: '', playsinline: '', preload: 'auto', class: 'span-source', 'aria-hidden': 'true' });
+    v.muted = true;
+    document.body.append(v);
+    const views = new Set();
+    // Each frame is copied once, then every board cuts its third from the copy: reading the
+    // <video> per board can catch the next frame partway through and break the seams.
+    const frameCopy = document.createElement('canvas');
+    const draw = () => {
+      if (v.readyState < 2) return;
+      for (const view of views) if (!view.canvas.isConnected) views.delete(view); // e.g. the viewer closed
+      if (!views.size) return v.pause();
+      const W = v.videoWidth, h = v.videoHeight;
+      if (frameCopy.width !== W) Object.assign(frameCopy, { width: W, height: h });
+      frameCopy.getContext('2d').drawImage(v, 0, 0);
+      for (const view of views) {
+        const w = W / view.across;
+        if (view.canvas.width !== w) Object.assign(view.canvas, { width: w, height: h });
+        view.canvas.getContext('2d').drawImage(frameCopy, w * view.index, 0, w, h, 0, 0, w, h);
+        view.canvas.classList.add('drawn');
+      }
+    };
+    let frame = 0;
+    const tick = () => { draw(); frame = v.paused ? 0 : requestAnimationFrame(tick); };
+    v.addEventListener('playing', () => { if (!frame) frame = requestAnimationFrame(tick); });
+    v.addEventListener('loadeddata', draw);
+    const source = {
+      video: v,
+      add(view) { views.add(view); draw(); v.play().catch(() => {}); },
+      remove(view) { views.delete(view); if (!views.size) v.pause(); },
+    };
+    spanSources.set(src, source);
+    return source;
+  }
+
+  // One board of the panorama: the still underneath until the first frame is drawn, its
+  // third of the shared video on a canvas, and the text PNG on top. Acts like a <video>.
+  function spanMedia({ video: src, text, index, across }, poster, attrs) {
+    const { alt, class: cls, preload, loading, width, height, ...rest } = attrs;
+    const source = spanSource(src);
+    const canvas = el('canvas', { class: 'span-canvas' });
+    const img = el('img', { src: text, alt: '', decoding: 'async', loading });
+    const still = el('img', { src: poster, alt: '', decoding: 'async', loading });
+    const node = el('div', { class: `motion-art${cls ? ` ${cls}` : ''}`, role: 'img', 'aria-label': alt || null, ...rest }, [still, canvas, img]);
+    const view = { canvas, index, across };
+    node.play = () => { source.add(view); return Promise.resolve(); };
+    node.pause = () => source.remove(view);
+    node.ready = () => Promise.all([
+      img.decode().catch(() => {}),
+      source.video.readyState >= 2 ? null : new Promise((r) => {
+        source.video.addEventListener('loadeddata', r, { once: true });
+        source.video.addEventListener('error', r, { once: true });
       }),
     ]);
     return node;
@@ -215,17 +283,37 @@
     return slot;
   }
 
-  // Motion on/off for options that have moving footage (Grass). In the dock it hides unless
-  // a board on screen has a Motion version; `always` keeps it shown (the gallery's Grass heading).
+  // Still / Motion / Panorama for options that have moving footage (Grass). In the dock it
+  // hides unless a board on screen has a Motion version; `always` keeps it shown (the
+  // gallery's Grass heading).
   function motionSwitch(cls = 'panel motion-panel', always = false) {
-    const button = el('button', { type: 'button', role: 'switch', class: 'motion-btn', onclick: () => state.setMotion(!state.motion) },
-      [el('span', { class: 'motion-track', 'aria-hidden': 'true' }), el('span', { text: 'Motion' })]);
-    const node = el('div', { class: cls }, [button]);
+    const modes = [['still', 'Still'], ['loop', 'Motion'], ['span', 'Panorama']];
+    const titles = {
+      still: 'A still photo of the grass behind each board',
+      loop: 'Moving grass behind each board, the same field on every TV',
+      span: 'One moving field of grass across all three TVs',
+    };
+    const radios = modes.map(([id, label]) => el('button', { type: 'button', role: 'radio', 'data-mode': id, title: titles[id], onclick: () => state.setMotion(id) }, [el('span', { text: label })]));
+    const group = el('div', { class: 'seg motion-seg', role: 'radiogroup', 'aria-label': 'Grass background' }, radios);
+    group.addEventListener('keydown', (e) => {
+      const dir = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key];
+      if (!dir) return;
+      e.preventDefault();
+      const i = radios.findIndex((b) => b.dataset.mode === state.motion);
+      const next = radios[(i + dir + radios.length) % radios.length];
+      state.setMotion(next.dataset.mode);
+      next.focus();
+    });
+    const node = el('div', { class: cls }, [group]);
     return {
-      node, button,
+      node,
       sync() {
         node.hidden = !always && !state.hasMotion();
-        button.setAttribute('aria-checked', state.motion);
+        radios.forEach((b) => {
+          const on = b.dataset.mode === state.motion;
+          b.setAttribute('aria-checked', on);
+          b.tabIndex = on ? 0 : -1;
+        });
       },
     };
   }

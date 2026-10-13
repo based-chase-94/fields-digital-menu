@@ -30,6 +30,8 @@ window.BOARD_VERSIONS = {
   "grass/salads-text-screen.png": "2d7f62cca2",
   "grass/salads-text.png": "f2898e387f",
   "grass/salads.png": "3c30cabe5e",
+  "grass/span-screen.mp4": "bd1e26862b",
+  "grass/span.mp4": "ae4ff41c52",
   "sunshine/beverages-screen.png": "64e04ae2e8",
   "sunshine/beverages.png": "c06579e3cb",
   "sunshine/build-screen.png": "078550c0b1",

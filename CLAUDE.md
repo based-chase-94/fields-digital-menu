@@ -29,6 +29,10 @@ move to Cloudflare Pages later.
     (written by `npm run render` for any option that has a `motion.mp4`). No 4K TV masters yet: make them
     only when the user asks. Seeking to a board's moment needs byte-range support: GitHub Pages has it,
     python `http.server` doesn't, so locally every board starts at 0.
+  - **Panorama** (third choice: Still · Motion · Panorama): one field across all three TVs. `span.mp4`
+    (+ `-screen`) is a 48:9 band of the footage, the three boards side by side; one shared `<video>`
+    feeds a canvas per board (`spanMedia` in `js/common.js`), so the seams stay lined up. From the current
+    footage each TV gets 1280×720, fine for the site; for 4K TVs the client is looking for wider or 8K footage.
 - Brand colors are in the canvas at `project/ds/fields/tokens.json`, e.g. Poppy is `#e84a28`.
 
 ## Layout

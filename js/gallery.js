@@ -43,16 +43,18 @@
     doc.append(section);
   }
 
-  // Animated boards only download and play while on screen.
+  // Animated boards only download and play while on screen. Each board's media is a <video>,
+  // or a Motion / Panorama layer that acts like one.
   const io = new IntersectionObserver((entries) => {
     for (const e of entries) {
       if (e.isIntersecting) e.target.play().catch(() => {});
       else e.target.pause();
     }
   }, { rootMargin: '200px 0px' });
-  doc.querySelectorAll('video').forEach((v) => io.observe(v));
+  const watch = (node) => { if (node.play) io.observe(node); };
+  doc.querySelectorAll('.page-art > *').forEach(watch);
 
-  // Motion toggled: swap those boards between still and moving footage.
+  // Still / Motion / Panorama changed: swap those boards' backgrounds.
   let motion = state.motion;
   const syncMotion = () => {
     switches.forEach((sw) => sw.sync());
@@ -60,10 +62,11 @@
     motion = state.motion;
     for (const { o, b, i, frame } of motionArt) {
       const old = frame.firstChild;
-      if (old.video || old.tagName === 'VIDEO') io.unobserve(old.video || old);
+      io.unobserve(old);
+      if (old.pause) old.pause();
       const next = art(o, b, i);
       frame.replaceChildren(next);
-      if (next.video) io.observe(next.video);
+      watch(next);
     }
   };
   syncMotion();

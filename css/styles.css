@@ -118,36 +118,16 @@ button { font: inherit; color: inherit; }
 .pick-menu li svg { width: 16px; height: 16px; margin-left: auto; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; visibility: hidden; }
 .pick-menu li[aria-selected="true"] svg { visibility: visible; }
 
-/* Motion switch: its own panel beside the colorway tabs, shown for Grass */
+/* Still / Motion / Panorama: its own panel beside the colorway tabs, shown for Grass */
 .motion-panel[hidden] { display: none; }
-.motion-btn {
-  display: inline-flex; align-items: center; gap: 10px;
-  min-height: 40px; padding: 0 14px 0 10px;
-  border: 0; border-radius: 10px;
-  background: transparent; color: inherit;
-  font-weight: 500; white-space: nowrap; cursor: pointer;
-  transition: background 160ms var(--ease);
-}
-.motion-btn:hover { background: rgba(255, 255, 255, 0.1); }
-.motion-track {
-  position: relative; flex: none;
-  width: 30px; height: 18px; border-radius: 9px;
-  background: rgba(255, 255, 255, 0.22);
-  transition: background 160ms var(--ease);
-}
-.motion-track::after {
-  content: ''; position: absolute; top: 2px; left: 2px;
-  width: 14px; height: 14px; border-radius: 50%;
-  background: #fff; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-  transition: transform 160ms var(--ease);
-}
-.motion-btn[aria-checked="true"] .motion-track { background: var(--glass-active); }
-.motion-btn[aria-checked="true"] .motion-track::after { background: var(--glass-active-text); }
-.motion-btn[aria-checked="true"] .motion-track::after { transform: translateX(12px); }
 
 /* Moving background with the board's text on top; sized like the <img>/<video> it replaces */
 .motion-art { position: relative; overflow: hidden; }
 .motion-art > * { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+/* Panorama: the shared wide video only feeds the boards' canvases; each canvas shows once drawn */
+.span-source { position: fixed; left: 0; top: 0; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+.motion-art > .span-canvas { opacity: 0; }
+.motion-art > .span-canvas.drawn { opacity: 1; }
 :focus-visible { outline: 2px solid #9ec5ff; outline-offset: 2px; }
 
 /* ================= In-store view ================= */
@@ -323,11 +303,10 @@ button { font: inherit; color: inherit; }
 .doc-option-head:has(.doc-motion) { display: grid; grid-template-columns: 1fr auto; column-gap: 16px; align-items: center; }
 .doc-option-head:has(.doc-motion) p { grid-column: 1; }
 .doc-motion { grid-column: 2; grid-row: 1 / span 2; }
-.doc-motion .motion-btn { background: var(--doc-panel); border: 1px solid var(--doc-line); color: var(--doc-text); }
-.doc-motion .motion-btn:hover { background: var(--doc-hilite); }
-.doc-motion .motion-track { background: #c9cecb; }
-.doc-motion .motion-btn[aria-checked="true"] .motion-track { background: var(--doc-accent); }
-.doc-motion .motion-btn[aria-checked="true"] .motion-track::after { background: #fff; }
+.doc-motion .seg { padding: 4px; background: var(--doc-panel); border: 1px solid var(--doc-line); border-radius: 12px; }
+.doc-motion .seg button { min-height: 34px; padding: 0 12px; }
+.doc-motion .seg button:hover { background: var(--doc-hilite); }
+.doc-motion .seg [aria-checked="true"], .doc-motion .seg [aria-checked="true"]:hover { background: var(--doc-accent); color: #fff; }
 
 .page { margin: 0 0 40px; scroll-margin-top: 32px; }
 .page-art {
@@ -353,10 +332,10 @@ button { font: inherit; color: inherit; }
 @media (max-width: 900px) { .dock-left .dock-label { display: none; } }
 @media (max-width: 780px) { .seg-group .swatch, .mix-tab .mix-dots { display: none; } }
 
-/* Below 1100px the Motion switch doesn't fit beside the tabs: it floats just above them */
-@media (max-width: 1100px) {
+/* Below 1180px Still / Motion / Panorama doesn't fit beside the tabs: it floats just above them */
+@media (max-width: 1180px) {
   .motion-panel { position: absolute; left: 0; bottom: calc(100% + 8px); padding: 4px; }
-  .motion-btn { min-height: 34px; }
+  .motion-seg button { min-height: 34px; padding: 0 12px; }
 }
 
 /* ---------- Small screens ---------- */

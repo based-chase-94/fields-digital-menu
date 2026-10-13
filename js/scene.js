@@ -84,7 +84,7 @@
   // ---- Colorway switching with a crossfade ----
   // Layers are kept per colorway, and per Motion setting for options that have one.
   function layerFor(sc, option) {
-    const key = option.motion && state.motion ? `${option.id}+motion` : option.id;
+    const key = option.motion && state.motion !== 'still' ? `${option.id}+${state.motion}` : option.id;
     if (!sc.imgs[key]) {
       const img = media(option, sc.board.id, 'screen', { alt: '', draggable: 'false' });
       sc.imgs[key] = img;
