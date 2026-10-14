@@ -60,9 +60,6 @@
     "b92ff74f402cb85a646d44c6ceefe775": "assets/field-trip/step2.svg",
     "1930219e5e916519dba999c597027e06": "assets/field-trip/step3.svg",
     "82acaa3b98e91ade47c420b69f10c778": "assets/field-trip/step4.svg",
-    "751d838a999f9ea7a5e48fad33dee1f2": "assets/field-trip/greens.svg",
-    "0302d84639b9b9fe61fc24b674f899a8": "assets/field-trip/grains.svg",
-    "0c0b5a5a79884f3c833bd897562665e9": "assets/field-trip/refreshers.svg",
     "8647c1e19b696e6485f31781ef9752ea": "assets/field-trip/pick-your-field-2.svg",
     "440895a9671bd08cc77240a45189ed86": "assets/field-trip/start-with-2.svg",
     "4202076a8f8917de7b9c51e698782702": "assets/field-trip/harvest-six-2.svg",
@@ -75,7 +72,8 @@
     "52d4baa60b25ff2a85f0cfdd9cfb8b64": "assets/field-trip/field-2.svg",
     "088367d6b171719a7f6558c6dfe4cb27": "assets/field-trip/trip.svg",
     "0c1cbce504853417f3c1de6f7a1607c9": "assets/field-trip/price-2.svg",
-    "d4c09801249a440e80340860ae861576": "assets/field-trip/fields-gathered.svg"
+    "d4c09801249a440e80340860ae861576": "assets/field-trip/fields-gathered.svg",
+    "1fe0f9f8527c0305a1e2ffc981ed1a79": "assets/field-trip/divider.svg"
   },
   "artboards": [
     {
