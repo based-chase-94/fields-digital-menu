@@ -113,6 +113,7 @@
         }
       }
     });
+    screens.forEach((sc) => sc.node.setAttribute('aria-label', `View ${C.boardTitle(optionById(state.optionFor(sc.board.id)), sc.board)} full size`));
     document.title = `${state.mix ? 'Mix & Match' : optionById(state.option).name} · ${C.title}`;
   }
 

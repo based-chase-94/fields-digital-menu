@@ -73,7 +73,9 @@
     "088367d6b171719a7f6558c6dfe4cb27": "assets/field-trip/trip.svg",
     "0c1cbce504853417f3c1de6f7a1607c9": "assets/field-trip/price-2.svg",
     "d4c09801249a440e80340860ae861576": "assets/field-trip/fields-gathered.svg",
-    "1fe0f9f8527c0305a1e2ffc981ed1a79": "assets/field-trip/divider.svg"
+    "1fe0f9f8527c0305a1e2ffc981ed1a79": "assets/field-trip/divider.svg",
+    "10d4524056454e5605159847b99ab544": "assets/field-trip/fields-gathered-stacked.svg",
+    "8fc42b18a74e921aa0aa763704b07bf7": "assets/field-trip/price-3.svg"
   },
   "artboards": [
     {
@@ -135,6 +137,24 @@
       "file": "Grass-Board3.dc.html",
       "option": "grass",
       "board": "beverages"
+    },
+    {
+      "file": "Layout2-Board1.dc.html",
+      "option": "grass-2",
+      "board": "salads",
+      "textLayers": true
+    },
+    {
+      "file": "Layout2-Board2.dc.html",
+      "option": "grass-2",
+      "board": "build",
+      "textLayers": true
+    },
+    {
+      "file": "Layout2-Board3.dc.html",
+      "option": "grass-2",
+      "board": "beverages",
+      "textLayers": true
     }
   ]
 }

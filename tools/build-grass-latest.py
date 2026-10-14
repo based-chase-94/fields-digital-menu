@@ -1,6 +1,7 @@
-# Builds the Grass artboards (Grass-Board1/2/3.dc.html) from Figma's "LATEST BOARDS" page
+# Builds the Grass artboards from Figma's "LATEST BOARDS" page. Layout 1 (Grass-Board1/2/3.dc.html), the first row:
 # (frames 79:1462 Signature "Fields Gathered", 119:8445 "Build Your Own - NEW" Field Trip,
-# 120:60 "Ingredients + Bevs"). Positions and sizes are Figma's.
+# 120:60 "Ingredients + Bevs"). Layout 2 (Layout2-Board1/2/3.dc.html) is the second row, frames 1, 2, 3.
+# Positions and sizes are Figma's.
 # Board 1's title, board 2's lettering and board 3's divider are Figma's vector exports in design/assets/field-trip/.
 #
 # Usage: python3 tools/build-grass-latest.py design            # the real boards (grass photos)
@@ -23,7 +24,8 @@ PHOTO = {'salads': '0695e19f2e566c2e77d4f26eb2678687', 'build': '2a611a6d12b65f1
 C = dict(name='Option D', bg=FOREST if FLAT else '#1d2716', ink=WHITE, acc=SUN, pill=SUN, pillink=FOREST,
          logo=None, **({} if FLAT else {'photo': PHOTO}))
 SVG = {  # canvas blob ids; design/manifest.json maps them to design/assets/field-trip/<name>.svg
-    'fields-gathered': 'd4c09801249a440e80340860ae861576', 'divider': '1fe0f9f8527c0305a1e2ffc981ed1a79', 'path83': 'e8e5569f9b638941f0e20ddb220637fa', 'step1': '043eb4097ea4fbbed468e78b36cc57d0',
+    'fields-gathered': 'd4c09801249a440e80340860ae861576', 'divider': '1fe0f9f8527c0305a1e2ffc981ed1a79',
+    'fields-gathered-stacked': '10d4524056454e5605159847b99ab544', 'price-3': '8fc42b18a74e921aa0aa763704b07bf7', 'path83': 'e8e5569f9b638941f0e20ddb220637fa', 'step1': '043eb4097ea4fbbed468e78b36cc57d0',
     'step2': 'b92ff74f402cb85a646d44c6ceefe775', 'step3': '1930219e5e916519dba999c597027e06',
     'step4': '82acaa3b98e91ade47c420b69f10c778', 'pick-your-field-2': '8647c1e19b696e6485f31781ef9752ea',
     'start-with-2': '440895a9671bd08cc77240a45189ed86', 'harvest-six-2': '4202076a8f8917de7b9c51e698782702',
@@ -132,6 +134,98 @@ def beverages():
     b += drink('Bluebird', '$9.50', ['Refreshing blueberry lavender', 'iced tea'])
     return b + '</div>\n'
 
+# ================================================================== Layout 2: the second row
+# Figma frames 121:403 "1" (left TV), 121:470 "2" (centre), 121:564 "3" (right): the bowls split over
+# two boards with Refreshers, and Field Trip on the right. Written as Layout2-Board1/2/3.dc.html.
+
+def bowls2(x, width, items):
+    """Three bowls in Figma's equal-height grid (229 to 1930, 246 between rows)."""
+    def item(name, price, desc):
+        return (f'<div style="display: flex; flex-direction: column; gap: 52px">'
+                f'<div style="display: flex; align-items: flex-start; gap: 36px">'
+                f'<span style="position: relative; top: 1px; {HOTL}; font-size: 112px; line-height: 73.6px; white-space: nowrap">{name}</span>'
+                f'<span style="flex: 1 0 0; min-width: 1px; height: 76px"></span>'
+                f'<span style="position: relative; top: 1px; font-size: 106px; font-weight: 600; line-height: 73.6px; color: {SUN}; white-space: nowrap">{price}</span></div>'
+                f'<p style="margin: 0; font-size: 72px; font-weight: 400; line-height: normal; letter-spacing: -1px; white-space: nowrap; '
+                f'font-feature-settings: \'dlig\' 1">' + '<br>'.join(desc) + '</p></div>')
+    return (f'<div style="position: absolute; left: {x}px; top: 229px; width: {width}px; height: 1701px; display: grid; '
+            f'grid-template-rows: repeat(3, minmax(0, 1fr)); row-gap: 246px">' + ''.join(item(*i) for i in items) + '</div>\n')
+
+def signature2():
+    b = svg('fields-gathered-stacked', 197, 229, 1114.92, 541.554, alt='Fields Gathered')
+    b += (f'<p style="position: absolute; left: 220px; top: 850px; margin: 0; {HOTL}; font-size: 106px; line-height: 120px; '
+          f'white-space: nowrap">OUR FAVORITE<br>PLACES, IN A BOWL</p>\n')
+    b += ('<p style="position: absolute; left: 204px; top: 1916px; margin: 0; font-size: 72px; font-weight: 500; line-height: normal; '
+          'letter-spacing: -1px; white-space: nowrap; font-feature-settings: \'dlig\' 1">All meals can be made vegan</p>\n')
+    b += bowls2(1643, 1986, [
+        ('Strawberry Fields', '$13.25', ['Spinach + tri-color quinoa, citrus-herb char chicken,', 'sliced strawberries, walnuts, avocado, crumbled',
+                                         'feta, almond brittle pieces, citrus-poppyseed', 'vinaigrette']),
+        ('High Plains', '$14.50', ['Spinach + kale, blackened chicken, applewood bacon,', 'sliced hardboiled egg, charred corn, tri-color cherry',
+                                   'tomatoes, avocado, grilled poblano, sourdough', 'focaccia croutons, Colorado ranch, hot honey drizzle']),
+        ('Blue Zone', '$15.75', ['Spinach + romaine hearts, miso-glazed salmon,', 'roasted sweet potato, watermelon radish, carrot',
+                                 'ribbons, toasted nori puffs, avocado, edamame,', 'sesame-miso dressing']),
+    ])
+    return b
+
+def bowls_refreshers2():
+    b = bowls2(208, 1888, [
+        ('Baja BOWL', '$13.50', ['Spinach, citrus-herb char chicken, charred corn,', 'black beans, avocado, roasted sweet potato,',
+                                 'house-made pico de gallo, crispy cotija waffles,', 'chili-lime vinaigrette, fresh lime wedge']),
+        ('COASTAL CAESAR', '$12.95', ['Shredded kale + romaine hearts, blackened chicken,', 'tri-color cherry tomatoes, sourdough focaccia',
+                                      'croutons, shaved parmesan, vegan caesar dressing,', 'fresh lemon wedge']),
+        ('FIELDS NOTES', '$13.50', ['Kale + spinach, roasted sweet potato, roasted', 'broccoli, mixed mushrooms, sliced apple, blue',
+                                    'cheese crumbles, sliced almonds, honey-thyme', 'dressing, hot honey drizzle']),
+    ])
+    b += (f'<h2 style="position: absolute; left: 2350px; top: {327 - 60.9:g}px; margin: 0; {MID}; font-size: 253px; line-height: 121.8px; '
+          f'color: {SUN}; white-space: nowrap">Refreshers</h2>\n')
+    b += ('<p style="position: absolute; left: 2340px; top: 545px; margin: 0; font-size: 72px; font-weight: 500; line-height: normal; '
+          'letter-spacing: -1px; white-space: nowrap; font-feature-settings: \'dlig\' 1">House-made, globally-inspired</p>\n')
+    def drink(name, price, desc):
+        return (f'<div style="display: flex; flex-direction: column; gap: 24px">'
+                f'<div style="display: flex; align-items: center; justify-content: space-between; height: 74px; line-height: 73.6px; white-space: nowrap">'
+                f'<span style="{HOTL}; font-size: 112px">{name}</span>'
+                f'<span style="font-size: 98px; font-weight: 600; color: {SUN}">{price}</span></div>'
+                f'<p style="margin: -1px 0 0; height: {87 * len(desc) + 1}px; font-size: 72px; font-weight: 400; line-height: normal; letter-spacing: -1px; '
+                f'white-space: nowrap; font-feature-settings: \'dlig\' 1">' + '<br>'.join(desc) + '</p></div>')
+    b += '<div style="position: absolute; left: 2349px; top: 760px; width: 1310px; display: flex; flex-direction: column; gap: 139px">'
+    b += drink('Arnold Palmer', '$8.95', ['Sweet tea &amp; lemonade'])
+    b += drink('Valencia', '$8.95', ['Fresh orange juice &amp; lemon'])
+    b += drink('Flamingo', '$9.25', ['Tropical hibiscus &amp; lemonade'])
+    b += drink('Bluebird', '$9.50', ['Refreshing blueberry lavender', 'iced tea'])
+    return b + '</div>\n'
+
+def field_trip2():
+    # Same Field Trip pieces as Layout 1's board 2 (Figma re-exports them identical to 0.0002 px), arranged
+    # with the price beside STARTS AT and a Greens + Grains list underneath.
+    x, y, w, h = inset(18.94, 59.15, 54.49, 5.1)
+    b = svg('ticket-2', x, y, w, h)
+    b += svg('field-2', 324.02, 516.26, 746.523, 318.129, alt='Field')
+    b += svg('trip', 1281.49 + (111.911 - 324.073) / 2, 529.37 + (326.294 - 104.83) / 2, 324.073, 104.83, alt='Trip', transform='rotate(88.74deg)')
+    b += f'<p style="position: absolute; left: 221px; top: 233px; margin: 0; {HOTL}; font-size: 130px; line-height: 123.6px; white-space: nowrap">BUILD YOUR</p>\n'
+    b += f'<p style="position: absolute; left: 324px; top: 1037px; margin: 0; {HOTL}; font-size: 100px; line-height: 123.6px; letter-spacing: 17px; white-space: nowrap">STARTS AT</p>\n'
+    b += svg('price-3', 1041, 1038, 527.543, 200.174, alt='$9.95')
+    b += f'<p style="position: absolute; left: 221px; top: 1439px; margin: 0; {HOTL}; font-size: 118px; line-height: 123.6px; white-space: nowrap">GREENS + GRAINS</p>\n'
+    b += (f'<p style="position: absolute; left: 227px; top: 1591px; margin: 0; font-size: 80px; font-weight: 400; line-height: 123.6px; white-space: nowrap">'
+          f'Romaine Hearts · Arugula<br>Baby Spinach · Kale<br><span style="color: {SUN}">Wild Rice · Tri-Color Quinoa</span></p>\n')
+    x, y, w, h = inset(48.11, 49.35, 51.85, 50.57)  # the stray 3x1 px path, as in Figma
+    b += svg('path83', x, y, w, h, transform='scaleY(-1)')
+    for key, x, y, w, h, alt in [
+        ('step1', 1937, 377, 231, 128.452, '1'),
+        ('pick-your-field-2', 2219.52, 387.93, 1148.769, 99.496, 'Pick your field'),
+        ('start-with-2', 2217.27, 535.99, 1333.993, 67.19, 'Start with 2 greens or 1 green and 1 grain'),
+        ('step2', 1928, 816.18, 231, 129.712, '2'),
+        ('harvest-six-2', 2205.17, 829.67, 893.611, 99.496, 'Harvest six'),
+        ('take-flight-2', 2202.31, 980.45, 1152.224, 67.336, 'Take flight with six field ingredients'),
+        ('step3', 1920, 1260.79, 231, 130.972, '3'),
+        ('upgrade-your-trip-2', 2201.27, 1277.69, 1423.38, 99.496, 'Upgrade your trip'),
+        ('fuel-up-2', 2201.27, 1425.22, 1351.792, 67.263, 'Fuel up with proteins and premium extras'),
+        ('step4', 1920, 1705.48, 231, 128.485, '4'),
+        ('final-approach-2', 2199.28, 1717.66, 1201.287, 99.496, 'Final approach'),
+        ('choose-dressing-2', 2199.28, 1860.84, 1013.461, 67.191, 'Choose a house-made dressing'),
+    ]:
+        b += svg(key, x, y, w, h, alt=alt)
+    return b
+
 def clean(html):  # the shell adds a logo when there is one; these boards have none
     return '\n'.join(l for l in html.split('\n') if '/_blob/None' not in l)
 
@@ -140,4 +234,9 @@ for name, board, title, fn in [('Grass-Board1.dc.html', 'salads', 'Board 1: Fiel
                                ('Grass-Board3.dc.html', 'beverages', 'Board 3: Ingredients + Bevs', beverages)]:
     html = clean(page(C, board, f'Option D {title}', fn()))
     open(os.path.join(out, name), 'w').write(html)
-print('wrote 3 Grass artboards to', out, '(flat Forest ground)' if FLAT else '')
+for name, board, title, fn in [('Layout2-Board1.dc.html', 'salads', 'Board 1: Fields Gathered', signature2),
+                               ('Layout2-Board2.dc.html', 'build', 'Board 2: Bowls + Refreshers', bowls_refreshers2),
+                               ('Layout2-Board3.dc.html', 'beverages', 'Board 3: Build your Field Trip', field_trip2)]:
+    html = clean(page(C, board, f'Option E {title}', fn()))
+    open(os.path.join(out, name), 'w').write(html)
+print('wrote 6 Grass artboards (layouts 1 and 2) to', out, '(flat Forest ground)' if FLAT else '')

@@ -236,7 +236,8 @@
         onclick: () => state.set(o.id),
       }, [swatch(o), el('span', { text: o.name })])
     );
-    const group = el('div', { class: 'seg-group', role: 'radiogroup', 'aria-label': 'Colorway' }, radios);
+    const label = C.optionsLabel || 'Colorway';
+    const group = el('div', { class: 'seg-group', role: 'radiogroup', 'aria-label': label }, radios);
     group.addEventListener('keydown', (e) => {
       const dir = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key];
       if (!dir) return;
@@ -246,10 +247,10 @@
       state.set(next.dataset.option);
       next.focus();
     });
-    const mixTab = el('button', { type: 'button', class: 'mix-tab', onclick: () => setOpen(true) },
+    const mixTab = C.mixAndMatch === false ? null : el('button', { type: 'button', class: 'mix-tab', onclick: () => setOpen(true) },
       [mixDots(), el('span', { text: 'Mix & Match' })]);
     const tabs = el('div', { class: 'panel' }, [
-      el('span', { class: 'dock-label', text: 'Colorway' }),
+      el('span', { class: 'dock-label', text: label }),
       el('div', { class: 'seg' }, [group, mixTab]),
     ]);
 
@@ -275,14 +276,14 @@
       if (openMenu) openMenu.close();
       slot.replaceChildren(...(on ? [back, mixGroup] : [tabs]), motion.node);
       slot.classList.toggle('mixing', on);
-      if (focus) (on ? pickers[0].button : mixTab).focus({ preventScroll: true });
+      if (focus) (on ? pickers[0].button : mixTab || radios.find((b) => b.tabIndex === 0) || radios[0]).focus({ preventScroll: true });
     }
 
     const sync = () => {
       radios.forEach((b) => b.setAttribute('aria-checked', !state.mix && b.dataset.option === state.option));
       const current = radios.find((b) => b.getAttribute('aria-checked') === 'true') || radios[0];
       radios.forEach((b) => { b.tabIndex = b === current ? 0 : -1; });
-      mixTab.setAttribute('aria-pressed', !!state.mix);
+      if (mixTab) mixTab.setAttribute('aria-pressed', !!state.mix);
       pickers.forEach((p) => p.sync());
       motion.sync();
     };
@@ -429,10 +430,11 @@
     render() {
       const board = C.boards[this.index];
       const option = optionById(typeof this.colorway === 'function' ? this.colorway(board.id) : this.colorway);
-      const art = media(option, board.id, 'full', { class: 'viewer-img', alt: `${option.name}: ${board.title} menu board` });
+      const title = C.boardTitle(option, board);
+      const art = media(option, board.id, 'full', { class: 'viewer-img', alt: `${option.name}: ${title} menu board` });
       this.stage.replaceChildren(art);
       if (art.play) art.play().catch(() => {});
-      this.caption.replaceChildren(swatch(option), el('strong', { text: option.name }), el('span', { text: ` · ${board.title}` }));
+      this.caption.replaceChildren(swatch(option), el('strong', { text: option.name }), el('span', { text: ` · ${title}` }));
       this.count.textContent = `${this.index + 1} / ${C.boards.length}`;
     },
     build() {

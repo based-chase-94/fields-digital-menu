@@ -1,7 +1,7 @@
 // Renders every artboard listed in design/manifest.json to
 //   assets/boards/<option>/<board>.png         full-size (3840x2160) artwork
 //   assets/boards/<option>/<board>-screen.png  1600x900, used inside the photo
-//   assets/boards/<option>/<board>-text(-screen).png  text alone, for options with a motion.mp4
+//   assets/boards/<option>/<board>-text(-screen).png  text alone, for options with Motion footage
 // Usage: cd tools && npm run render [-- <option-id> ...]
 import { chromium } from 'playwright';
 import fs from 'node:fs/promises';
@@ -28,8 +28,9 @@ for (const art of artboardsFor(process.argv.slice(2))) {
     console.log('✓', path.relative(ROOT, file));
   }
   // An option with a moving background (motion.mp4, see grass-motion.mjs) also gets the
-  // board's text alone on a transparent layer, which the site lays over the video.
-  if (await fs.access(path.join(OUT, art.option, 'motion.mp4')).then(() => true, () => false)) {
+  // board's text alone on a transparent layer, which the site lays over the video. So does an
+  // artboard marked `textLayers` in the manifest (an option that borrows another's footage).
+  if (art.textLayers || await fs.access(path.join(OUT, art.option, 'motion.mp4')).then(() => true, () => false)) {
     for (const [scale, suffix] of [[1, '-text'], [screen.width / width, '-text-screen']]) {
       const page = await loadPage(browser, art.file, scale);
       await page.addStyleTag({ content: 'body, body > div { background: transparent !important; }' });

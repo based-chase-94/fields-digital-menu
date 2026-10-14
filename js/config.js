@@ -12,9 +12,15 @@
  * tabs and Mix & Match hide themselves.
  *
  * Adding a board: add it to `boards`; to show it in the photo, give it a `screens` entry.
+ *
+ * The live options are now two menu layouts on the same Grass ground (`optionsLabel`), each a
+ * row of Figma's LATEST BOARDS page. An option's `titles` names its boards where they differ
+ * from `boards`.
  */
 window.MENU_CONFIG = {
   title: 'Fields · Menu Boards',
+  optionsLabel: 'Layout', // the bottom-left tabs choose between these
+  mixAndMatch: false,     // per-TV mixing would repeat dishes across the two layouts
 
   photo: {
     src: 'assets/photo.jpg',
@@ -34,7 +40,7 @@ window.MENU_CONFIG = {
   ],
 
   // Mix & Match starts from this combination (board → colorway) the first time it's opened.
-  mixDefaults: { salads: 'almond', build: 'forest', beverages: 'sunshine' },
+  mixDefaults: { salads: 'grass', build: 'grass-2', beverages: 'grass' },
 
   // Corners of each black TV area in photo pixels, clockwise from top-left.
   // Measured by fitting lines to the edges of the black fill (under 1.2px error).
@@ -63,10 +69,21 @@ window.MENU_CONFIG = {
     // `motion`: Still / Motion / Panorama. Motion swaps the stills for the moving footage (one
     // shared loop, tools/grass-motion.mjs) under each board's text; `start` is each board's
     // moment in the loop, matching its still. `span`: Panorama, one field across all three TVs.
-    { id: 'grass', name: 'Grass', ground: '#3f5a22', accent: '#f9e14d',
-      description: 'Grass photo ground, white text, Sunshine headlines and prices',
+    { id: 'grass', name: 'Layout 1', ground: '#3f5a22', accent: '#f9e14d',
+      description: 'First row in Figma: Fields Gathered, Build Your Field Trip, Ingredients + Refreshers',
       motion: { start: { salads: 0, build: 9.5, beverages: 17.5 }, span: true } },
+    // The second row in Figma (frames 1, 2, 3): same ground and footage (`motion.from`), the
+    // bowls over two boards with Refreshers, and Field Trip on the right TV.
+    { id: 'grass-2', name: 'Layout 2', ground: '#3f5a22', accent: '#f9e14d',
+      description: 'Second row in Figma: Fields Gathered, Bowls + Refreshers, Build Your Field Trip',
+      titles: { salads: 'Fields Gathered', build: 'Bowls + Refreshers', beverages: 'Build Your Field Trip' },
+      motion: { from: 'grass', start: { salads: 0, build: 9.5, beverages: 17.5 }, span: true } },
   ],
+
+  // A board's name in this option: its own `titles` entry, else the board's title.
+  boardTitle(option, board) {
+    return (option.titles && option.titles[board.id]) || board.title;
+  },
 
   // Where artwork lives; an option may override with its own `images: { <board>: {full, screen} }`.
   image(option, board, kind) {
@@ -83,12 +100,13 @@ window.MENU_CONFIG = {
   },
 
   // With Motion on, an option with `motion` shows a moving background under the board's
-  // text: { video, text, start }, or null. The still PNG stays as the poster.
+  // text: { video, text, start }, or null. The still PNG stays as the poster. The footage
+  // comes from `motion.from` (another option's folder) when the option shares it.
   motion(option, board, kind) {
     if (!option.motion) return null;
     const screen = kind === 'screen' ? '-screen' : '';
     return {
-      video: this.versioned(`${option.id}/motion${screen}.mp4`),
+      video: this.versioned(`${option.motion.from || option.id}/motion${screen}.mp4`),
       text: this.versioned(`${option.id}/${board}-text${screen}.png`),
       start: option.motion.start[board] || 0,
     };
@@ -100,7 +118,7 @@ window.MENU_CONFIG = {
     if (!option.motion || !option.motion.span) return null;
     const screen = kind === 'screen' ? '-screen' : '';
     return {
-      video: this.versioned(`${option.id}/span${screen}.mp4`),
+      video: this.versioned(`${option.motion.from || option.id}/span${screen}.mp4`),
       text: this.versioned(`${option.id}/${board}-text${screen}.png`),
       index: this.boards.findIndex((b) => b.id === board),
       across: this.boards.length,

@@ -9,11 +9,11 @@
   const motionArt = []; // boards of options with a Motion version, rebuilt when it's toggled
   const switches = [];
 
-  const art = (o, b, i) => media(o, b.id, 'full', { alt: `${o.name}: ${b.title} menu board`, loading: i === 0 && o === C.options[0] ? 'eager' : 'lazy', width: '3840', height: '2160', preload: 'none' });
+  const art = (o, b, i) => media(o, b.id, 'full', { alt: `${o.name}: ${C.boardTitle(o, b)} menu board`, loading: i === 0 && o === C.options[0] ? 'eager' : 'lazy', width: '3840', height: '2160', preload: 'none' });
 
   for (const o of C.options) {
     const sub = el('ol', { class: 'toc-boards' }, C.boards.map((b, i) => {
-      const a = el('a', { href: `#${anchor(o, b)}` }, [el('span', { class: 'toc-num', text: String(i + 1) }), el('span', { text: b.title })]);
+      const a = el('a', { href: `#${anchor(o, b)}` }, [el('span', { class: 'toc-num', text: String(i + 1) }), el('span', { text: C.boardTitle(o, b) })]);
       tocLinks.set(anchor(o, b), a);
       return el('li', {}, [a]);
     }));
@@ -33,11 +33,11 @@
       section.firstChild.append(sw.node);
     }
     C.boards.forEach((b, i) => {
-      const frame = el('button', { type: 'button', class: 'page-art', 'aria-label': `View ${o.name} ${b.title} full size`, onclick: () => viewer.open(o.id, b.id) }, [art(o, b, i)]);
+      const frame = el('button', { type: 'button', class: 'page-art', 'aria-label': `View ${o.name} ${C.boardTitle(o, b)} full size`, onclick: () => viewer.open(o.id, b.id) }, [art(o, b, i)]);
       if (o.motion) motionArt.push({ o, b, i, frame });
       section.append(el('figure', { class: 'page', id: anchor(o, b), 'data-option': o.id }, [
         frame,
-        el('figcaption', {}, [el('span', { text: b.title }), el('span', { class: 'page-num', text: `Board ${i + 1} of ${C.boards.length}` })]),
+        el('figcaption', {}, [el('span', { text: C.boardTitle(o, b) }), el('span', { class: 'page-num', text: `Board ${i + 1} of ${C.boards.length}` })]),
       ]));
     });
     doc.append(section);

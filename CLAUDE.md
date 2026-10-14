@@ -18,9 +18,15 @@ move to Cloudflare Pages later.
   - [`design/manifest.json`](design/manifest.json) maps each artboard file to a colorway and board. It also maps each canvas `/_blob/<id>` asset to a local file.
 - **The user edits the canvas live.** Always re-read the files you need from the canvas before
   relying on the local copies. Publishing to the canvas needs a fresh read first: a stale publish is refused as a conflict.
-- Colorway ids: `almond`, `forest`, `sunshine`, `grass`. **Only Grass is live:** the other three are archived
-  (`archived: true` in `js/config.js`; the site hides them, and with one colorway left the dock shows only
-  Still · Motion · Panorama). In the canvas, rows A–C are on the **Archive** page; Grass is on the first page.
+- Colorway ids: `almond`, `forest`, `sunshine`, `grass`, `grass-2`. Almond, Forest and Sunshine are archived
+  (`archived: true` in `js/config.js`; the site hides them). In the canvas, rows A–C are on the **Archive** page.
+- **Two menu layouts are live**, both on the grass ground, chosen with the bottom-left **Layout** tabs
+  (`optionsLabel`; Mix & Match is off with `mixAndMatch: false`):
+  - **Layout 1** (`grass`, canvas row D, `Grass-Board*.dc.html`): the first row of Figma's LATEST BOARDS page.
+  - **Layout 2** (`grass-2`, canvas row E, `Layout2-Board*.dc.html`): the second row (frames 1, 2, 3). Its boards
+    have their own captions (`titles`), and it borrows Layout 1's footage (`motion.from: 'grass'`); its text
+    layers come from `textLayers: true` on its artboards in `design/manifest.json`.
+  - `python3 tools/build-grass-latest.py design` regenerates all six artboards from the Figma positions.
 - Board ids: `salads` (left TV), `build` (center), `beverages` (right).
 - Grass (canvas row D, `Grass-Board*.dc.html`):
   - The backgrounds are stills from `assets/grass.mp4`, the coming-soon footage without the logo. That file is git-ignored at 185 MB.
