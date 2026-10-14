@@ -1,5 +1,5 @@
 # Builds the Grass artboards (Grass-Board1/2/3.dc.html) from Figma's "LATEST BOARDS" page
-# (frames 118:6885 Signature "Fields Gathered", 119:8445 "Build Your Own - NEW" Field Trip,
+# (frames 79:1462 Signature "Fields Gathered", 119:8445 "Build Your Own - NEW" Field Trip,
 # 118:7207 Beverages "Greens / Grains / Refreshers"). Positions and sizes are Figma's.
 # Board 2's lettering and Board 3's titles are Figma's vector exports in design/assets/field-trip/.
 #
@@ -23,7 +23,7 @@ PHOTO = {'salads': '0695e19f2e566c2e77d4f26eb2678687', 'build': '2a611a6d12b65f1
 C = dict(name='Option D', bg=FOREST if FLAT else '#1d2716', ink=WHITE, acc=SUN, pill=SUN, pillink=FOREST,
          logo=None, **({} if FLAT else {'photo': PHOTO}))
 SVG = {  # canvas blob ids; design/manifest.json maps them to design/assets/field-trip/<name>.svg
-    'path83': 'e8e5569f9b638941f0e20ddb220637fa', 'step1': '043eb4097ea4fbbed468e78b36cc57d0',
+    'fields-gathered': 'd4c09801249a440e80340860ae861576', 'path83': 'e8e5569f9b638941f0e20ddb220637fa', 'step1': '043eb4097ea4fbbed468e78b36cc57d0',
     'step2': 'b92ff74f402cb85a646d44c6ceefe775', 'step3': '1930219e5e916519dba999c597027e06',
     'step4': '82acaa3b98e91ade47c420b69f10c778', 'pick-your-field-2': '8647c1e19b696e6485f31781ef9752ea',
     'start-with-2': '440895a9671bd08cc77240a45189ed86', 'harvest-six-2': '4202076a8f8917de7b9c51e698782702',
@@ -53,21 +53,20 @@ def signature():
                 f'<div style="display: flex; align-items: flex-start; gap: 36px">'
                 f'<span style="{HOTL}; font-size: 106px; line-height: 73.6px; white-space: nowrap">{name}</span>'
                 f'<span style="flex: 1 0 0; min-width: 1px; height: 76px"></span>'
-                f'<span style="font-size: 106px; font-weight: 600; line-height: 73.6px; color: {SUN}; white-space: nowrap">{price}</span></div>'
+                f'<span style="position: relative; top: 1px; font-size: 106px; font-weight: 600; line-height: 73.6px; color: {SUN}; white-space: nowrap">{price}</span></div>'
                 f'<p style="margin: 0; font-size: 58px; font-weight: 400; line-height: 70px; letter-spacing: {tracking}px; white-space: nowrap; font-feature-settings: \'dlig\' 1">'
                 + '<br>'.join(desc) + '</p></div>')
-    b = (f'<h2 style="position: absolute; left: 130px; top: {283 - 60.9:g}px; width: 2142px; margin: 0; {MID}; font-size: 282px; '
-         f'line-height: 121.8px; color: {SUN}; white-space: nowrap">Fields Gathered</h2>\n')
+    b = svg('fields-gathered', 132.36, 161.74, 1911.191, 284.856, alt='Fields Gathered')
     b += (f'<p style="position: absolute; right: {W - 3709}px; top: 188px; margin: 0; {HOTL}; font-size: 106px; line-height: 120px; '
           f'text-align: right; white-space: nowrap">OUR FAVORITE<br>PLACES, IN A BOWL</p>\n')
     b += ('<div style="position: absolute; left: 130px; top: 619px; width: 3579px; display: grid; '
           'grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 130px; row-gap: 156px">')
-    b += item('Strawberry Fields', '$13.75', ['Spinach, tri-color quinoa, citrus-herb charred chicken, sliced', 'strawberries, sliced almonds, avocado, feta cheese crumbles,', 'almond brittle, citrus-poppyseed vinaigrette'])
-    b += item('Baja Bowl', '$14.75', ['Spinach + tri-color quinoa, citrus-herb chicken, charred corn, black', 'beans, avocado, sweet potato, pico, cilantro, cotija cakes, lime', 'wedge, chili-lime vinaigrette'])
-    b += item('High Plains', '$15.75', ['Spinach + kale, blackened chicken, full-slice bacon, hardboiled eggs,', 'charred Colorado corn, cherry tomatoes, avocado, shredded', 'cheddar, focaccia croutons, Colorado ranch dressing, hot honey', 'drizzle, charred poblano chili'])
-    b += item('Coastal Caesar', '$10.95', ['Shredded kale + romaine (or tri-colored quinoa), heirloom cherry', 'tomatoes, focaccia croutons, shaved parmesan, parmesan-pecorino', 'waffles, lemon wedge, vegan caesar dressing'])
-    b += item('Blue Zone', '$14.95', ['Baby spinach + romaine hearts, miso-glazed salmon, sweet potato,', 'watermelon radish, carrot ribbons, avocado, pickled ginger,', 'mushroom hand roll, sesame-miso dressing'])
-    b += item('Fields Notes', '$15.95', ['Kale + spinach (or tri-colored quinoa), black pepper steak, sweet', 'potato, grilled portobello, thinly sliced apples, blue cheese crumbles,', 'sliced almonds, dried cherries, honey-thyme dressing, hot honey drizzle'], tracking=-2)
+    b += item('Strawberry Fields', '$13.25', ['Spinach, tri-color quinoa, citrus-herb char chicken, sliced', 'strawberries, walnuts, avocado, crumbled feta, almond brittle', 'pieces, citrus-poppyseed vinaigrette'])
+    b += item('Baja Bowl', '$13.50', ['Spinach, citrus-herb char chicken, charred corn, black beans,', 'avocado, roasted sweet potato, house-made pico de gallo, crispy', 'cotija waffles, chili-lime vinaigrette, fresh lime wedge'])
+    b += item('High Plains', '$14.50', ['Spinach and kale, blackened chicken, applewood bacon, sliced', 'hardboiled egg, charred corn, tri-color cherry tomatoes, avocado,', 'grilled poblano, sourdough focaccia croutons, Colorado ranch, hot', 'honey drizzle'])
+    b += item('Coastal Caesar', '$12.95', ['Shredded kale + romaine hearts, blackened chicken, tri-color cherry', 'tomatoes, sourdough focaccia croutons, shaved parmesan, vegan', 'caesar dressing, fresh lemon wedge'])
+    b += item('Blue Zone', '$15.75', ['Spinach + romaine hearts, miso-glazed salmon, roasted sweet', 'potato, watermelon radish, carrot ribbons, toasted nori puffs,', 'avocado, edamame, sesame-miso dressing'])
+    b += item('Fields Notes', '$13.50', ['Kale + spinach, roasted sweet potato, roasted broccoli, mixed', 'mushrooms, sliced apple, blue cheese crumbles, sliced almonds, honey-', 'thyme dressing, hot honey drizzle'], tracking=-2)
     return b + '</div>\n'
 
 # ------------------------------------------------------------------ Board 2: Build your Field Trip
