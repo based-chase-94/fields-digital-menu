@@ -28,9 +28,9 @@ window.MENU_CONFIG = {
 
   // `short` labels the board's picker in Mix & Match.
   boards: [
-    { id: 'salads', title: 'Salads & Grain Bowls', short: 'Salads' },
-    { id: 'build', title: 'Build Your Own', short: 'BYO' },
-    { id: 'beverages', title: 'Beverages + more', short: 'Beverages' },
+    { id: 'salads', title: 'Fields Gathered', short: 'Salads' },
+    { id: 'build', title: 'Build Your Field Trip', short: 'BYO' },
+    { id: 'beverages', title: 'Greens, Grains + Refreshers', short: 'Beverages' },
   ],
 
   // Mix & Match starts from this combination (board → colorway) the first time it's opened.
