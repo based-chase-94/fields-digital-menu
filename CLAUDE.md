@@ -23,7 +23,7 @@ move to Cloudflare Pages later.
 - **Two menu layouts are live**, both on the grass ground, chosen with the bottom-left **Layout** tabs
   (`optionsLabel`; Mix & Match is off with `mixAndMatch: false`):
   - **Layout 1** (`grass`, canvas row D, `Grass-Board*.dc.html`): the first row of Figma's LATEST BOARDS page.
-  - **Layout 2** (`grass-2`, canvas row E, `Layout2-Board*.dc.html`): the second row (frames 1, 2, 3). Its boards
+  - **Layout 2** (`grass-2`, canvas row E, `Layout2-Board*.dc.html`): the second row, Field Trip first (frames 3, 1, 2). Its boards
     have their own captions (`titles`), and it borrows Layout 1's footage (`motion.from: 'grass'`); its text
     layers come from `textLayers: true` on its artboards in `design/manifest.json`.
   - `python3 tools/build-grass-latest.py design` regenerates all six artboards from the Figma positions.

@@ -72,11 +72,11 @@ window.MENU_CONFIG = {
     { id: 'grass', name: 'Layout 1', ground: '#3f5a22', accent: '#f9e14d',
       description: 'First row in Figma: Fields Gathered, Build Your Field Trip, Ingredients + Refreshers',
       motion: { start: { salads: 0, build: 9.5, beverages: 17.5 }, span: true } },
-    // The second row in Figma (frames 1, 2, 3): same ground and footage (`motion.from`), the
-    // bowls over two boards with Refreshers, and Field Trip on the right TV.
+    // The second row in Figma (frames 1, 2, 3): same ground and footage (`motion.from`), Field
+    // Trip on the left TV, then the bowls over two boards with Refreshers.
     { id: 'grass-2', name: 'Layout 2', ground: '#3f5a22', accent: '#f9e14d',
-      description: 'Second row in Figma: Fields Gathered, Bowls + Refreshers, Build Your Field Trip',
-      titles: { salads: 'Fields Gathered', build: 'Bowls + Refreshers', beverages: 'Build Your Field Trip' },
+      description: 'Second row in Figma, Field Trip first: Build Your Field Trip, Fields Gathered, Bowls + Refreshers',
+      titles: { salads: 'Build Your Field Trip', build: 'Fields Gathered', beverages: 'Bowls + Refreshers' },
       motion: { from: 'grass', start: { salads: 0, build: 9.5, beverages: 17.5 }, span: true } },
   ],
 

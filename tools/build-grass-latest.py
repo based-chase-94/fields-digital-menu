@@ -135,8 +135,8 @@ def beverages():
     return b + '</div>\n'
 
 # ================================================================== Layout 2: the second row
-# Figma frames 121:403 "1" (left TV), 121:470 "2" (centre), 121:564 "3" (right): the bowls split over
-# two boards with Refreshers, and Field Trip on the right. Written as Layout2-Board1/2/3.dc.html.
+# Figma frames 121:403 "1", 121:470 "2", 121:564 "3": the bowls split over two boards with Refreshers,
+# and Field Trip. On the TVs Field Trip comes first (left), then 1 and 2: Layout2-Board1/2/3.dc.html.
 
 def bowls2(x, width, items):
     """Three bowls in Figma's equal-height grid (229 to 1930, 246 between rows)."""
@@ -234,9 +234,10 @@ for name, board, title, fn in [('Grass-Board1.dc.html', 'salads', 'Board 1: Fiel
                                ('Grass-Board3.dc.html', 'beverages', 'Board 3: Ingredients + Bevs', beverages)]:
     html = clean(page(C, board, f'Option D {title}', fn()))
     open(os.path.join(out, name), 'w').write(html)
-for name, board, title, fn in [('Layout2-Board1.dc.html', 'salads', 'Board 1: Fields Gathered', signature2),
-                               ('Layout2-Board2.dc.html', 'build', 'Board 2: Bowls + Refreshers', bowls_refreshers2),
-                               ('Layout2-Board3.dc.html', 'beverages', 'Board 3: Build your Field Trip', field_trip2)]:
+# Layout 2 runs Field Trip first (left TV), then Figma's frames 1 and 2.
+for name, board, title, fn in [('Layout2-Board1.dc.html', 'salads', 'Board 1: Build your Field Trip', field_trip2),
+                               ('Layout2-Board2.dc.html', 'build', 'Board 2: Fields Gathered', signature2),
+                               ('Layout2-Board3.dc.html', 'beverages', 'Board 3: Bowls + Refreshers', bowls_refreshers2)]:
     html = clean(page(C, board, f'Option E {title}', fn()))
     open(os.path.join(out, name), 'w').write(html)
 print('wrote 6 Grass artboards (layouts 1 and 2) to', out, '(flat Forest ground)' if FLAT else '')
