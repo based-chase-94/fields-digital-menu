@@ -25,7 +25,7 @@ PHOTO = {'salads': '0695e19f2e566c2e77d4f26eb2678687', 'build': '2a611a6d12b65f1
 C = dict(name='Option D', bg=FOREST if FLAT else '#1d2716', ink=WHITE, acc=SUN, pill=SUN, pillink=FOREST,
          logo=None, **({} if FLAT else {'photo': PHOTO}))
 SVG = {  # canvas blob ids; design/manifest.json maps them to design/assets/field-trip/<name>.svg
-    'fields-gathered': 'd4c09801249a440e80340860ae861576', 'divider': '1fe0f9f8527c0305a1e2ffc981ed1a79',
+    'fields-gathered': 'd4c09801249a440e80340860ae861576', 'divider': '1fe0f9f8527c0305a1e2ffc981ed1a79', 'vegetarian': 'd2dec4c0f276c9386569d90015b3cd96',
     'ticket-4': 'ad2eea42bba14e00472c7403c6463616', 'field-4': 'f02b4ea816d54873db78d45e4488629b', 'trip-4': '587461ed257aa05cd79bab6765e1a9d8',
     'build-your-4': '0f0816a386956edaccd3ffdc8aecad56', 'starts-at-4': '565145a8a62dd73ff3b18d2b26606d24', 'price-4': 'b86f20790ff874b445d3f4f93204793a',
     'fields-gathered-stacked': '10d4524056454e5605159847b99ab544', 'price-3': '8fc42b18a74e921aa0aa763704b07bf7', 'path83': 'e8e5569f9b638941f0e20ddb220637fa', 'step1': '043eb4097ea4fbbed468e78b36cc57d0',
@@ -53,27 +53,31 @@ def inset(top, right, bottom, left):  # Figma's percentage insets → (x, y, w, 
 def signature():
     # Descriptions break where Figma breaks them, and like Figma join tt/ll with Fredoka's discretionary
     # ligatures; otherwise the browser's lines run up to 5px longer.
-    def item(name, price, desc, tracking=-1):
+    def item(name, price, desc):
         return (f'<div style="display: flex; flex-direction: column; gap: 36px">'
                 f'<div style="display: flex; align-items: flex-start; gap: 36px">'
                 f'<span style="{HOTL}; font-size: 106px; line-height: 73.6px; white-space: nowrap">{name}</span>'
                 f'<span style="flex: 1 0 0; min-width: 1px; height: 76px"></span>'
                 f'<span style="position: relative; top: 1px; font-size: 106px; font-weight: 600; line-height: 73.6px; color: {SUN}; white-space: nowrap">{price}</span></div>'
-                f'<p style="margin: 0; font-size: 58px; font-weight: 400; line-height: 70px; letter-spacing: {tracking}px; white-space: nowrap; font-feature-settings: \'dlig\' 1">'
+                f'<p style="margin: 0; font-size: 68px; font-weight: 400; line-height: normal; letter-spacing: -1px; white-space: nowrap; font-feature-settings: \'dlig\' 1">'
                 + '<br>'.join(desc) + '</p></div>')
-    b = (f'<h2 style="position: absolute; left: 137px; top: {302 - 60.9:g}px; margin: 0; {MID}; font-size: 273px; line-height: 121.8px; '
+    b = (f'<h2 style="position: absolute; left: 137px; top: {292 - 60.9:g}px; margin: 0; {MID}; font-size: 273px; line-height: 121.8px; '
          f'color: {SUN}; white-space: nowrap">House Bowls</h2>\n')
-    b += (f'<p style="position: absolute; right: {W - 3709}px; top: 188px; margin: 0; {HOTL}; font-size: 106px; line-height: 120px; '
+    b += (f'<p style="position: absolute; right: {W - 3709}px; top: 185px; margin: 0; {HOTL}; font-size: 106px; line-height: 120px; '
           f'text-align: right; white-space: nowrap">OUR FAVORITE<br>PLACES, IN A BOWL</p>\n')
-    b += ('<div style="position: absolute; left: 130px; top: 619px; width: 3579px; display: grid; '
-          'grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 130px; row-gap: 156px">')
-    b += item('Strawberry Fields', '$13.25', ['Spinach, tri-color quinoa, citrus-herb chicken, strawberries, walnuts,', 'avocado, crumbled feta, almond brittle, citrus-poppyseed vinaigrette'])
-    b += item('Baja', '$13.50', ['Spinach, citrus-herb chicken, grilled corn, black beans, avocado,', 'roasted sweet potato, pico de gallo, cotija waffles, chili-lime', 'vinaigrette, lime wedge'])
-    b += item('High Plains', '$14.50', ['Spinach + kale, blackened chicken, applewood bacon, hardboiled', 'egg, grilled corn, cherry tomatoes, avocado, grilled poblano,', 'sourdough croutons, Colorado ranch, hot honey drizzle'])
-    b += item('Coastal Caesar', '$12.95', ['Shredded kale + romaine hearts, blackened chicken, cherry', 'tomatoes, sourdough croutons, parmesan, vegan caesar dressing,', 'lemon wedge'])
-    b += item('Blue Zone', '$15.75', ['Spinach + romaine hearts, miso-glazed salmon, roasted sweet', 'potato, watermelon radish, carrot ribbons, toasted nori puffs,', 'avocado, edamame, sesame-miso dressing'])
-    b += item('Fields Notes', '$13.50', ['Kale + spinach, roasted sweet potato, roasted broccoli, mixed', 'mushrooms, apple, blue cheese, almonds, fields honey vinaigrette,', 'hot honey drizzle'], tracking=-2)
-    return b + '</div>\n'
+    b += ('<div style="position: absolute; left: 130px; top: 589px; width: 3579px; display: grid; '
+          'grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 130px; row-gap: 107px">')
+    b += item('Strawberry Fields', '$13.25', ['Spinach, tri-color quinoa, citrus-herb chicken,', 'strawberries, walnuts, avocado, crumbled feta, almond', 'brittle, citrus-poppyseed vinaigrette'])
+    b += item('Baja', '$13.50', ['Spinach, citrus-herb chicken, grilled corn, black beans,', 'avocado, roasted sweet potato, pico de gallo, cotija', 'waffles, chili-lime vinaigrette, lime wedge'])
+    b += item('High Plains', '$14.50', ['Spinach + kale, blackened chicken, applewood bacon,', 'hardboiled egg, grilled corn, cherry tomatoes, avocado,', 'grilled poblano, sourdough croutons, Colorado ranch, hot', 'honey drizzle'])
+    b += item('Coastal Caesar', '$12.95', ['Shredded kale + romaine hearts, blackened chicken,', 'cherry tomatoes, sourdough croutons, parmesan, vegan', 'caesar dressing, lemon wedge'])
+    b += item('Blue Zone', '$15.75', ['Spinach + romaine hearts, miso-glazed salmon, roasted', 'sweet potato, watermelon radish, carrot ribbons, toasted', 'nori puffs, avocado, edamame, sesame-miso dressing'])
+    b += item('Fields Notes', '$13.50', ['Kale + spinach, roasted sweet potato, roasted broccoli,', 'mixed mushrooms, apple, blue cheese, almonds, fields', 'honey vinaigrette, hot honey drizzle'])
+    b += '</div>\n'
+    b += svg('vegetarian', 2764, 1593, 95, 95, alt='Vegetarian')  # beside FIELDS NOTES, as in Figma
+    b += (f'<p style="position: absolute; left: 62px; top: {H - 122}px; margin: 0; font-size: 58px; font-weight: 500; line-height: normal; '
+          f'letter-spacing: -1px; color: {SUN}; white-space: nowrap; font-feature-settings: \'dlig\' 1">All bowls can be made vegetarian upon request</p>\n')
+    return b
 
 # ------------------------------------------------------------------ Board 2: Build your Field Trip (FINAL - 2)
 def build():
