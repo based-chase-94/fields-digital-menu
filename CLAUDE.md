@@ -11,6 +11,10 @@ move to Cloudflare Pages later.
 - **Animation:** illustration rigging, motion tuning, and recording videos. Read
   [`docs/animation.md`](docs/animation.md) before doing animation work.
 
+## Updating boards from Figma, baking Motion videos
+Follow **[`docs/figma-boards.md`](docs/figma-boards.md)**, the runbook for "this Figma frame changed: update
+the board, push live, bake a Motion video". It has the frame ids, the generator, the checks, and the pitfalls.
+
 ## Source of truth: the design canvas
 - The boards are designed in a Claude design canvas: https://claude.ai/artifact/BDCwUUaGNZYqXfTh135si5
   - 9 artboards: 3 colorways × 3 boards, each 3840×2160.
@@ -67,7 +71,9 @@ npm run render [-- forest ...]        # re-render static boards from design/*.dc
 npm run illustrations                 # trim and rig illustration layers (animation chat)
 npm run record -- <option> <board> [--preview]   # animated boards (animation chat)
 npm run grass-motion                  # Grass Motion background loop, from assets/grass.mp4
-npm run grass-masters [-- --preview]  # 4K Motion masters for the TVs, one per board (renders/master/)
+npm run grass-masters [-- salads ...] [--preview]  # 4K Motion masters for the TVs (renders/master/)
+node figma-check.mjs Grass-Board1 <figma.png> [box ...]  # our render vs Figma's: PSNR, diff image, offsets
+node serve-ranges.mjs [port]          # local server with byte ranges (Motion seeks like on GitHub Pages)
 ```
 - `render` skips animated boards: their text is part of the video, so they must be re-recorded.
 - `render` and `record` also rewrite `assets/boards/versions.js`: a content hash per board file. `config.image()` and `config.video()` add it as `?v=`, so updated artwork is never served from a stale cache. If you replace a board file by hand, run `npm run stamp`.
