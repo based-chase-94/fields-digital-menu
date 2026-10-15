@@ -1,5 +1,5 @@
 # Builds the Grass artboards from Figma's "LATEST BOARDS" page. The live boards (Grass-Board1/2/3.dc.html) are
-# frames "FINAL - 1" (122:810, same as 79:1462 "Fields Gathered"), "FINAL - 2" (122:876, Field Trip) and
+# frames "FINAL - 1" (122:810, House Bowls), "FINAL - 2" (122:876, Field Trip) and
 # "FINAL - 3" (122:1217, ingredients, proteins and refreshers). Archived Layout 2 (Layout2-Board1/2/3.dc.html)
 # is the earlier second row, frames 3, 1, 2.
 # Positions and sizes are Figma's.
@@ -26,6 +26,8 @@ C = dict(name='Option D', bg=FOREST if FLAT else '#1d2716', ink=WHITE, acc=SUN, 
          logo=None, **({} if FLAT else {'photo': PHOTO}))
 SVG = {  # canvas blob ids; design/manifest.json maps them to design/assets/field-trip/<name>.svg
     'fields-gathered': 'd4c09801249a440e80340860ae861576', 'divider': '1fe0f9f8527c0305a1e2ffc981ed1a79',
+    'ticket-4': 'ad2eea42bba14e00472c7403c6463616', 'field-4': 'f02b4ea816d54873db78d45e4488629b', 'trip-4': '587461ed257aa05cd79bab6765e1a9d8',
+    'build-your-4': '0f0816a386956edaccd3ffdc8aecad56', 'starts-at-4': '565145a8a62dd73ff3b18d2b26606d24', 'price-4': 'b86f20790ff874b445d3f4f93204793a',
     'fields-gathered-stacked': '10d4524056454e5605159847b99ab544', 'price-3': '8fc42b18a74e921aa0aa763704b07bf7', 'path83': 'e8e5569f9b638941f0e20ddb220637fa', 'step1': '043eb4097ea4fbbed468e78b36cc57d0',
     'step2': 'b92ff74f402cb85a646d44c6ceefe775', 'step3': '1930219e5e916519dba999c597027e06',
     'step4': '82acaa3b98e91ade47c420b69f10c778', 'pick-your-field-2': '8647c1e19b696e6485f31781ef9752ea',
@@ -59,76 +61,77 @@ def signature():
                 f'<span style="position: relative; top: 1px; font-size: 106px; font-weight: 600; line-height: 73.6px; color: {SUN}; white-space: nowrap">{price}</span></div>'
                 f'<p style="margin: 0; font-size: 58px; font-weight: 400; line-height: 70px; letter-spacing: {tracking}px; white-space: nowrap; font-feature-settings: \'dlig\' 1">'
                 + '<br>'.join(desc) + '</p></div>')
-    b = svg('fields-gathered', 132.36, 161.74, 1911.191, 284.856, alt='Fields Gathered')
+    b = (f'<h2 style="position: absolute; left: 137px; top: {302 - 60.9:g}px; margin: 0; {MID}; font-size: 273px; line-height: 121.8px; '
+         f'color: {SUN}; white-space: nowrap">House Bowls</h2>\n')
     b += (f'<p style="position: absolute; right: {W - 3709}px; top: 188px; margin: 0; {HOTL}; font-size: 106px; line-height: 120px; '
           f'text-align: right; white-space: nowrap">OUR FAVORITE<br>PLACES, IN A BOWL</p>\n')
     b += ('<div style="position: absolute; left: 130px; top: 619px; width: 3579px; display: grid; '
           'grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 130px; row-gap: 156px">')
-    b += item('Strawberry Fields', '$13.25', ['Spinach, tri-color quinoa, citrus-herb char chicken, sliced', 'strawberries, walnuts, avocado, crumbled feta, almond brittle', 'pieces, citrus-poppyseed vinaigrette'])
-    b += item('Baja Bowl', '$13.50', ['Spinach, citrus-herb char chicken, charred corn, black beans,', 'avocado, roasted sweet potato, house-made pico de gallo, crispy', 'cotija waffles, chili-lime vinaigrette, fresh lime wedge'])
-    b += item('High Plains', '$14.50', ['Spinach and kale, blackened chicken, applewood bacon, sliced', 'hardboiled egg, charred corn, tri-color cherry tomatoes, avocado,', 'grilled poblano, sourdough focaccia croutons, Colorado ranch, hot', 'honey drizzle'])
-    b += item('Coastal Caesar', '$12.95', ['Shredded kale + romaine hearts, blackened chicken, tri-color cherry', 'tomatoes, sourdough focaccia croutons, shaved parmesan, vegan', 'caesar dressing, fresh lemon wedge'])
+    b += item('Strawberry Fields', '$13.25', ['Spinach, tri-color quinoa, citrus-herb chicken, strawberries, walnuts,', 'avocado, crumbled feta, almond brittle, citrus-poppyseed vinaigrette'])
+    b += item('Baja', '$13.50', ['Spinach, citrus-herb chicken, grilled corn, black beans, avocado,', 'roasted sweet potato, pico de gallo, cotija waffles, chili-lime', 'vinaigrette, lime wedge'])
+    b += item('High Plains', '$14.50', ['Spinach + kale, blackened chicken, applewood bacon, hardboiled', 'egg, grilled corn, cherry tomatoes, avocado, grilled poblano,', 'sourdough croutons, Colorado ranch, hot honey drizzle'])
+    b += item('Coastal Caesar', '$12.95', ['Shredded kale + romaine hearts, blackened chicken, cherry', 'tomatoes, sourdough croutons, parmesan, vegan caesar dressing,', 'lemon wedge'])
     b += item('Blue Zone', '$15.75', ['Spinach + romaine hearts, miso-glazed salmon, roasted sweet', 'potato, watermelon radish, carrot ribbons, toasted nori puffs,', 'avocado, edamame, sesame-miso dressing'])
-    b += item('Fields Notes', '$13.50', ['Kale + spinach, roasted sweet potato, roasted broccoli, mixed', 'mushrooms, sliced apple, blue cheese crumbles, sliced almonds, honey-', 'thyme dressing, hot honey drizzle'], tracking=-2)
+    b += item('Fields Notes', '$13.50', ['Kale + spinach, roasted sweet potato, roasted broccoli, mixed', 'mushrooms, apple, blue cheese, almonds, fields honey vinaigrette,', 'hot honey drizzle'], tracking=-2)
     return b + '</div>\n'
 
 # ------------------------------------------------------------------ Board 2: Build your Field Trip (FINAL - 2)
 def build():
-    x, y, w, h = inset(19.31, 57.79, 54.12, 6.46)
-    b = svg('ticket-2', x, y, w, h)
-    b += svg('field-2', 376.02, 524.26, 746.523, 318.129, alt='Field')
-    b += svg('trip', 1333.49 + (111.911 - 324.073) / 2, 537.37 + (326.294 - 104.83) / 2, 324.073, 104.83, alt='Trip', transform='rotate(88.74deg)')
+    x, y, w, h = inset(18.5, 63.39, 59.08, 6.46)
+    b = svg('ticket-4', x, y, w, h)
+    b += svg('field-4', 355.99, 490.17, 629.743, 268.363, alt='Field')
+    b += svg('trip-4', 1163.68 + (94.404 - 273.378) / 2, 501.22 + (275.252 - 88.431) / 2, 273.378, 88.431, alt='Trip', transform='rotate(88.74deg)')
     hotl = lambda x, y, size, html, extra='': (f'<p style="position: absolute; left: {x}px; top: {y}px; margin: 0; {HOTL}; font-size: {size}px; '
                                               f'line-height: 123.6px;{extra} white-space: nowrap">{html}</p>\n')
-    b += hotl(273, 241, 130, 'BUILD YOUR')
-    b += hotl(376, 1045, 100, 'STARTS AT', ' letter-spacing: 17px;')
-    b += svg('price-3', 1093, 1046, 527.543, 200.174, alt='$9.95')
-    b += hotl(277, 1655, 80, 'ORDER ONLINE @')
-    b += hotl(277, 1752, 100, f'<span style="color: {SUN}">FIELDSBOWLS.COM</span>')
-    x, y, w, h = inset(47.18, 52.55, 52.77, 47.37)  # the stray 3x1 px path, as in Figma
+    b += svg('build-your-4', 276.77, 268.46, 658.278, 79.506, alt='Build your')
+    b += svg('starts-at-4', 358.51, 954.59, 560.67, 61.159, alt='Starts at')
+    b += svg('price-4', 960.81, 930.29, 445.019, 168.861, alt='$9.95')
+    b += hotl(264, 1663, 80, 'ORDER ONLINE @')
+    b += hotl(264, 1760, 100, f'<span style="color: {SUN}">FIELDSBOWLS.COM</span>')
+    x, y, w, h = inset(47.18, 54.22, 52.77, 45.7)  # the stray 3x1 px path, as in Figma
     b += svg('path83', x, y, w, h, transform='scaleY(-1)')
     # Four steps: a number pill, a Heart of the Land heading, and a Fredoka line with the key words
     # in medium-weight yellow.
     yel = lambda t: f'<span style="font-weight: 500; color: {SUN}">{t}</span>'
-    line = lambda y, html: (f'<p style="position: absolute; left: 2195.03px; top: {y}px; margin: 0; font-size: 74px; font-weight: 400; line-height: normal; '
+    line = lambda y, html: (f'<p style="position: absolute; left: 2131.03px; top: {y}px; margin: 0; font-size: 74px; font-weight: 400; line-height: normal; '
                             f'letter-spacing: -1px; white-space: nowrap; font-feature-settings: \'dlig\' 1">{html}</p>\n')
     for key, px, py, ph, head, hy, text, ty in [
-        ('step1', 1911.03, 405, 128.452, f'PICK YOUR <span style="color: {SUN}">FIELD BASE</span>', 404, yel('Select 2') + ' greens and/or grains', 550),
-        ('step2', 1912.03, 816, 129.712, f'HARVEST 6 <span style="color: {SUN}">TOPPINGS</span>', 816, 'Pick up to' + yel(' 6 field ingredients'), 962),
-        ('step3', 1912.03, 1227, 130.972, f'<span style="color: {SUN}">UPGRADE</span> YOUR TRIP', 1228, 'Fuel up with ' + yel('proteins + premium extras'), 1374),
-        ('step4', 1912.03, 1645, 128.485, 'FINAL APPROACH', 1640, 'Choose a ' + yel('house-made dressing'), 1786),
+        ('step1', 1847.03, 405, 128.452, f'PICK YOUR <span style="color: {SUN}">FIELD BASE</span>', 404, yel('Select 2') + ' greens and/or grains', 550),
+        ('step2', 1848.03, 816, 129.712, f'HARVEST 6 <span style="color: {SUN}">TOPPINGS</span>', 816, 'Pick up to' + yel(' 6 field ingredients'), 962),
+        ('step3', 1848.03, 1227, 130.972, f'<span style="color: {SUN}">UPGRADE</span> YOUR TRIP', 1228, 'Fuel up with ' + yel('proteins + premium extras'), 1374),
+        ('step4', 1848.03, 1645, 128.485, 'FINAL APPROACH', 1640, 'Choose a ' + yel('house-made dressing'), 1786),
     ]:
         b += svg(key, px, py, 231, ph, alt=key[-1])
-        b += hotl(2195.03, hy + (2 if key == 'step4' else 1), 120, head)  # Figma's glyphs sit 1-2px lower
+        b += hotl(2131.03, hy + 1, 120, head)  # Figma's glyphs sit 1px lower
         b += line(ty, text)
-    b += ('<p style="position: absolute; right: 331px; top: 979px; margin: 0; font-size: 55px; font-weight: 400; line-height: normal; '
+    b += ('<p style="position: absolute; right: 395px; top: 979px; margin: 0; font-size: 55px; font-weight: 400; line-height: normal; '
           'letter-spacing: -1px; text-align: right; white-space: nowrap">+$0.85 each<br>for extras</p>\n')
     return b
 
 # ------------------------------------------------------------------ Board 3: Ingredients, Proteins + Refreshers (FINAL - 3)
 def beverages():
-    title = lambda x, cy, t: (f'<h2 style="position: absolute; left: {x}px; top: {cy - 59.9:g}px; margin: 0; {MID}; font-size: 163px; '
+    title = lambda x, cy, t: (f'<h2 style="position: absolute; left: {x}px; top: {cy - 59.9:g}px; margin: 0; {MID}; font-size: 133px; '
                               f'line-height: 121.8px; color: {SUN}; white-space: nowrap">{t}</h2>\n')
     def grid(x, y, width, row_gap, rows):
         cells = ''.join(f'<div style="color: {SUN if c.startswith("*") else WHITE}">{c.lstrip("*")}</div>' for r in rows for c in r)
         return (f'<div style="position: absolute; left: {x}px; top: {y}px; width: {width}px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); '
                 f'column-gap: 76px; row-gap: {row_gap}px; align-items: start; font-size: 68px; font-weight: 400; line-height: normal; white-space: nowrap">{cells}</div>\n')
-    b = title(177, 256, 'Greens + Grains')
-    b += grid(217, 403, 1841, 53, [['Romaine Hearts', 'Arugula', 'Kale'], ['Baby Spinach', '*Wild Rice', '*Tri-Color Quinoa']])
-    b += title(177, 792, 'Field Ingredients')
-    b += grid(217, 981, 1868, 38, [['Cucumber', 'Carrot Ribbons', 'Red Onion'], ['Edamame', 'Black Beans', 'Char-Grilled Corn'],
-                                   ['Tri-Color Cherry<br>Tomatoes', 'Roasted Sweet<br>Potato', 'Roasted<br>Chickpeas'],
-                                   ['Grilled Poblano<br>Peppers', 'Roasted<br>Broccoli', 'Watermelon<br>Radish'],
+    b = title(177, 259, 'Greens + Grains')
+    b += grid(217, 403, 1841, 53, [['Romaine Hearts', 'Arugula', 'Kale'], ['Baby Spinach', 'Wild Rice', 'Tri-Color Quinoa']])
+    b += title(177, 812, 'Field Ingredients')
+    b += grid(217, 981, 1868, 49, [['Cucumber', 'Carrot Ribbons', 'Red Onion'], ['Edamame', 'Black Beans', 'Grilled Corn'],
+                                   ['Cherry Tomatoes', 'Grilled Poblano', 'Roasted Chickpeas'],
+                                   ['Roasted<br>Broccoli', 'Roasted Sweet<br>Potato', 'Watermelon<br>Radish'],
                                    ['Pico de Gallo', 'Green Apples', 'Strawberries'], ['Cilantro', 'Chives', '']])
-    b += title(2323, 256, 'Proteins')
+    b += title(2333, 260, 'Proteins')
     b += ('<div style="position: absolute; left: 2361px; top: 403px; width: 1275px; display: flex; flex-direction: column; gap: 38px; font-size: 68px">'
           + ''.join(f'<div style="display: flex; align-items: center; justify-content: space-between; white-space: nowrap">'
                     f'<span style="font-weight: 400; line-height: normal">{n}</span>'
                     f'<span style="font-weight: 600; line-height: 73.6px; color: {SUN}">{pr}</span></div>'
-                    for n, pr in [('Citrus-Herb Char Chicken', '+$4.25'), ('Blackened Chicken', '+$4.50'), ('Alaskan Sesame Miso Salmon', '+$6.50'),
-                                  ('Smoked Applewood Bacon', '+$2.85'), ('Sriracha Hot Honey Tofu', '+$3.50'),
-                                  ('Roasted Shiitake Mushrooms', '+$3.50'), ('Hardboiled Egg', '+$1.25')]) + '</div>\n')
-    b += title(2323, 1382, 'Refreshers')
+                    for n, pr in [('Citrus-Herb Chicken', '+$4.25'), ('Blackened Chicken', '+$4.50'), ('Sesame Miso Alaskan Salmon', '+$6.50'),
+                                  ('Smoked Applewood Bacon', '+$2.85'), ('Hot Honey Tofu', '+$3.50'),
+                                  ('Roasted Shiitake Mushroom Mix', '+$2.00'), ('Hardboiled Egg', '+$1.25')]) + '</div>\n')
+    b += title(2323, 1384, 'Refreshers')
     b += ('<p style="position: absolute; left: 3393px; top: 1375px; margin: 0; font-size: 106px; font-weight: 600; line-height: 73.6px; '
           'white-space: nowrap">$4.50</p>\n')
     for x, y, name, desc in [(2361, 1567, 'PALM SPRINGS', 'iced tea + lemonade'), (3123, 1567, 'VALENCIA', 'orange'),
@@ -236,7 +239,7 @@ def field_trip2():
 def clean(html):  # the shell adds a logo when there is one; these boards have none
     return '\n'.join(l for l in html.split('\n') if '/_blob/None' not in l)
 
-for name, board, title, fn in [('Grass-Board1.dc.html', 'salads', 'Board 1: Fields Gathered', signature),
+for name, board, title, fn in [('Grass-Board1.dc.html', 'salads', 'Board 1: House Bowls', signature),
                                ('Grass-Board2.dc.html', 'build', 'Board 2: Build your Field Trip', build),
                                ('Grass-Board3.dc.html', 'beverages', 'Board 3: Ingredients, Proteins + Refreshers', beverages)]:
     html = clean(page(C, board, f'Option D {title}', fn()))
