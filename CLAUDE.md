@@ -18,14 +18,14 @@ move to Cloudflare Pages later.
   - [`design/manifest.json`](design/manifest.json) maps each artboard file to a colorway and board. It also maps each canvas `/_blob/<id>` asset to a local file.
 - **The user edits the canvas live.** Always re-read the files you need from the canvas before
   relying on the local copies. Publishing to the canvas needs a fresh read first: a stale publish is refused as a conflict.
-- Colorway ids: `almond`, `forest`, `sunshine`, `grass`, `grass-2`. Almond, Forest and Sunshine are archived
-  (`archived: true` in `js/config.js`; the site hides them). In the canvas, rows A–C are on the **Archive** page.
-- **Two menu layouts are live**, both on the grass ground, chosen with the bottom-left **Layout** tabs
-  (`optionsLabel`; Mix & Match is off with `mixAndMatch: false`):
-  - **Layout 1** (`grass`, canvas row D, `Grass-Board*.dc.html`): the first row of Figma's LATEST BOARDS page.
-  - **Layout 2** (`grass-2`, canvas row E, `Layout2-Board*.dc.html`): the second row, Field Trip first (frames 3, 1, 2). Its boards
-    have their own captions (`titles`), and it borrows Layout 1's footage (`motion.from: 'grass'`); its text
-    layers come from `textLayers: true` on its artboards in `design/manifest.json`.
+- Colorway ids: `almond`, `forest`, `sunshine`, `grass`, `grass-2`. **Only Grass is live**, with the final boards
+  (Figma LATEST BOARDS frames "FINAL - 1, 2, 3"; canvas row D, `Grass-Board*.dc.html`). Everything else is archived
+  (`archived: true` in `js/config.js`; the site hides it, and with one option left the dock shows only
+  Still · Motion · Panorama). In the canvas, rows A–C and E are on the **Archive** page.
+  - Archived Layout 2 (`grass-2`, row E, `Layout2-Board*.dc.html`) is an earlier alternative. Unarchiving it brings
+    back the **Layout** tabs (`optionsLabel`; Mix & Match stays off with `mixAndMatch: false`). It has its own
+    captions (`titles`), borrows Grass's footage (`motion.from: 'grass'`), and gets text layers from
+    `textLayers: true` on its artboards in `design/manifest.json`.
   - `python3 tools/build-grass-latest.py design` regenerates all six artboards from the Figma positions.
 - Board ids: `salads` (left TV), `build` (center), `beverages` (right).
 - Grass (canvas row D, `Grass-Board*.dc.html`):

@@ -2,7 +2,7 @@
 
 A client presentation of the Fields digital menu boards. It's a static site with no build step.
 
-**Two menu layouts are shown now**, both on the grass ground: **Layout 1** and **Layout 2**, the two rows of boards in Figma. Pick one with the Layout tabs at bottom left. Almond, Forest and Sunshine are archived: `archived: true` in `js/config.js` (delete it to bring one back). Their artwork stays in `assets/boards/`, and in the design canvas they're on the Archive page. Mix & Match is off (`mixAndMatch: false`).
+**Only Grass is shown now**, with the final boards from Figma. Almond, Forest, Sunshine and the alternative Layout 2 are archived: `archived: true` in `js/config.js` (delete it to bring one back; two or more options bring back the tabs at bottom left). Their artwork stays in `assets/boards/`, and in the design canvas they're on the Archive page. Mix & Match is off (`mixAndMatch: false`).
 
 - **In store** (`index.html`): the counter photo with each colorway on the three TVs. Pick a colorway at bottom left. Click a screen to see that board full size.
   - **Mix & Match**, the fourth colorway tab, gives each TV its own colorway through a dropdown per board. It starts as Almond / Forest / Sunshine; set the starting combination with `mixDefaults` in `js/config.js`.

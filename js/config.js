@@ -13,9 +13,9 @@
  *
  * Adding a board: add it to `boards`; to show it in the photo, give it a `screens` entry.
  *
- * The live options are now two menu layouts on the same Grass ground (`optionsLabel`), each a
- * row of Figma's LATEST BOARDS page. An option's `titles` names its boards where they differ
- * from `boards`.
+ * Grass is the only live option (the final boards). Layout 2 is archived; with two or more options
+ * the tabs come back, labelled `optionsLabel`. An option's `titles` names its boards where they
+ * differ from `boards`.
  */
 window.MENU_CONFIG = {
   title: 'Fields · Menu Boards',
@@ -36,7 +36,7 @@ window.MENU_CONFIG = {
   boards: [
     { id: 'salads', title: 'Fields Gathered', short: 'Salads' },
     { id: 'build', title: 'Build Your Field Trip', short: 'BYO' },
-    { id: 'beverages', title: 'Greens, Grains + Refreshers', short: 'Beverages' },
+    { id: 'beverages', title: 'Ingredients, Proteins + Refreshers', short: 'Beverages' },
   ],
 
   // Mix & Match starts from this combination (board → colorway) the first time it's opened.
@@ -69,15 +69,15 @@ window.MENU_CONFIG = {
     // `motion`: Still / Motion / Panorama. Motion swaps the stills for the moving footage (one
     // shared loop, tools/grass-motion.mjs) under each board's text; `start` is each board's
     // moment in the loop, matching its still. `span`: Panorama, one field across all three TVs.
-    { id: 'grass', name: 'Layout 1', ground: '#3f5a22', accent: '#f9e14d',
-      description: 'First row in Figma: Fields Gathered, Build Your Field Trip, Ingredients + Refreshers',
+    { id: 'grass', name: 'Grass', ground: '#3f5a22', accent: '#f9e14d',
+      description: 'Grass photo ground: the final boards from Figma (FINAL - 1, 2, 3)',
       motion: { start: { salads: 0, build: 9.5, beverages: 17.5 }, span: true } },
-    // The second row in Figma (frames 1, 2, 3): same ground and footage (`motion.from`), Field
-    // Trip on the left TV, then the bowls over two boards with Refreshers.
+    // Archived: the earlier second row in Figma (frames 3, 1, 2), same ground and footage
+    // (`motion.from`). Delete `archived` to bring back the Layout toggle.
     { id: 'grass-2', name: 'Layout 2', ground: '#3f5a22', accent: '#f9e14d',
       description: 'Second row in Figma, Field Trip first: Build Your Field Trip, Fields Gathered, Bowls + Refreshers',
       titles: { salads: 'Build Your Field Trip', build: 'Fields Gathered', beverages: 'Bowls + Refreshers' },
-      motion: { from: 'grass', start: { salads: 0, build: 9.5, beverages: 17.5 }, span: true } },
+      motion: { from: 'grass', start: { salads: 0, build: 9.5, beverages: 17.5 }, span: true }, archived: true },
   ],
 
   // A board's name in this option: its own `titles` entry, else the board's title.
