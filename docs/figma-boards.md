@@ -11,7 +11,7 @@ and/or bake a new Motion video)". Every step below has been done this way severa
   | Figma frame | id | Artboard | Board id / TV | Caption |
   |---|---|---|---|---|
   | FINAL - 1 | `122:810` | `Grass-Board1.dc.html` | `salads`, left | House Bowls |
-  | FINAL - 2 | `122:876` | `Grass-Board2.dc.html` | `build`, centre | Build Your Field Trip |
+  | FINAL - 2 | `122:876` | `Grass-Board2.dc.html` | `build`, centre | Grow Your Own |
   | FINAL - 3 | `122:1217` | `Grass-Board3.dc.html` | `beverages`, right | Ingredients, Proteins + Refreshers |
 
   Frame ids can change when the designer rebuilds a frame: if one isn't found, list the page with
