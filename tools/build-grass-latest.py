@@ -1,5 +1,5 @@
 # Builds the Grass artboards from Figma's "LATEST BOARDS" page. The live boards (Grass-Board1/2/3.dc.html) are
-# frames "FINAL - 1" (122:810, House Bowls), "FINAL - 2" (122:876, Field Trip) and
+# frames "FINAL - 1" (122:810, House Bowls), "FINAL - 2" (122:876, Grow your Own) and
 # "FINAL - 3" (122:1217, ingredients, proteins and refreshers). Archived Layout 2 (Layout2-Board1/2/3.dc.html)
 # is the earlier second row, frames 3, 1, 2.
 # Positions and sizes are Figma's.
@@ -26,8 +26,8 @@ C = dict(name='Option D', bg=FOREST if FLAT else '#1d2716', ink=WHITE, acc=SUN, 
          logo=None, **({} if FLAT else {'photo': PHOTO}))
 SVG = {  # canvas blob ids; design/manifest.json maps them to design/assets/field-trip/<name>.svg
     'fields-gathered': 'd4c09801249a440e80340860ae861576', 'divider': '1fe0f9f8527c0305a1e2ffc981ed1a79', 'vegetarian': 'd2dec4c0f276c9386569d90015b3cd96',
-    'ticket-4': 'ad2eea42bba14e00472c7403c6463616', 'field-4': 'f02b4ea816d54873db78d45e4488629b', 'trip-4': '587461ed257aa05cd79bab6765e1a9d8',
-    'build-your-4': '0f0816a386956edaccd3ffdc8aecad56', 'starts-at-4': '565145a8a62dd73ff3b18d2b26606d24', 'price-4': 'b86f20790ff874b445d3f4f93204793a',
+    'grow': '8c29fd317d8ef291630e8202bd968c62', 'your-own': '1faa17dbedd032f0236d6f7cf1808667',
+    'starts-at-5': '4a434b974d175caee23269bc4049669e', 'price-5': '0575dd7d02b41bafc639db7ec6e4b3ba',
     'fields-gathered-stacked': '10d4524056454e5605159847b99ab544', 'price-3': '8fc42b18a74e921aa0aa763704b07bf7', 'path83': 'e8e5569f9b638941f0e20ddb220637fa', 'step1': '043eb4097ea4fbbed468e78b36cc57d0',
     'step2': 'b92ff74f402cb85a646d44c6ceefe775', 'step3': '1930219e5e916519dba999c597027e06',
     'step4': '82acaa3b98e91ade47c420b69f10c778', 'pick-your-field-2': '8647c1e19b696e6485f31781ef9752ea',
@@ -79,19 +79,16 @@ def signature():
           f'letter-spacing: -1px; color: {SUN}; white-space: nowrap; font-feature-settings: \'dlig\' 1">All bowls can be made vegetarian upon request</p>\n')
     return b
 
-# ------------------------------------------------------------------ Board 2: Build your Field Trip (FINAL - 2)
+# ------------------------------------------------------------------ Board 2: Grow your Own (FINAL - 2)
 def build():
-    x, y, w, h = inset(18.5, 63.39, 59.08, 6.46)
-    b = svg('ticket-4', x, y, w, h)
-    b += svg('field-4', 355.99, 490.17, 629.743, 268.363, alt='Field')
-    b += svg('trip-4', 1163.68 + (94.404 - 273.378) / 2, 501.22 + (275.252 - 88.431) / 2, 273.378, 88.431, alt='Trip', transform='rotate(88.74deg)')
     hotl = lambda x, y, size, html, extra='': (f'<p style="position: absolute; left: {x}px; top: {y}px; margin: 0; {HOTL}; font-size: {size}px; '
                                               f'line-height: 123.6px;{extra} white-space: nowrap">{html}</p>\n')
-    b += svg('build-your-4', 276.77, 268.46, 658.278, 79.506, alt='Build your')
-    b += svg('starts-at-4', 358.51, 954.59, 560.67, 61.159, alt='Starts at')
-    b += svg('price-4', 960.81, 930.29, 445.019, 168.861, alt='$9.95')
-    b += hotl(264, 1663, 80, 'ORDER ONLINE @')
-    b += hotl(264, 1760, 100, f'<span style="color: {SUN}">FIELDSBOWLS.COM</span>')
+    b = svg('grow', 210, 275, 804, 325.732, alt='Grow')
+    b += svg('your-own', 463, 494, 1080, 293, alt='your Own')
+    b += svg('starts-at-5', 1126, 837, 362.957, 39.592, alt='Starts at')
+    b += svg('price-5', 1201, 925, 288.089, 109.314, alt='$9.95')
+    b += hotl(292, 1675 + 1, 80, 'ORDER ONLINE @')
+    b += hotl(292, 1772 + 1, 100, f'<span style="color: {SUN}">FIELDSBOWLS.COM</span>')
     x, y, w, h = inset(47.18, 54.22, 52.77, 45.7)  # the stray 3x1 px path, as in Figma
     b += svg('path83', x, y, w, h, transform='scaleY(-1)')
     # Four steps: a number pill, a Heart of the Land heading, and a Fredoka line with the key words
@@ -102,8 +99,8 @@ def build():
     for key, px, py, ph, head, hy, text, ty in [
         ('step1', 1847.03, 405, 128.452, f'PICK YOUR <span style="color: {SUN}">FIELD BASE</span>', 404, yel('Select 2') + ' greens and/or grains', 550),
         ('step2', 1848.03, 816, 129.712, f'HARVEST 6 <span style="color: {SUN}">TOPPINGS</span>', 816, 'Pick up to' + yel(' 6 field ingredients'), 962),
-        ('step3', 1848.03, 1227, 130.972, f'<span style="color: {SUN}">UPGRADE</span> YOUR TRIP', 1228, 'Fuel up with ' + yel('proteins + premium extras'), 1374),
-        ('step4', 1848.03, 1645, 128.485, 'FINAL APPROACH', 1640, 'Choose a ' + yel('house-made dressing'), 1786),
+        ('step3', 1848.03, 1227, 130.972, f'<span style="color: {SUN}">UPGRADE</span> YOUR CROP', 1228, 'Add ' + yel('proteins + premium extras'), 1374),
+        ('step4', 1848.03, 1645, 128.485, 'DRESS YOUR FIELD', 1640, 'Choose a ' + yel('house-made dressing'), 1786),
     ]:
         b += svg(key, px, py, 231, ph, alt=key[-1])
         b += hotl(2131.03, hy + 1, 120, head)  # Figma's glyphs sit 1px lower
@@ -244,7 +241,7 @@ def clean(html):  # the shell adds a logo when there is one; these boards have n
     return '\n'.join(l for l in html.split('\n') if '/_blob/None' not in l)
 
 for name, board, title, fn in [('Grass-Board1.dc.html', 'salads', 'Board 1: House Bowls', signature),
-                               ('Grass-Board2.dc.html', 'build', 'Board 2: Build your Field Trip', build),
+                               ('Grass-Board2.dc.html', 'build', 'Board 2: Grow your Own', build),
                                ('Grass-Board3.dc.html', 'beverages', 'Board 3: Ingredients, Proteins + Refreshers', beverages)]:
     html = clean(page(C, board, f'Option D {title}', fn()))
     open(os.path.join(out, name), 'w').write(html)

@@ -35,7 +35,7 @@ window.MENU_CONFIG = {
   // `short` labels the board's picker in Mix & Match.
   boards: [
     { id: 'salads', title: 'House Bowls', short: 'Salads' },
-    { id: 'build', title: 'Build Your Field Trip', short: 'BYO' },
+    { id: 'build', title: 'Grow Your Own', short: 'BYO' },
     { id: 'beverages', title: 'Ingredients, Proteins + Refreshers', short: 'Beverages' },
   ],
 
