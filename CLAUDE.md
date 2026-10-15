@@ -35,8 +35,9 @@ move to Cloudflare Pages later.
   - **Motion toggle** (trial, site only): swaps the stills for the moving footage. One shared loop,
     `assets/boards/grass/motion.mp4` (+ `-screen`), built by `npm run grass-motion`. Each board starts at
     its own moment (`motion.start` in `js/config.js`), with its text on top from `<board>-text.png`
-    (written by `npm run render` for any option that has a `motion.mp4`). No 4K TV masters yet: make them
-    only when the user asks. Seeking to a board's moment needs byte-range support: GitHub Pages has it,
+    (written by `npm run render` for any option that has a `motion.mp4`). The 4K TV masters for Motion are
+    `renders/master/grass-<board>.mp4` from `npm run grass-masters` (git-ignored; re-run after text changes,
+    following `npm run render -- grass`). No Panorama masters: the user doesn't want them. Seeking to a board's moment needs byte-range support: GitHub Pages has it,
     python `http.server` doesn't, so locally every board starts at 0.
   - **Panorama** (third choice: Still · Motion · Panorama): one field across all three TVs. `span.mp4`
     (+ `-screen`) is a 48:9 band of the footage, the three boards side by side; one shared `<video>`
@@ -66,6 +67,7 @@ npm run render [-- forest ...]        # re-render static boards from design/*.dc
 npm run illustrations                 # trim and rig illustration layers (animation chat)
 npm run record -- <option> <board> [--preview]   # animated boards (animation chat)
 npm run grass-motion                  # Grass Motion background loop, from assets/grass.mp4
+npm run grass-masters [-- --preview]  # 4K Motion masters for the TVs, one per board (renders/master/)
 ```
 - `render` skips animated boards: their text is part of the video, so they must be re-recorded.
 - `render` and `record` also rewrite `assets/boards/versions.js`: a content hash per board file. `config.image()` and `config.video()` add it as `?v=`, so updated artwork is never served from a stale cache. If you replace a board file by hand, run `npm run stamp`.

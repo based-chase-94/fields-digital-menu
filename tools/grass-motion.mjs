@@ -24,8 +24,12 @@ const SRC = path.join(ROOT, 'assets', 'grass.mp4');
 const FADE = 1;
 const DARKEN = 0.575;
 
-const duration = +execFileSync('ffprobe', ['-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', SRC]).toString();
-const loop = duration - FADE;
+// Frame-exact, like grass-masters.mjs: the footage's frames relabelled as 30 fps, the loop is every
+// frame after the first FADE seconds' worth, trimmed to exactly that many (xfade emits one extra).
+const total = +execFileSync('ffprobe', ['-v', 'error', '-count_frames', '-select_streams', 'v', '-show_entries', 'stream=nb_read_frames', '-of', 'csv=p=0', SRC]).toString();
+const FADE_FRAMES = FADE * 30;
+const frames = total - FADE_FRAMES;
+const loop = frames / 30;
 const only = process.argv.slice(2); // e.g. `npm run grass-motion -- span span-screen`
 
 // [name, crop of the 3840x2160 footage, output size, boards across, crf]
@@ -38,15 +42,15 @@ const outputs = [
 for (const [name, crop, w, h, across, crf] of outputs) {
   if (only.length && !only.includes(name)) continue;
   const sigma = (3 * w) / across / 3840; // sigma 3 on a 4K board, scaled to this board width
-  const look = `${crop ? `crop=${crop},` : ''}scale=${w}:${h}:flags=lanczos,gblur=sigma=${sigma},colorchannelmixer=rr=${DARKEN}:gg=${DARKEN}:bb=${DARKEN}`;
+  const look = `setpts=N/30/TB,${crop ? `crop=${crop},` : ''}scale=${w}:${h}:flags=lanczos,gblur=sigma=${sigma},colorchannelmixer=rr=${DARKEN}:gg=${DARKEN}:bb=${DARKEN}`;
   const graph = [
     `[0:v]${look},split[a][b]`,
-    `[a]trim=start=${FADE},setpts=PTS-STARTPTS[body]`,
-    `[b]trim=end=${FADE},setpts=PTS-STARTPTS[head]`,
-    `[body][head]xfade=transition=fade:duration=${FADE}:offset=${(loop - FADE).toFixed(3)},format=yuv420p[v]`,
+    `[a]trim=start_frame=${FADE_FRAMES},setpts=PTS-STARTPTS[body]`,
+    `[b]trim=end_frame=${FADE_FRAMES},setpts=PTS-STARTPTS[head]`,
+    `[body][head]xfade=transition=fade:duration=${FADE}:offset=${(frames - FADE_FRAMES) / 30},trim=end_frame=${frames},format=yuv420p[v]`,
   ].join(';');
   const file = path.join(OUT, 'grass', `${name}.mp4`);
-  execFileSync('ffmpeg', ['-y', '-loglevel', 'error', '-i', SRC, '-filter_complex', graph, '-map', '[v]', '-an',
+  execFileSync('ffmpeg', ['-y', '-loglevel', 'error', '-i', SRC, '-filter_complex', graph, '-map', '[v]', '-an', '-r', '30', '-frames:v', String(frames),
     '-c:v', 'libx264', '-profile:v', 'high', '-preset', 'slow', '-crf', String(crf), '-movflags', '+faststart', file], { stdio: 'inherit' });
   console.log('✓', path.relative(ROOT, file), `(${loop.toFixed(2)}s loop)`);
 }
