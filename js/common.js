@@ -19,9 +19,11 @@
   }
 
   // Grass background: 'still', 'loop' (the same moving field on each TV) or 'span' (one
-  // field across all three). '1' is the older on/off link for 'loop'.
-  const MOTION_MODES = ['still', 'loop', 'span'];
-  const motionMode = (v) => (v === '1' ? 'loop' : MOTION_MODES.includes(v) ? v : null);
+  // field across all three, offered only while an option has `motion.span`; otherwise a saved or
+  // linked 'span' shows Motion). '1' is the older on/off link for 'loop'.
+  const HAS_SPAN = C.options.some((o) => o.motion && o.motion.span);
+  const MOTION_MODES = HAS_SPAN ? ['still', 'loop', 'span'] : ['still', 'loop'];
+  const motionMode = (v) => (v === '1' || (v === 'span' && !HAS_SPAN) ? 'loop' : MOTION_MODES.includes(v) ? v : null);
   function initialMotion() {
     const fromUrl = new URLSearchParams(location.search).get('motion');
     if (fromUrl != null) return motionMode(fromUrl) || 'still';
@@ -297,7 +299,7 @@
   // hides unless a board on screen has a Motion version; `always` keeps it shown (the
   // gallery's Grass heading).
   function motionSwitch(cls = 'panel motion-panel', always = false) {
-    const modes = [['still', 'Still'], ['loop', 'Motion'], ['span', 'Panorama']];
+    const modes = [['still', 'Still'], ['loop', 'Motion'], ['span', 'Panorama']].filter(([id]) => MOTION_MODES.includes(id));
     const titles = {
       still: 'A still photo of the grass behind each board',
       loop: 'Moving grass behind each board, the same field on every TV',

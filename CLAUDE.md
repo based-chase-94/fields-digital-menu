@@ -25,7 +25,7 @@ the board, push live, bake a Motion video". It has the frame ids, the generator,
 - Colorway ids: `almond`, `forest`, `sunshine`, `grass`, `grass-2`. **Only Grass is live**, with the final boards
   (Figma LATEST BOARDS frames "FINAL - 1, 2, 3"; canvas row D, `Grass-Board*.dc.html`). Everything else is archived
   (`archived: true` in `js/config.js`; the site hides it, and with one option left the dock shows only
-  Still · Motion · Panorama). In the canvas, rows A–C and E are on the **Archive** page.
+  Still · Motion). In the canvas, rows A–C and E are on the **Archive** page.
   - Archived Layout 2 (`grass-2`, row E, `Layout2-Board*.dc.html`) is an earlier alternative. Unarchiving it brings
     back the **Layout** tabs (`optionsLabel`; Mix & Match stays off with `mixAndMatch: false`). It has its own
     captions (`titles`), borrows Grass's footage (`motion.from: 'grass'`), and gets text layers from
@@ -43,7 +43,8 @@ the board, push live, bake a Motion video". It has the frame ids, the generator,
     `renders/master/grass-<board>.mp4` from `npm run grass-masters` (git-ignored; re-run after text changes,
     following `npm run render -- grass`). No Panorama masters: the user doesn't want them. Seeking to a board's moment needs byte-range support: GitHub Pages has it,
     python `http.server` doesn't, so locally every board starts at 0.
-  - **Panorama** (third choice: Still · Motion · Panorama): one field across all three TVs. `span.mp4`
+  - **Panorama** (archived: `motion.span: false` on Grass in `js/config.js` hides the choice, and an old
+    `?motion=span` link opens Motion; set it back to `true` to restore Still · Motion · Panorama): one field across all three TVs. `span.mp4`
     (+ `-screen`) is a 48:9 band of the footage, the three boards side by side; one shared `<video>`
     feeds a canvas per board (`spanMedia` in `js/common.js`), so the seams stay lined up. From the current
     footage each TV gets 1280×720, fine for the site; for 4K TVs the client is looking for wider or 8K footage.

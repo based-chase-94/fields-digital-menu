@@ -12,7 +12,7 @@ and/or bake a new Motion video)". Every step below has been done this way severa
   |---|---|---|---|---|
   | FINAL - 1 | `122:810` | `Grass-Board1.dc.html` | `salads`, left | House Bowls |
   | FINAL - 2 | `122:876` | `Grass-Board2.dc.html` | `build`, centre | Grow Your Own |
-  | FINAL - 3 | `122:1217` | `Grass-Board3.dc.html` | `beverages`, right | Ingredients, Proteins + Refreshers |
+  | FINAL - 3 | `122:1217` | `Grass-Board3.dc.html` | `beverages`, right | Proteins + Upgrades |
 
   Frame ids can change when the designer rebuilds a frame: if one isn't found, list the page with
   `get_metadata` on `118:6884` and match by frame name.
@@ -86,7 +86,7 @@ Use Figma's numbers directly. Conventions that keep us within 1 px:
    committed file). `git checkout` it, then `npm run stamp`.
 3. Check in a browser: `node serve-ranges.mjs`, which serves byte ranges like GitHub Pages so Motion seeks.
    With headless Playwright, load `index.html?motion=still|loop|span` and `gallery.html`. Check the captions,
-   the TV labels, that Panorama draws 3 canvases, and that there are no console errors. Take a screenshot.
+   the TV labels, that Panorama draws 3 canvases (while it's archived: that the dock shows only Still · Motion), and that there are no console errors. Take a screenshot.
 4. Commit. **Push only when asked.** After `git push origin main`, poll
    `gh api repos/based-chase-94/fields-digital-menu/pages/builds/latest --jq '.status + " " + .commit[0:7]'`
    until it says `built <sha>`, then load the live site once.

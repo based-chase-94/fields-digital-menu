@@ -36,7 +36,7 @@ window.MENU_CONFIG = {
   boards: [
     { id: 'salads', title: 'House Bowls', short: 'Salads' },
     { id: 'build', title: 'Grow Your Own', short: 'BYO' },
-    { id: 'beverages', title: 'Ingredients, Proteins + Refreshers', short: 'Beverages' },
+    { id: 'beverages', title: 'Proteins + Upgrades', short: 'Upgrades' },
   ],
 
   // Mix & Match starts from this combination (board → colorway) the first time it's opened.
@@ -68,10 +68,11 @@ window.MENU_CONFIG = {
     // board), softened and darkened for legibility: see design/assets/grass-*.jpg.
     // `motion`: Still / Motion / Panorama. Motion swaps the stills for the moving footage (one
     // shared loop, tools/grass-motion.mjs) under each board's text; `start` is each board's
-    // moment in the loop, matching its still. `span`: Panorama, one field across all three TVs.
+    // moment in the loop, matching its still. `span`: Panorama, one field across all three TVs
+    // (archived for now: set `span: true` to bring the Panorama choice back).
     { id: 'grass', name: 'Grass', ground: '#3f5a22', accent: '#f9e14d',
       description: 'Grass photo ground: the final boards from Figma (FINAL - 1, 2, 3)',
-      motion: { start: { salads: 0, build: 9.5, beverages: 17.5 }, span: true } },
+      motion: { start: { salads: 0, build: 9.5, beverages: 17.5 }, span: false } },
     // Archived: the earlier second row in Figma (frames 3, 1, 2), same ground and footage
     // (`motion.from`). Delete `archived` to bring back the Layout toggle.
     { id: 'grass-2', name: 'Layout 2', ground: '#3f5a22', accent: '#f9e14d',

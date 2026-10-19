@@ -1,6 +1,6 @@
 # Builds the Grass artboards from Figma's "LATEST BOARDS" page. The live boards (Grass-Board1/2/3.dc.html) are
 # frames "FINAL - 1" (122:810, House Bowls), "FINAL - 2" (122:876, Grow your Own) and
-# "FINAL - 3" (122:1217, ingredients, proteins and refreshers). Archived Layout 2 (Layout2-Board1/2/3.dc.html)
+# "FINAL - 3" (122:1217, Proteins + Upgrades). Archived Layout 2 (Layout2-Board1/2/3.dc.html)
 # is the earlier second row, frames 3, 1, 2.
 # Positions and sizes are Figma's.
 # Board 1's title, board 2's lettering and board 3's divider are Figma's vector exports in design/assets/field-trip/.
@@ -26,8 +26,8 @@ C = dict(name='Option D', bg=FOREST if FLAT else '#1d2716', ink=WHITE, acc=SUN, 
          logo=None, **({} if FLAT else {'photo': PHOTO}))
 SVG = {  # canvas blob ids; design/manifest.json maps them to design/assets/field-trip/<name>.svg
     'fields-gathered': 'd4c09801249a440e80340860ae861576', 'divider': '1fe0f9f8527c0305a1e2ffc981ed1a79', 'vegetarian': 'd2dec4c0f276c9386569d90015b3cd96',
-    'grow': '8c29fd317d8ef291630e8202bd968c62', 'your-own': '1faa17dbedd032f0236d6f7cf1808667',
-    'starts-at-5': '4a434b974d175caee23269bc4049669e', 'price-5': '0575dd7d02b41bafc639db7ec6e4b3ba',
+    'grow-2': '1fe9ef7f3cd8cd866b154b71506c0659', 'own': '2883eb38e1e3a389b2f8b8a8e21a812e', 'your': '13512eea4375c96e95f70f4de887823c',
+    'starts-at-6': 'b1b5212217c0c06f2e857f6747fa817c', 'price-6': '390088f3b7f7cdd1890054c24937aba2',
     'fields-gathered-stacked': '10d4524056454e5605159847b99ab544', 'price-3': '8fc42b18a74e921aa0aa763704b07bf7', 'path83': 'e8e5569f9b638941f0e20ddb220637fa', 'step1': '043eb4097ea4fbbed468e78b36cc57d0',
     'step2': 'b92ff74f402cb85a646d44c6ceefe775', 'step3': '1930219e5e916519dba999c597027e06',
     'step4': '82acaa3b98e91ade47c420b69f10c778', 'pick-your-field-2': '8647c1e19b696e6485f31781ef9752ea',
@@ -67,83 +67,90 @@ def signature():
           f'text-align: right; white-space: nowrap">OUR FAVORITE<br>PLACES, IN A BOWL</p>\n')
     b += ('<div style="position: absolute; left: 130px; top: 589px; width: 3579px; display: grid; '
           'grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 130px; row-gap: 107px">')
-    b += item('Strawberry Fields', '$13.25', ['Spinach, tri-color quinoa, citrus-herb chicken,', 'strawberries, walnuts, avocado, crumbled feta, almond', 'brittle, citrus-poppyseed vinaigrette'])
-    b += item('Baja', '$13.50', ['Spinach, citrus-herb chicken, grilled corn, black beans,', 'avocado, roasted sweet potato, pico de gallo, cotija', 'waffles, chili-lime vinaigrette, lime wedge'])
-    b += item('High Plains', '$14.50', ['Spinach + kale, blackened chicken, applewood bacon,', 'hardboiled egg, grilled corn, cherry tomatoes, avocado,', 'grilled poblano, sourdough croutons, Colorado ranch, hot', 'honey drizzle'])
-    b += item('Coastal Caesar', '$12.95', ['Shredded kale + romaine hearts, blackened chicken,', 'cherry tomatoes, sourdough croutons, parmesan, vegan', 'caesar dressing, lemon wedge'])
-    b += item('Blue Zone', '$15.75', ['Spinach + romaine hearts, miso-glazed salmon, roasted', 'sweet potato, watermelon radish, carrot ribbons, toasted', 'nori puffs, avocado, edamame, sesame-miso dressing'])
-    b += item('Fields Notes', '$13.50', ['Kale + spinach, roasted sweet potato, roasted broccoli,', 'mixed mushrooms, apple, blue cheese, almonds, fields', 'honey vinaigrette, hot honey drizzle'])
+    b += item('Strawberry Fields', '$13.25', ['Spinach, quinoa, citrus-herb chicken, strawberries,', 'walnuts, avocado, feta, almond brittle, citrus-poppyseed', 'vinaigrette'])
+    b += item('Baja', '$13.50', ['Spinach, blackened chicken, grilled corn, black beans,', 'avocado, sweet potato, pico, cotija waffles, chili-lime', 'vinaigrette, lime wedge'])
+    b += item('High Plains', '$14.50', ['Spinach + kale, blackened chicken, bacon, hardboiled egg,', 'grilled corn, cherry tomatoes, avocado, poblano, croutons,', 'Colorado ranch, hot honey drizzle'])
+    b += item('Coastal Caesar', '$12.95', ['Shredded kale + romaine hearts, blackened chicken,', 'cherry tomatoes, croutons, parmesan, vegan caesar', 'dressing, lemon wedge'])
+    b += item('Blue Zone', '$15.75', ['Spinach + romaine hearts, miso-glazed salmon, sweet', 'potato, watermelon radish, carrot, toasted nori puffs,', 'avocado, edamame, sesame-miso dressing'])
+    b += item('Fields Notes', '$13.50', ['Kale + spinach, sweet potato, broccoli, mixed mushrooms,', 'apple, blue cheese, almonds, fields honey vinaigrette, hot', 'honey drizzle'])
     b += '</div>\n'
-    b += svg('vegetarian', 2764, 1593, 95, 95, alt='Vegetarian')  # beside FIELDS NOTES, as in Figma
+    b += svg('vegetarian', 2764, 1512, 95, 95, alt='Vegetarian')  # beside FIELDS NOTES, as in Figma
     b += (f'<p style="position: absolute; left: 62px; top: {H - 122}px; margin: 0; font-size: 58px; font-weight: 500; line-height: normal; '
           f'letter-spacing: -1px; color: {SUN}; white-space: nowrap; font-feature-settings: \'dlig\' 1">All bowls can be made vegetarian upon request</p>\n')
     return b
 
-# ------------------------------------------------------------------ Board 2: Grow your Own (FINAL - 2)
+# ------------------------------------------------------------------ Steps (boards 2 and 3)
+def hotl(x, y, size, html, extra=''):
+    return (f'<p style="position: absolute; left: {x}px; top: {y}px; margin: 0; {HOTL}; font-size: {size}px; '
+            f'line-height: 123.6px;{extra} white-space: nowrap">{html}</p>\n')
+
+def yel(t):  # the key words of a step's line: medium-weight yellow
+    return f'<span style="font-weight: 500; color: {SUN}">{t}</span>'
+
+def step(key, px, py, ph, x, hy, head, ty, text):
+    """A number pill, a 130px Heart of the Land heading and an 80px Fredoka line."""
+    return (svg(key, px, py, 231, ph, alt=key[-1])
+            + hotl(x, hy + 1, 130, head)  # Figma's glyphs sit 1px lower
+            + f'<p style="position: absolute; left: {x}px; top: {ty}px; margin: 0; font-size: 80px; font-weight: 400; line-height: normal; '
+              f'letter-spacing: -1px; white-space: nowrap; font-feature-settings: \'dlig\' 1">{text}</p>\n')
+
+def column_grid(x, y, width, cols, row_gap, cells):
+    """Figma's 74px ingredient grids, filled column by column."""
+    rows = -(-len(cells) // cols)
+    html = ''.join(f'<div style="grid-column: {i // rows + 1}; grid-row: {i % rows + 1}">{c}</div>' for i, c in enumerate(cells))
+    return (f'<div style="position: absolute; left: {x}px; top: {y}px; width: {width}px; display: grid; '
+            f'grid-template-columns: repeat({cols}, minmax(0, 1fr)); column-gap: 76px; row-gap: {row_gap}px; align-items: start; '
+            f'font-size: 74px; font-weight: 400; line-height: 90px; white-space: nowrap">{html}</div>\n')  # Figma rounds the line to 90px, Chrome to 89
+
+# ------------------------------------------------------------------ Board 2: Grow your Own (FINAL - 2), steps 1 and 2
 def build():
-    hotl = lambda x, y, size, html, extra='': (f'<p style="position: absolute; left: {x}px; top: {y}px; margin: 0; {HOTL}; font-size: {size}px; '
-                                              f'line-height: 123.6px;{extra} white-space: nowrap">{html}</p>\n')
-    b = svg('grow', 210, 275, 804, 325.732, alt='Grow')
-    b += svg('your-own', 463, 494, 1080, 293, alt='your Own')
-    b += svg('starts-at-5', 1126, 837, 362.957, 39.592, alt='Starts at')
-    b += svg('price-5', 1201, 925, 288.089, 109.314, alt='$9.95')
-    b += hotl(292, 1675 + 1, 80, 'ORDER ONLINE @')
-    b += hotl(292, 1772 + 1, 100, f'<span style="color: {SUN}">FIELDSBOWLS.COM</span>')
-    x, y, w, h = inset(47.18, 54.22, 52.77, 45.7)  # the stray 3x1 px path, as in Figma
-    b += svg('path83', x, y, w, h, transform='scaleY(-1)')
-    # Four steps: a number pill, a Heart of the Land heading, and a Fredoka line with the key words
-    # in medium-weight yellow.
-    yel = lambda t: f'<span style="font-weight: 500; color: {SUN}">{t}</span>'
-    line = lambda y, html: (f'<p style="position: absolute; left: 2131.03px; top: {y}px; margin: 0; font-size: 74px; font-weight: 400; line-height: normal; '
-                            f'letter-spacing: -1px; white-space: nowrap; font-feature-settings: \'dlig\' 1">{html}</p>\n')
-    for key, px, py, ph, head, hy, text, ty in [
-        ('step1', 1847.03, 405, 128.452, f'PICK YOUR <span style="color: {SUN}">FIELD BASE</span>', 404, yel('Select 2') + ' greens and/or grains', 550),
-        ('step2', 1848.03, 816, 129.712, f'HARVEST 6 <span style="color: {SUN}">TOPPINGS</span>', 816, 'Pick up to' + yel(' 6 field ingredients'), 962),
-        ('step3', 1848.03, 1227, 130.972, f'<span style="color: {SUN}">UPGRADE</span> YOUR CROP', 1228, 'Add ' + yel('proteins + premium extras'), 1374),
-        ('step4', 1848.03, 1645, 128.485, 'DRESS YOUR FIELD', 1640, 'Choose a ' + yel('house-made dressing'), 1786),
-    ]:
-        b += svg(key, px, py, 231, ph, alt=key[-1])
-        b += hotl(2131.03, hy + 1, 120, head)  # Figma's glyphs sit 1px lower
-        b += line(ty, text)
-    b += ('<p style="position: absolute; right: 395px; top: 979px; margin: 0; font-size: 55px; font-weight: 400; line-height: normal; '
+    b = svg('grow-2', 147, 167.05, 615.076, 249.191, alt='Grow')
+    b += svg('your', 801.47, 298, 281.533, 74.069, alt='your')
+    b += svg('own', 1129, 159.43, 489.883, 248.033, alt='Own')
+    b += svg('starts-at-6', 2969, 244.55, 258.121, 92.342, alt='Starts at')
+    b += svg('price-6', 3270.76, 219.61, 359.237, 136.31, alt='$9.95')
+    b += step('step1', 180, 593, 128.452, 464, 591, f'PICK A <span style="color: {SUN}">FIELD BASE</span>',
+              778, yel('Select 2') + ' greens and/or grains')
+    b += column_grid(464, 974, 565, 1, 53, ['Romaine Hearts', 'Arugula', 'Kale', 'Spinach', 'Wild Rice', 'Tri-Color Quinoa'])
+    b += step('step2', 1920, 592, 129.712, 2203, 591, f'HARVEST 6 <span style="color: {SUN}">TOPPINGS</span>',
+              782, 'Pick up to' + yel(' 6 field ingredients'))
+    b += ('<p style="position: absolute; right: 210px; top: 805px; margin: 0; font-size: 55px; font-weight: 400; line-height: normal; '
           'letter-spacing: -1px; text-align: right; white-space: nowrap">+$0.85 each<br>for extras</p>\n')
+    b += column_grid(2203, 974, 1571, 2, 32, [
+        'Cucumber', 'Red Onion', 'Grilled Corn', 'Cherry Tomatoes', 'Roasted Chickpeas', 'Roasted Sweet Potato', 'Pico de Gallo', 'Strawberries', 'Chives',
+        'Carrot Ribbons', 'Edamame', 'Black Beans', 'Grilled Poblano', 'Roasted Broccoli', 'Watermelon Radish', 'Green Apples', 'Cilantro'])
     return b
 
-# ------------------------------------------------------------------ Board 3: Ingredients, Proteins + Refreshers (FINAL - 3)
+# ------------------------------------------------------------------ Board 3: Proteins + Upgrades (FINAL - 3), steps 3 and 4
 def beverages():
-    title = lambda x, cy, t: (f'<h2 style="position: absolute; left: {x}px; top: {cy - 59.9:g}px; margin: 0; {MID}; font-size: 133px; '
+    title = lambda x, cy, t: (f'<h2 style="position: absolute; left: {x}px; top: {cy - 59.9:g}px; margin: 0; {MID}; font-size: 113px; '
                               f'line-height: 121.8px; color: {SUN}; white-space: nowrap">{t}</h2>\n')
-    def grid(x, y, width, row_gap, rows):
-        cells = ''.join(f'<div style="color: {SUN if c.startswith("*") else WHITE}">{c.lstrip("*")}</div>' for r in rows for c in r)
-        return (f'<div style="position: absolute; left: {x}px; top: {y}px; width: {width}px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); '
-                f'column-gap: 76px; row-gap: {row_gap}px; align-items: start; font-size: 68px; font-weight: 400; line-height: normal; white-space: nowrap">{cells}</div>\n')
-    b = title(177, 259, 'Greens + Grains')
-    b += grid(217, 403, 1841, 53, [['Romaine Hearts', 'Arugula', 'Kale'], ['Baby Spinach', 'Wild Rice', 'Tri-Color Quinoa']])
-    b += title(177, 812, 'Field Ingredients')
-    b += grid(217, 981, 1868, 49, [['Cucumber', 'Carrot Ribbons', 'Red Onion'], ['Edamame', 'Black Beans', 'Grilled Corn'],
-                                   ['Cherry Tomatoes', 'Grilled Poblano', 'Roasted Chickpeas'],
-                                   ['Roasted<br>Broccoli', 'Roasted Sweet<br>Potato', 'Watermelon<br>Radish'],
-                                   ['Pico de Gallo', 'Green Apples', 'Strawberries'], ['Cilantro', 'Chives', '']])
-    b += title(2333, 260, 'Proteins')
-    b += ('<div style="position: absolute; left: 2361px; top: 403px; width: 1275px; display: flex; flex-direction: column; gap: 38px; font-size: 68px">'
-          + ''.join(f'<div style="display: flex; align-items: center; justify-content: space-between; white-space: nowrap">'
-                    f'<span style="font-weight: 400; line-height: normal">{n}</span>'
-                    f'<span style="font-weight: 600; line-height: 73.6px; color: {SUN}">{pr}</span></div>'
-                    for n, pr in [('Citrus-Herb Chicken', '+$4.25'), ('Blackened Chicken', '+$4.50'), ('Sesame Miso Alaskan Salmon', '+$6.50'),
-                                  ('Smoked Applewood Bacon', '+$2.85'), ('Hot Honey Tofu', '+$3.50'),
-                                  ('Roasted Shiitake Mushroom Mix', '+$2.00'), ('Hardboiled Egg', '+$1.25')]) + '</div>\n')
-    b += title(2323, 1384, 'Refreshers')
-    b += ('<p style="position: absolute; left: 3393px; top: 1375px; margin: 0; font-size: 106px; font-weight: 600; line-height: 73.6px; '
-          'white-space: nowrap">$4.50</p>\n')
-    for x, y, name, desc in [(2361, 1567, 'PALM SPRINGS', 'iced tea + lemonade'), (3123, 1567, 'VALENCIA', 'orange'),
-                             (2361, 1806, 'FLAMINGO', 'hibiscus lemonade'), (3123, 1806, 'BLUEBIRD', 'blueberry iced tea')]:
-        b += (f'<div style="position: absolute; left: {x}px; top: {y + 1}px; width: 717px; white-space: nowrap">'
-              f'<div style="margin-bottom: -13px; {HOTL}; font-size: 80px; line-height: 121.8px; color: {SUN}">{name}</div>'
-              f'<div style="font-size: 68px; font-weight: 400; line-height: normal">{desc}</div></div>\n')
-    b += ('<p style="position: absolute; left: 109px; top: 2009px; transform: translateY(-50%); margin: 0; font-size: 54px; font-weight: 400; '
-          'line-height: normal; white-space: nowrap">We only use Italian olive oil in our marinades and dressings.<br>'
+    def prices(x, rows):
+        return (f'<div style="position: absolute; left: {x}px; top: 715px; width: 1483px; display: flex; flex-direction: column; gap: 28px">'
+                + ''.join(f'<div style="display: flex; align-items: center; justify-content: space-between; white-space: nowrap">'
+                          f'<span style="font-size: 74px; font-weight: 400; line-height: 90px">{n}</span>'
+                          f'<span style="font-size: 68px; font-weight: 600; line-height: 73.6px; color: {SUN}">{pr}</span></div>'
+                          for n, pr in rows) + '</div>\n')
+    b = step('step3', 193, 218, 130.972, 476, 218, f'<span style="color: {SUN}">UPGRADE</span> YOUR CROP',
+             365, 'Add ' + yel('proteins + upgrades'))
+    b += hotl(2941, 183 + 1, 80, 'ORDER ONLINE @')
+    b += hotl(2681, 280 + 1, 100, f'<span style="color: {SUN}">FIELDSBOWLS.COM</span>')
+    b += title(444, 614, 'Proteins')
+    b += prices(476, [('Citrus-Herb Chicken', '+$4.25'), ('Blackened Chicken', '+$4.25'), ('Sesame Miso Alaskan Salmon', '+$6.50'),
+                      ('Smoked Applewood Bacon', '+$2.85'), ('Hot Honey Tofu', '+$3.50'), ('Roasted Shiitake Mushroom Mix', '+$3.50'),
+                      ('Hardboiled Egg', '+$1.25')])
+    b += title(2145, 614, 'Upgrades')
+    b += prices(2157, [('Avocado', '+$1.75'), ('Hummus', '+$1.25'), ('Shaved Cheddar', '+$1.25'), ('Shaved Parmesan', '+$1.75'),
+                       ('Blue Cheese', '+$1.75'), ('Sheep’s Milk Feta', '+$1.75')])
+    # Step 4 is centred on y 1828 in Figma: its heading's top is 1828 minus half the block (147 + one 80px line).
+    b += step('step4', 193, STEP4_TOP + 6, 128.485, 476, STEP4_TOP, 'DRESS YOUR FIELD',
+              STEP4_TOP + 147, 'Choose a ' + yel('house-made dressing'))
+    b += ('<p style="position: absolute; right: 113px; top: 2029px; transform: translateY(-50%); margin: 0; font-size: 38px; font-weight: 400; '
+          'line-height: normal; text-align: right; white-space: nowrap">We only use Italian olive oil in our marinades and dressings.<br>'
           'All proteins ethically sourced and sustainable</p>\n')
     return b
+
+STEP4_TOP = 1706
 
 # ================================================================== Layout 2: the second row
 # Figma frames 121:403 "1", 121:470 "2", 121:564 "3": the bowls split over two boards with Refreshers,
@@ -242,7 +249,7 @@ def clean(html):  # the shell adds a logo when there is one; these boards have n
 
 for name, board, title, fn in [('Grass-Board1.dc.html', 'salads', 'Board 1: House Bowls', signature),
                                ('Grass-Board2.dc.html', 'build', 'Board 2: Grow your Own', build),
-                               ('Grass-Board3.dc.html', 'beverages', 'Board 3: Ingredients, Proteins + Refreshers', beverages)]:
+                               ('Grass-Board3.dc.html', 'beverages', 'Board 3: Proteins + Upgrades', beverages)]:
     html = clean(page(C, board, f'Option D {title}', fn()))
     open(os.path.join(out, name), 'w').write(html)
 # Layout 2 runs Field Trip first (left TV), then Figma's frames 1 and 2.
